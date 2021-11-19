@@ -1,4 +1,3 @@
-    
       <!-- 스크롤 이미지 시작 -->
       <section class="site-section pt-5 pb-5">
         <div class="container">
@@ -62,6 +61,12 @@
       <!-- 스크롤 이미지 끝 -->
 
 
+
+
+      
+
+
+
       <!-- 블로그 부분 시작 -->
       <section class="site-section py-sm">
         <div class="container">
@@ -102,14 +107,14 @@
                 <div class="search-form">
                   <div class="form-group" >
                     <a onclick="pressEnter();" style="cursor:pointer;"><span class="icon fa fa-search"></span></a>
-                    <input type="text" value="" class="form-control" id="search_title" placeholder="search by title" onkeyup="if(window.event.keyCode==13){pressEnter();}" style="background : #f7f7f7;border: none;"/>
+                    <input type="text" value="" class="form-control" id="search_title" placeholder="search by title" onkeyup="if(window.event.keyCode==13){pressEnter();}"/>
                   </div>
                 <div>
                 <br><br>
                 <div class="search-form">
                   <div class="form-group">
                     <a onclick="pressEnter();" style="cursor:pointer;"><span class="icon fa fa-search"></span></a>
-                    <input type="text" value="" class="form-control" id="search_tag" placeholder="search by tag" onkeyup="if(window.event.keyCode==13){pressEnter();}" style="background : #f7f7f7;border: none;"/>
+                    <input type="text" value="" class="form-control" id="search_tag" placeholder="search by tag" onkeyup="if(window.event.keyCode==13){pressEnter();}"/>
                   </div>
                 </div>
               </div>
@@ -119,7 +124,7 @@
                 <h3 class="heading">Tags</h3>
                 <ul class="tags">
                   <?php
-                    foreach ($hashtags as $hashtag) {
+                    foreach ($data['hashtags'] as $hashtag) {
                   ?>
                     <li><a style="cursor:pointer;" onclick="document.getElementById('search_tag').value = '<?=$hashtag->name?>'; pressEnter();"><?=$hashtag->name?></a></li>
                   <?php
@@ -175,7 +180,7 @@
         }
 
         function execute_ajax(sort, wishPage) {
-          //console.log(wishPage);
+          
             $.ajax({
               url: "/~sale24/prj/blog/ajax_createList",
               type: "POST",
@@ -190,22 +195,6 @@
                 
                 // --------  blog list 화면 변경 시작 --------
                 var str = ""; 
-                //if (typeof data !== 'undefined') {
-                  //data = data.replace(/\r\n/ig, '<br>');
-                  //data = data.replace(/\\n/ig, '<br>');
-                  //data = data.replace(/\n/ig, '<br>');
-                  //console.log(data.length);
-                  //var result = JSON.parse(data);
-                  //console.log(JSON.stringify(data));
-                //}
-                //const obj = JSON.parse(data);
-                //console.log(obj.a.id);
-                //data = JSON.stringify(data);
-                
-                //console.log(data);
-                //console.log(data);
-                //console.log($('#search_title').val());
-                //console.log($('#search_tag').val());
 
                 for (var i = 0; i < data.blogs.length; i++) {
                   
@@ -223,9 +212,13 @@
                       str += "<img src='/~sale24/prj/my/img/blog/default.JPG' alt='Image placeholder' width='100%' height='230px' />\n";
                   }
                       str += "<div class='blog-content-body'>\n" + 
-                                "<div class='post-meta'>\n" + 
-                                  "<span class='author mr-2'><img src='/~sale24/prj/my/lib/wordify-master/images/person_1.jpg' alt='Colorlib' /> person</span>&bullet;\n" +
-                                  "<span class='mr-2'>" + year + "년 " + month + "월 " + date + "일</span>&bullet;\n" + 
+                                "<div class='post-meta'>\n" ;
+                      for (var j = 0; j < data.users.length; j++) {
+                        if(data.blogs[i].user_id == data.users[j].id) {
+                          str +=  "<span class='author mr-2'><img src='/~sale24/prj/my/img/user/" + data.users[j].image + "' alt='Colorlib' />" + data.users[j].name + "</span>&bullet;\n";
+                        }
+                      }
+                          str +=  "<span class='mr-2'>" + year + "년 " + month + "월 " + date + "일</span>&bullet;\n" + 
                                   "<span class='ml-2'><span class='fa fa-comments'></span> " + data.blogs[i].count + "</span>\n" + 
                                 "</div>\n" +
                                 "<h2>" + data.blogs[i].title + "</h2>\n" + 
@@ -328,5 +321,7 @@
               }
             });
         }
+
+
       </script>
       

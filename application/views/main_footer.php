@@ -1,18 +1,4 @@
-    <style>
-      /*글이 세줄 이상이면 글을 자르고 ...으로 대체한다.*/
-      #about
-      {
-        height: 100px; 
-        overflow: hidden;
-        text-overflow: ellipsis;
-        word-break: break-all;
-        white-space: normal; 
-        text-align: left;
-        display: -webkit-box; 
-        -webkit-line-clamp: 3; 
-        -webkit-box-orient: vertical;
-      }
-    </style>
+
       <footer class="site-footer">
         <div class="container">
           <div class="row mb-5">
@@ -125,8 +111,50 @@
     <script src="/~sale24/prj/my/lib/wordify-master/js/owl.carousel.min.js"></script>
     <script src="/~sale24/prj/my/lib/wordify-master/js/jquery.waypoints.min.js"></script>
     <script src="/~sale24/prj/my/lib/wordify-master/js/jquery.stellar.min.js"></script>
-
     <script src="/~sale24/prj/my/lib/wordify-master/js/main.js"></script>
-    
+
+    <script>
+      // 레이어 팝업창 열기
+      function layer_open(){
+
+      var maskHeight = $(document).height();
+      var maskWidth = $(window).width();
+      //마스크의 높이와 너비를 화면 것으로 만들어 전체 화면을 채운다.
+      $('#mask').css({'width':maskWidth,'height':maskHeight});
+
+      // 1초동안 까맣게 됐다가 50%불투명
+      $('#mask').fadeTo("slow",0.5);
+
+      $(".layer").fadeIn();
+
+      //레이어 영역 외 바탕화면 클릭시 화면 닫기
+      $("#mask").click(function (e) {
+          layer_close();
+      })
+      }
+
+      // 레이어 팝업창 닫기
+      function layer_close(){
+      $(".layer").fadeOut();
+      $('#mask').fadeOut();
+      }
+
+      // 버튼 클릭시 레이어 팝업창 열기
+      $("#login").click(function () {
+      layer_open();
+      })
+
+      // 로그인 error검사
+      $(document).ready(function () 
+      {
+        var search = location.search;
+        var param = new URLSearchParams(search);
+
+        if (param.has('loginerror')) {
+          layer_open();
+        }
+      });
+
+    </script>
   </body>
 </html>

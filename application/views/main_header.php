@@ -18,22 +18,218 @@
     <!-- Theme Style -->
     <link rel="stylesheet" href="/~sale24/prj/my/lib/wordify-master/css/style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <style>
+        /*레이어 팝업창*/
+        .layer{
+            position: fixed;
+            width: 25%;
+            left: 55%;
+            margin-left: -20%;
+            height: 360px;
+            top: 50%;
+            margin-top: -150px;
+            overflow: auto;
+            z-index: 20;
+            display:none;
+
+            /* decoration */
+            background-color: #ededed;
+            padding: 1em;
+            border-radius: 5px;
+        }
+
+        #mask {
+            position:absolute;
+            z-index:10;
+            background-color:#000;
+            display:none;
+            left:0;
+            top:0;
+        }
+
+        #login_input_text {
+          font-size : 17px; 
+          font-family : 'Nanum Gothic'; 
+          width : 220px; 
+          height : 35px; 
+          border : none; 
+          outline : none;
+          color : #6e6e6e;
+        }
+
+        #mypage_input_text {
+          font-size : 17px; 
+          font-family : 'Nanum Gothic'; 
+          width : 220px; 
+          height : 35px; 
+          border : none; 
+          outline : none;
+          color : #6e6e6e;
+          background : #f7f7f7;
+        }
+
+        #mypage_input_textarea {
+          font-size : 17px; 
+          font-family : 'Nanum Gothic'; 
+          border : none; 
+          outline : none;
+          color : #6e6e6e;
+          background : #f7f7f7;
+        }
+
+        /*글이 세줄 이상이면 글을 자르고 ...으로 대체한다.*/
+        #about
+        {
+          height: 100px; 
+          overflow: hidden;
+          text-overflow: ellipsis;
+          word-break: break-all;
+          white-space: normal; 
+          text-align: left;
+          display: -webkit-box; 
+          -webkit-line-clamp: 3; 
+          -webkit-box-orient: vertical;
+        }
+
+        #search_title, #search_tag {
+          background : #f7f7f7;
+          border: none;          
+        }
+
+        .user_image_box {
+          width: 38px;
+          height: 38px; 
+          border-radius: 100%;
+          overflow: hidden;
+        }
+
+        #user_image {
+          height: 38px;
+          width : 38px;
+          object-fit: cover;
+        }
+
+        .mypage_image_box {
+          width: 200px;
+          height: 200px; 
+          border-radius: 100%;
+          overflow: hidden;
+        }
+
+        #mypage_image {
+          width : 200px;
+          height: 200px;
+          object-fit: cover;
+        }
+
+
+        /* The switch - the box around the slider */
+        .switch {
+          position: relative;
+          display: inline-block;
+          width: 60px;
+          height: 34px;
+        }
+
+        /* Hide default HTML checkbox */
+        .switch input {
+          opacity: 0;
+          width: 0;
+          height: 0;
+        }
+
+        /* The slider */
+        .slider {
+          position: absolute;
+          cursor: pointer;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background-color: #ccc;
+          -webkit-transition: .4s;
+          transition: .4s;
+        }
+
+        .slider:before {
+          position: absolute;
+          content: "";
+          height: 26px;
+          width: 26px;
+          left: 4px;
+          bottom: 4px;
+          background-color: white;
+          -webkit-transition: .4s;
+          transition: .4s;
+        }
+
+        input:checked + .slider {
+          background-color: #2196F3;
+        }
+
+        input:focus + .slider {
+          box-shadow: 0 0 1px #2196F3;
+        }
+
+        input:checked + .slider:before {
+          -webkit-transform: translateX(26px);
+          -ms-transform: translateX(26px);
+          transform: translateX(26px);
+        }
+
+        /* Rounded sliders */
+        .slider.round {
+          border-radius: 34px;
+        }
+
+        .slider.round:before {
+          border-radius: 50%;
+        }
+
+        #wirteBtn {
+          border-radius: 5px; 
+          padding : 5px; 
+          width : 100px;
+        }
+
+        #login {
+          border-radius: 5px; 
+          padding : 5px; 
+          width : 80px;
+        }
+
+      </style>
   </head>
   <body>
     <div class="wrap">
-
       <header role="banner">
-        <div class="top-bar" style="background : #e1e1e1; padding : 25px;">
-          <div class="container">
-            <div class="row">
-              <div class="col-3 search-top" style="margin-left : 40px;">
-                <!-- <a href="#"><span class="fa fa-search"></span></a> -->
-                <!--<form action="#" class="search-top-form">
-                  <span class="icon fa fa-search"></span>
-                  <input type="text" id="s" placeholder="search by title" style="background : #ababab">
-                </form>-->
+        <div class="top-bar" style="background : #e1e1e1; padding : 5px;">
+          <div class="container" style="text-align : right;">  
+          <?php
+            if(!$this->session->userdata('user_id')) {
+              echo "<button type='button' id='login' class='btn btn-primary'>로그인</button>";
+            }
+            else {
+          ?>
+              <button type="button" id="wirteBtn" onclick="location.href = '/~sale24/prj/blog/add'" class="btn btn-primary" >새 글 작성</button>&nbsp;&nbsp;
+              
+              <div style='float : right;'>
+                <div class="dropdown">
+                  &nbsp;<a class="dropdown-toggle"  href="category.html" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
+                  <div class="dropdown-menu" aria-labelledby="dropdown04" style="margin-top : 1em; position: absolute;">
+                    <a class="dropdown-item" href="/~sale24/prj/user/mypage/<?=$this->session->userdata('user_id');?>">내 벨로그</a>
+                    <a class="dropdown-item" href="/~sale24/prj/admin">admin 페이지</a>
+                    <a class="dropdown-item" href="/~sale24/prj/auth/logout">로그아웃</a>
+                  </div>
+                </div>
               </div>
-            </div>
+              <div style='float : right;'>
+                <div class='user_image_box'><img src='/~sale24/prj/my/img/user/<?=$this->session->userdata('user_image')?>' alt='Colorlib' id='user_image'/></div>
+              </div>
+          <?php
+            }
+				  ?>  
           </div>
         </div>
 
@@ -62,7 +258,7 @@
                   <a class="nav-link" href="/~sale24/prj/blog/contact">Contact</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="#">Notice</a>
+                  <a class="nav-link" href="/~sale24/prj/user/mypage/3">Notice</a>
                 </li>
               </ul>
             </div>
@@ -70,3 +266,28 @@
         </nav>
       </header>
       <!-- END header -->
+
+
+
+      <!--  로그인 팝업 창 시작   -->
+      <form action="/~sale24/prj/auth/login" method="post">
+        <div class="layer">
+          <br>
+          <h4 style="text-align : center;">로그인</h4>
+          <br>
+          <div align="center">
+            <div>
+              <input type="text" name="user_email" id="login_input_text" placeholder="email"/>
+            </div>
+            <br>
+            <div>
+              <input type="password" name="user_pwd" id="login_input_text" placeholder="비밀번호"/>
+            </div>
+            <br>
+            <button type="submit" id="" class="btn btn-primary" style="border-radius: 5px; padding : 5px; width : 50px">확인</button>
+          </div>
+          <br>
+        </div>
+        <div id="mask"></div>
+      </form>
+      <!--  로그인 팝업 창 끝   -->

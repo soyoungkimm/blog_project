@@ -5,19 +5,22 @@
             parent::__construct();
             $this->load->database();
         }
-        
-        public function index() {
-            $this->load->model('Blog_m');
-            $data = $this->Blog_m->getListsOrderByRecent();            
 
+        
+        public function index() {           
+            
             $this->load->model('Hashtag_m');
-            $hashtags = $this->Hashtag_m->getHashtagLists();
+            $data['hashtags'] = $this->Hashtag_m->getHashtagLists();
+
             
             $this->load->view("main_header");
-            $this->load->view("main", array('blogs'=>$data, 'hashtags'=>$hashtags));
+            $this->load->view("main", array('data'=>$data));
 
+
+            $this->load->model('Blog_m');
             $about = $this->Blog_m->getRow(5);
-            $this->load->view("main_footer", array('about'=>$about, 'blogs'=>$data));
+            $blogs = $this->Blog_m->getListsOrderByRecent();
+            $this->load->view("main_footer", array('about'=>$about, 'blogs'=>$blogs));
         }
 
         public function ajax_createList() {
@@ -34,6 +37,9 @@
             $data['blogs'] = $this->Blog_m->getAjaxBlogList($recordNumPerPage, $sort, $search_title, $search_tag, $wish_page);
             $data['total_count'] = $this->Blog_m->getAjaxTotalBlogListCount($recordNumPerPage, $sort, $search_title, $search_tag, $wish_page);
             
+            $this->load->model('User_m');
+            $data['users'] = $this->User_m->getUserByBlogs($data['blogs']);
+
             $result = json_encode($data, JSON_UNESCAPED_UNICODE);
             echo $result;
         }
@@ -45,6 +51,7 @@
             $user_id = $data['blog']->user_id;
             $data['writerPopularBlogs'] = $this->Blog_m->getListsWriterPopularPost($user_id);
             $data['popularBlogs'] = $this->Blog_m->getPopularBlogThree();
+            $data['blog_count'] = $this->Blog_m->getBlogCountByUserId($user_id);
 
 
             $this->load->model('Category_m');
@@ -62,6 +69,10 @@
             $this->load->model('Hashtag_m');
             $data['hashtags'] = $this->Hashtag_m->getHashtagByBlogId($id);
             $data['user_hashtags'] = $this->Hashtag_m->getHashtagByUserId($user_id);
+
+
+            $this->load->model('User_m');
+            $data['user'] = $this->User_m->getUserByUserId($user_id);
 
 
             $this->load->view("main_header");
@@ -83,7 +94,7 @@
             $this->form_validation->set_rules('email', 'email', 'required|valid_email');
             $this->form_validation->set_rules('message', '내용', 'required');
 
-            
+
             if ($this->form_validation->run() == FALSE) {
                 $this->load->view("contact");
             }
@@ -105,6 +116,10 @@
             $about = $this->Blog_m->getRow(5);
             $blogs = $this->Blog_m->getListsOrderByRecent();
             $this->load->view("main_footer", array('about'=>$about, 'blogs'=>$blogs));
+        }
+
+        public function add() {
+            echo "add!";
         }
     }
 ?>

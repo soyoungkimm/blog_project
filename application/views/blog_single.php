@@ -1,3 +1,4 @@
+
     <section class="site-section py-lg">
       <div class="container">
         
@@ -7,7 +8,7 @@
             <?php
               if (isset($data['blog']->image)) {
             ?>
-            <img src="/~sale24/prj/my/img/blog/<?=$data['blog']->image?>" alt="Image" class="img-fluid mb-5" width="100%">
+            <img src="/~sale24/prj/my/img/blog/<?=$data['blog']->image?>" alt="Image" class="img-fluid mb-5" width="100%" >
             <?php
               }
             ?>
@@ -16,6 +17,8 @@
               $year = $writeday_arr[0];
               $month = $writeday_arr[1];
               $date = $writeday_arr[2];
+
+              if ($this->session->userdata('user_id') == $data['user']->id) {
             ?>
               <div style="float : right;">
                 <span>
@@ -23,8 +26,11 @@
                   <a href="#">삭제</a>
                 </span>
               </div>
+            <?php
+              }
+            ?>
              <div class="post-meta">
-                <span class="author mr-2"><img src="/~sale24/prj/my/lib/wordify-master/images/person_1.jpg" alt="Colorlib" class="mr-2"> username</span>&bullet;
+                <span class="author mr-2"><img src="/~sale24/prj/my/img/user/<?=$data['user']->image?>" alt="Colorlib" class="mr-2" > <?=$data['user']->name?></span>&bullet;
                 <span class="mr-2"><?=$year?>년 <?=$month?>월 <?=$date?>일 </span> &bullet;
                 <span class="ml-2"><span class="fa fa-comments"></span> <?=$data['blog']->count?></span>
               </div>
@@ -35,15 +41,16 @@
             <?php
               if(isset($data['category'])) {
             ?>
-            <a class="category mb-5" href="#"><?=$data['category']->name?></a>&nbsp;
+            <a class="category mb-5"><?=$data['category']->name?></a>&nbsp;
             <?php
               }
               if(isset($data['category_detail'])) {
             ?>
-            <a class="category mb-5" href="#"><?=$data['category_detail']->name?></a>&nbsp;
+            <a class="category mb-5"><?=$data['category_detail']->name?></a>&nbsp;
             <?php
               }
             ?>
+
             <div class="post-content-body">
               <?=$data['blog']->content?>
             </div>
@@ -54,13 +61,13 @@
                 <?php
                   if (isset($data['category'])) {
                 ?>
-                  <a href="#"><?=$data['category']->name?></a>
+                  <a><?=$data['category']->name?></a>
                 <?php
                   }
 
                   if (isset($data['category_detail'])) {
                 ?>
-                / <a href="#"><?=$data['category_detail']->name?></a>  
+                / <a><?=$data['category_detail']->name?></a>  
                 <?php
                   }
                 ?>
@@ -69,7 +76,7 @@
                   if (isset($data['hashtags'])) {
                     foreach ($data['hashtags'] as $hashtag) {
                 ?>
-                <a href="#">#<?=$hashtag->name?></a>&nbsp;
+                <a>#<?=$hashtag->name?></a>&nbsp;
                 <?php
                     }
                   }
@@ -193,16 +200,17 @@
             <br>
             <div class="sidebar-box">
               <div class="bio text-center">
-                <img src="/~sale24/prj/my/lib/wordify-master/images/person_2.jpg" alt="Image Placeholder" class="img-fluid">
+                <a href="/~sale24/prj/user/mypage/<?=$data['user']->id?>"><img src="/~sale24/prj/my/img/user/<?=$data['user']->image?>" alt="Image Placeholder" class="img-fluid" style="width : 100px; height : 100px;"></a>
+                <br><br>
                 <div class="bio-body">
-                  <h2>username</h2>
-                  <p>작성자 소개</p>
-                  <p><a href="#" class="btn btn-primary btn-sm rounded">read more</a></p>
+                  <h2><?=$data['user']->name?></h2>
+                  <p><?=$data['user']->mini_content?></p>
+                  <p><a href="/~sale24/prj/user/mypage/<?=$data['user']->id?>" class="btn btn-primary btn-sm rounded">read more</a></p>
                   <p class="social">
-                    <a href="#" class="p-2"><span class="fa fa-facebook"></span></a>
-                    <a href="#" class="p-2"><span class="fa fa-twitter"></span></a>
-                    <a href="#" class="p-2"><span class="fa fa-instagram"></span></a>
-                    <a href="#" class="p-2"><span class="fa fa-youtube-play"></span></a>
+                    <a class="p-2"><span class="fa fa-facebook"></span></a>
+                    <a class="p-2"><span class="fa fa-twitter"></span></a>
+                    <a class="p-2"><span class="fa fa-instagram"></span></a>
+                    <a class="p-2"><span class="fa fa-youtube-play"></span></a>
                   </p>
                 </div>
               </div>
@@ -212,17 +220,18 @@
             <div class="sidebar-box">
               <h3 class="heading">Writer's Categories</h3>
               <ul class="categories">
+                <li><a>전체 <span>(<?=$data['blog_count']?>)</span></a></li>
               <?php
                 if (isset($data['user_categorys'])) {
                   foreach ($data['user_categorys'] as $user_category) {
               ?>
-                    <li><a href="#"><?=$user_category->name?> <span>(<?=$user_category->article_num?>)</span></a></li>
+                    <li><a><?=$user_category->name?> <span>(<?=$user_category->article_num?>)</span></a></li>
               <?php
                     if (isset($data['user_category_details'])) {
                       foreach($data['user_category_details'] as $user_category_detail) {
                         if ($user_category->id == $user_category_detail->category_id) {
               ?>
-                          <li><a href="#">&nbsp;&nbsp;&nbsp;<?=$user_category_detail->name?><span>(<?=$user_category_detail->article_num?>)</span></a></li>
+                          <li><a>&nbsp;&nbsp;&nbsp;<?=$user_category_detail->name?><span>(<?=$user_category_detail->article_num?>)</span></a></li>
               <?php
                         }
                       }
@@ -241,7 +250,7 @@
                   if (isset($data['user_hashtags'])) {
                     foreach($data['user_hashtags'] as $user_hashtag) {
                 ?>
-                      <li><a href="#"><?=$user_hashtag->name?></a></li>
+                      <li><a><?=$user_hashtag->name?></a></li>
                 <?php
                     }
                   }
