@@ -5,8 +5,33 @@
             parent::__construct();
         }
 
+
+        public function getPublicBlogId() {
+            $sql = "select id from blog where ispublic=0 order by writeday desc";
+           
+            return $this->db->query($sql)->result();
+        }
+
+        public function addBlog($data) {
+            $this->db->set('writeday', 'now()', false);
+            $arr = array(
+                'user_id'=>$data['user_id'],
+                'title'=>$data['title'],
+                'content'=>$data['content'],
+                'ispublic'=>$data['ispublic'],
+                'count' => 0,
+                'image'=>$data['image'], 
+                'category_id'=>$data['category_id'],
+                'category_detail_id'=>$data['category_detail_id']
+            );
+            $this->db->insert('blog', $arr);
+
+            return $this->db->insert_id(); // 방금 insert된 id를 반납
+        }
+
+
         public function getListsOrderByRecent() {
-            $sql = "select id, user_id, title, writeday, ispublic, count, image from blog order by writeday desc";
+            $sql = "select id, user_id, title, writeday, ispublic, count, image from blog where ispublic=0 order by writeday desc limit 0, 3";
            
             return $this->db->query($sql)->result();
         }

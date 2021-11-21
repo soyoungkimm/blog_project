@@ -15,6 +15,11 @@
     width : 50px; 
     height : 35px; 
   }
+
+  #search_title_mypage, #search_tag_mypage {
+    background : #f7f7f7;
+    border: none;          
+  }
 </style>
 
 <section class="site-section pt-5">
@@ -77,7 +82,7 @@
               <div class="search-form">
                 <div class="form-group" >
                   <a onclick="pressEnter();" style="cursor:pointer;"><span class="icon fa fa-search"></span></a>
-                  <input type="text" value="" class="form-control" id="search_title" placeholder="search by title" onkeyup="if(window.event.keyCode==13){pressEnter();}"/>
+                  <input type="text" value="" class="form-control" id="search_title_mypage" placeholder="search by title" onkeyup="if(window.event.keyCode==13){pressEnter();}"/>
                 </div>
               </div>
             </div>
@@ -89,7 +94,7 @@
               <div class="search-form">
                 <div class="form-group">
                   <a onclick="pressEnter();" style="cursor:pointer;"><span class="icon fa fa-search"></span></a>
-                  <input type="text" value="" class="form-control" id="search_tag" placeholder="search by tag" onkeyup="if(window.event.keyCode==13){pressEnter();}"/>
+                  <input type="text" value="" class="form-control" id="search_tag_mypage" placeholder="search by tag" onkeyup="if(window.event.keyCode==13){pressEnter();}"/>
                 </div>
               </div>
             </div>
@@ -199,8 +204,8 @@
       function pressCategory(wishPage, category_id) {
 
         $(".lili").css("backgroundColor", "#ffffff");
-        document.getElementById('search_tag').value = '';
-        document.getElementById('search_title').value = '';
+        document.getElementById('search_tag_mypage').value = '';
+        document.getElementById('search_title_mypage').value = '';
 
         var category = document.getElementById("ca"+category_id);
         category.style.backgroundColor = "#f7f7f7";
@@ -215,8 +220,8 @@
       function pressCategoryDetail(wishPage, category_detail_id) {
 
         $(".lili").css("backgroundColor", "#ffffff");
-        document.getElementById('search_tag').value = '';
-        document.getElementById('search_title').value = '';
+        document.getElementById('search_tag_mypage').value = '';
+        document.getElementById('search_title_mypage').value = '';
 
         var category_detail = document.getElementById("cade"+category_detail_id);
         category_detail.style.backgroundColor = "#f7f7f7";
@@ -497,8 +502,8 @@
               url: "/~sale24/prj/user/ajax_createList",
               type: "POST",
               data: {
-                search_title: $('#search_title').val(),
-                search_tag: $('#search_tag').val(),
+                search_title: $('#search_title_mypage').val(),
+                search_tag: $('#search_tag_mypage').val(),
                 wishPage: wishPage,
                 user_id: <?=$data['user']->id?>
               },

@@ -18,12 +18,8 @@
                   <div class="post-entry-sidebar">
                     <ul>
                     <?php
-                      $count = 0;
                       foreach ($blogs as $blog) {
-                        $count++;
-                        if ($count == 5){
-                          break;
-                        }
+
                         $writeday_arr = explode("-", $blog->writeday);
                         $year = $writeday_arr[0];
                         $month = $writeday_arr[1];

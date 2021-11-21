@@ -219,7 +219,13 @@
                   &nbsp;<a class="dropdown-toggle"  href="category.html" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
                   <div class="dropdown-menu" aria-labelledby="dropdown04" style="margin-top : 1em; position: absolute;">
                     <a class="dropdown-item" href="/~sale24/prj/user/mypage/<?=$this->session->userdata('user_id');?>">내 벨로그</a>
+                  <?php
+                    if ($this->session->userdata('user_id') == 3) {
+                  ?>
                     <a class="dropdown-item" href="/~sale24/prj/admin">admin 페이지</a>
+                  <?php
+                    } 
+                  ?>
                     <a class="dropdown-item" href="/~sale24/prj/auth/logout">로그아웃</a>
                   </div>
                 </div>
