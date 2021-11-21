@@ -22,7 +22,7 @@
             ?>
               <div style="float : right;">
                 <span>
-                  <a href="#">수정</a>
+                  <a href="/~sale24/prj/blog/edit/<?=$data['blog']->id?>">수정</a>
                   <a href="#">삭제</a>
                 </span>
               </div>

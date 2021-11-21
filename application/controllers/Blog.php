@@ -144,7 +144,7 @@
                 $this->load->view("addBlog", array('data'=>$data));
             }
             else {  
-                if ($this->input->post('upload_file_name') != null) {
+                if ($this->input->post('upload_file_name') != null  && $this->input->post('upload_file_name') != 'undefined') {
                     
                     // 파일을 저장할 경로
                     $config['upload_path'] = 'my/img/blog'; 
@@ -157,12 +157,14 @@
                     // 허용되는 최대 세로 길이(높이)
                     $config['max_height']  = '1024';
                     // 같은 이름의 파일이 있으면 덮어쓰기를 할건지
-                    $config['overwrite'] = TRUE;
+                    $config['overwrite'] = FALSE;
                     // upload 라이브러리 로드
                     $this->load->library('upload', $config);
                     if($this->upload->do_upload("upload_file")) { // 업로드에 성공하면
-                        // $data['upload_file'] = array('upload_file' =>  $this->upload->data());
-                        // var_dump($data);
+                        // image file 이름 겹치는 것 방지
+                        $upload_data = $this->upload->data();
+                        $arr = explode('/', $upload_data['full_path']);
+                        $upload_file_name = $arr[count($arr) - 1];
                 
                         $user_id = $this->session->userdata('user_id');
 
@@ -187,7 +189,7 @@
                             'title'=>$this->input->post('title'),
                             'content'=>$this->input->post('content'),
                             'ispublic'=>$this->input->post('ispublic'),
-                            'image'=>$this->input->post('upload_file_name'), 
+                            'image'=>$upload_file_name, 
                             'category_id'=>$category_id,
                             'category_detail_id'=>$category_detail_id
                         );
@@ -285,7 +287,7 @@
             $config['max_height']  = '1024';
 
             // 같은 이름의 파일이 있으면 덮어쓰기를 할건지
-            $config['overwrite'] = TRUE;
+            $config['overwrite'] = False;
 
             // upload 라이브러리 로드
             $this->load->library('upload', $config);
@@ -303,5 +305,10 @@
             }
 
         }
+
+
+        
+
+
     }
 ?>

@@ -199,6 +199,46 @@
           width : 80px;
         }
 
+        .filebox .upload-name {
+        display: inline-block;
+        height: 40px;
+        padding: 0 10px;
+        vertical-align: middle;
+        border: 1px solid #dddddd;
+        width: 30%;
+        color: #999999;
+      }
+
+      .filebox label {
+        font-family : 'Nanum Gothic';
+        display: inline-block;
+        padding: 2px 20px;
+        color: #000000;
+        vertical-align: middle;
+        background-color: #cdcdcd;
+        cursor: pointer;
+        height: 40px;
+        margin-left: 10px;
+        margin-top : 9px
+        
+      }
+
+      .filebox input[type="file"] {
+        position: absolute;
+        width: 0;
+        height: 0;
+        padding: 0;
+        overflow: hidden;
+        border: 0;
+      }
+
+      #submitBtn {
+        font-family : 'Nanum Gothic'; 
+        background : #c7c7c7;
+        border: none;
+        border-radius: 5px;
+        width : 80px;
+      }
       </style>
   </head>
   <body>

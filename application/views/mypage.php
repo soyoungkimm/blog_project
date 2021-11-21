@@ -324,7 +324,7 @@
                   }
                   set_str +='</div>\n' + 
                             '<br><br>\n' + 
-                            '<button type="button" id="reviseBtn_user" onclick="" class="btn btn-primary">수정</button><br><br>\n' +
+                            '<button type="button" id="reviseBtn_user" onclick="location.href=\'/~sale24/prj/user/edit\'" class="btn btn-primary">수정</button><br><br>\n' +
                           '<div>\n' + 
                         '</div>\n' + 
                       '</div>\n';

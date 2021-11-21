@@ -43,5 +43,20 @@
 
           return $this->db->query($sql)->result();
         }
+
+        public function editUser($data) {
+          // image 없을 때
+          if ($data['image'] == 'no') {
+            $sql = "update user set name='".$data['name']."', mini_content='".$data['mini_content']."', 
+            content='".$data['content']."', getNotice=".$data['getNotice']." where id=".$data['user_id'];
+          }
+          // image 있을 때
+          else {
+            $sql = "update user set name='".$data['name']."', mini_content='".$data['mini_content']."', 
+            content='".$data['content']."', getNotice=".$data['getNotice'].", image='".$data['image']."' where id=".$data['user_id'];
+          }
+          
+          return $this->db->query($sql);
+        }
     }
 ?>

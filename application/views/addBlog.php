@@ -1,36 +1,5 @@
     <style>
-      .filebox .upload-name {
-        display: inline-block;
-        height: 40px;
-        padding: 0 10px;
-        vertical-align: middle;
-        border: 1px solid #dddddd;
-        width: 30%;
-        color: #999999;
-      }
-
-      .filebox label {
-        font-family : 'Nanum Gothic';
-        display: inline-block;
-        padding: 2px 20px;
-        color: #000000;
-        vertical-align: middle;
-        background-color: #cdcdcd;
-        cursor: pointer;
-        height: 40px;
-        margin-left: 10px;
-        margin-top : 9px
-        
-      }
-
-      .filebox input[type="file"] {
-        position: absolute;
-        width: 0;
-        height: 0;
-        padding: 0;
-        overflow: hidden;
-        border: 0;
-      }
+      
 
       #title {
         color : #000000; 
@@ -90,13 +59,7 @@
         padding-right : 10px;
       }
 
-      #submitBtn {
-        font-family : 'Nanum Gothic'; 
-        background : #c7c7c7;
-        border: none;
-        border-radius: 5px;
-        width : 80px;
-      }
+      
 
       .form-select {
         border-color : #c7c7c7;
@@ -293,7 +256,8 @@
         var form = document.addForm;
         form.hashtag.value = document.getElementsByName('hashtag').value;
         form.ispublic.value = document.getElementsByName('ispublic').value;
-        if (form.upload_file_name.value !='') {
+
+        if (form.upload_file_name.value != null) {
           form.upload_file_name.value = document.getElementsByName('upload_file_name').value;
         }
         
