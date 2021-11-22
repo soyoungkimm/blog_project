@@ -331,6 +331,7 @@
             </div>
             <br>
             <button type="submit" id="" class="btn btn-primary" style="border-radius: 5px; padding : 5px; width : 50px">확인</button>
+            <button type="button" onclick="location.href='/~sale24/prj/user/signup'" class="btn btn-primary" style="border-radius: 5px; padding : 5px; width : 80px">회원가입</button>
           </div>
           <br>
         </div>

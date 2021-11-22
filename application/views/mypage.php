@@ -106,7 +106,7 @@
                   if (isset($data['user_hashtags'])) {
                     foreach($data['user_hashtags'] as $user_hashtag) {
                 ?>
-                      <li><a style="cursor:pointer;" onclick="document.getElementById('search_tag').value = '<?=$user_hashtag->name?>'; pressEnter();"><?=$user_hashtag->name?></a></li>
+                      <li><a style="cursor:pointer;" onclick="document.getElementById('search_tag_mypage').value = '<?=$user_hashtag->name?>'; pressEnter();"><?=$user_hashtag->name?></a></li>
                 <?php
                     }
                   }

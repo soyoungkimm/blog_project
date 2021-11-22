@@ -8,7 +8,7 @@
                 <img src="/~sale24/prj/my/img/blog/<?=$about->image?>" alt="Image placeholder" class="img-fluid" width="100%">
               </p>
 
-              <p><span id="about"><?=$about->content?></span> <a href="/~sale24/prj/blog/single/5">Read More</a></p>
+              <span id="about"><?=$about->content?></span> <a href="/~sale24/prj/blog/single/5">Read More</a>
             </div>
 
             <div class="col-md-6 ml-auto">

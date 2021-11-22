@@ -184,5 +184,34 @@
           $blogs = $this->Blog_m->getListsOrderByRecent();
           $this->load->view("main_footer", array('about'=>$about, 'blogs'=>$blogs));
       }
+
+      public function signup() {
+        $this->load->model('User_m');
+
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules('name', '이름', 'required|max_length[100]');
+        $this->form_validation->set_rules('email', 'email', 'required|valid_email|max_length[255]');
+        $this->form_validation->set_rules('password', '비밀번호', 'required|max_length[30]');
+        $this->form_validation->set_rules('password_check', '비밀번호 확인', 'required|max_length[100]|matches[password]');
+        $this->form_validation->set_rules('mini_content', '짧은 소개', 'max_length[50]');
+        $this->form_validation->set_rules('agreement', '회원 정보 제공 동의', 'required');
+        
+        if ($this->form_validation->run() == FALSE) {
+          $this->load->view("join");
+        }
+        else { 
+          $data = array(
+            'name'=>$this->input->post('name'),
+            'email'=>$this->input->post('email'),
+            'password'=>$this->input->post('password'),
+            'mini_content'=>$this->input->post('mini_content')
+          );
+          //echo "success";
+          //var_dump();
+          $this->User_m->addUser($data);
+          
+          redirect('/~sale24/prj/blog');
+        }
+      }
     }
 ?>

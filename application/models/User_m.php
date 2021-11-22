@@ -58,5 +58,12 @@
           
           return $this->db->query($sql);
         }
+
+        public function addUser($data) {
+          $sql = "insert into user (name, email, password, content, image, division, getNotice, mini_content) values ('".$data['name']."', '".
+          $data['email']."', '".$data['password']."', NULL, 'default_user.jpg', 0, 0, '".$data['mini_content']."')";
+
+          $this->db->query($sql);
+        }
     }
 ?>
