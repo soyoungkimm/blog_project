@@ -34,5 +34,10 @@
             $sql = "update category set article_num = article_num + 1 where id=".$category_id;
             return $this->db->query($sql);
         }
+
+        public function decreaseCount($category_id) {
+            $sql = "update category set article_num = article_num - 1 where id=".$category_id;
+            return $this->db->query($sql);
+        }
     }
 ?>

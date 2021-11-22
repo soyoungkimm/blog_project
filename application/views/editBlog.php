@@ -71,12 +71,13 @@
     
     <section class="site-section pt-5">
       <div class="container">
-        <form action="/~sale24/prj/blog/add" method="post" enctype="multipart/form-data" name="addForm">
+        <form action="/~sale24/prj/blog/edit/<?=$data['blog']->id?>" method="post" enctype="multipart/form-data" name="editBlogForm">
           <div class="row mb-4">
             <div class="col" style="text-align: center;" >
               <div id="all" style="display: inline-block;">
                 <div id="category_area" style="text-align : left;">
-              <?php
+              <?php 
+                // 유효성 검사에서 걸린경우
                 if (set_value('category_id') != '') {
               ?>
                   카테고리&nbsp;&nbsp;
@@ -101,17 +102,25 @@
                   </select>
               <?php
                 }
+                // 유효성 검사에서 걸리지 않은 경우(처음 고칠 때)
                 else {
               ?>
                   카테고리&nbsp;&nbsp;
                   <select class="form-select" aria-label="Default select example" name="category_id" id="ca_sel" onchange="selected();" >
-                    <option value="0" selected>없음</option>
+                    <option value="0">없음</option>
                     <?php
                       if (isset($data['user_categorys'])) {
                         foreach ($data['user_categorys'] as $user_category) {
+                          if ($user_category->id == $data['blog']->category_id) {
+                    ?>
+                          <option value="<?=$user_category->id?>" selected><?=$user_category->name?></option>
+                    <?php
+                          }
+                          else {
                     ?>
                           <option value="<?=$user_category->id?>"><?=$user_category->name?></option>
                     <?php
+                          }
                         }  
                       }
                     ?>
@@ -123,6 +132,7 @@
 
                   <div id="ca_de_area" style="display : inline-block;">
                     <?php
+                      // 유효성 검사에서 걸린 경우
                       if(set_value('category_detail_id') != '') {
                         ?>    
                         카테고리 상세&nbsp;&nbsp;
@@ -147,7 +157,33 @@
                         </select>
                     <?php
                       }
+                      // category_detail이 blog에 있을 경우
+                      else if(isset($data['blog']->category_detail_id)) {
                     ?>
+                        카테고리 상세&nbsp;&nbsp;
+                        <select class="form-select" aria-label="Default select example" name="category_detail_id">
+                          <option value="0">없음</option>
+              <?php
+                        foreach ($data['user_category_details'] as $user_category_detail) {
+                          if ($data['blog']->category_id == $user_category_detail->category_id) {
+                            if ($user_category_detail->id == $data['blog']->category_detail_id) {
+              ?>
+                            <option value="<?=$user_category_detail->id?>" selected><?=$user_category_detail->name?></option>
+              <?php   
+                            }
+                            else {
+              ?>
+                            <option value="<?=$user_category_detail->id?>"><?=$user_category_detail->name?></option>
+              <?php
+                            }
+                          }
+                        }
+              ?>
+                        </select>
+                    <?php    
+                      }
+                    ?>
+                    
                         <!-- category detail 출력 부분 -->
                   </div>
                 </div>
@@ -161,18 +197,19 @@
                 
                 <br>
                 <div class="filebox" style="text-align : left;">
-                  <input class="upload-name" name="upload-name" value="대표 이미지" placeholder="첨부파일" readonly>
+                  <input class="upload-name" name="upload-name" value="<?=$data['blog']->image?>" placeholder="첨부파일" readonly>
                   <label for="file">파일찾기</label> 
                   <input type="file" id="file" name="upload_file">
                   <input type="hidden" name="upload_file_name" value="">
                 </div>
                 <br>
+                
 
-                <input type="text" name="title" value="<?php echo set_value('title'); ?>" placeholder="제목을 입력하세요" style="width: 100%" id="title"/>
+                <input type="text" name="title" value="<?php if(set_value('title') != '') {echo set_value('title');} else {echo $data['blog']->title;} ?>" placeholder="제목을 입력하세요" style="width: 100%" id="title"/>
                 
                 <br><br>
 
-                <textarea name="content" placeholder="내용" rows="10" cols="50"><?php echo set_value('content'); ?></textarea>
+                <textarea name="content" placeholder="내용" rows="10" cols="50"><?php if(set_value('content') != '') {echo set_value('content');} else {echo $data['blog']->content;} ?></textarea>
 
                 <br>
                 <div style="text-align : left;">
@@ -221,10 +258,29 @@
 
 
       $(document).ready(function() {
-        $('#title').focus();
+        
+        // 제목 끝으로 focus
+        var len = $('input[name=title]').val().length;
+        $('input[name=title]').focus();
+        $('input[name=title]')[0].setSelectionRange(len, len);
+        
         <?php
+          // 유효성 검사에서 걸렸을 때
           if (set_value('ispublic') != '') {
             if (set_value('ispublic') == 0) {
+        ?>
+              clickPublic();
+        <?php
+            }
+            else {
+        ?>
+              clickPrivate();
+        <?php
+            }
+          }
+          // 첫 화면 ispublic 출력
+          else {
+            if($data['blog']->ispublic == 0) {
         ?>
               clickPublic();
         <?php
@@ -238,13 +294,29 @@
 
 
 
-
+          // 유효성 검사 걸렸을 때
           if (set_value('hashtag') != '' && set_value('hashtag') != 'undefined') {
             $param = set_value('hashtag');
             echo "make_hashtag_set_val('$param');";
           }
-        ?>
-                        
+          // 처음 화면일 때
+          else if ($data['hashtag'] != null){
+            $hstr = '';
+            $count = 0;
+            foreach ($data['hashtag'] as $hashtag) {
+              if ($count == 0) {
+                $hstr = $hashtag->name;
+              }
+              else {
+                $hstr .= "#".$hashtag->name;
+              }
+              $count++;
+            }
+            $param = $hstr;
+            
+            echo "make_hashtag_first('$param');";
+          }
+        ?>          
         
       });
 
@@ -253,15 +325,14 @@
       // submit하기
       function submitForm() {
         
-        var form = document.addForm;
+        var form = document.editBlogForm;
         form.hashtag.value = document.getElementsByName('hashtag').value;
         form.ispublic.value = document.getElementsByName('ispublic').value;
 
         if (form.upload_file_name.value != null) {
           form.upload_file_name.value = document.getElementsByName('upload_file_name').value;
         }
-        
-
+      
         form.submit();
       }
 
@@ -377,6 +448,20 @@
           hash_val_str += '<a id="hashtag_a" onClick="delete_hashtag(this);" class="btn btn-primary" style=margin-left : 5px" name="' + arr[a] + '">' + arr[a] + '</a>\n';
         }
 
+        $("#m_hashtag").append(hash_val_str);
+      }
+
+
+      // 블로그 첫화면일 때 해쉬태그 복구
+      function make_hashtag_first(hashtag_val) {
+        // 해쉬태그 문자열 쪼개기
+        var arr = hashtag_val.split('#');
+        var hash_val_str = '';
+        for (var a = 0; a < arr.length; a++) {
+          hash_val_str += '<a id="hashtag_a" onClick="delete_hashtag(this);" class="btn btn-primary" style=margin-left : 5px" name="' + arr[a] + '">' + arr[a] + '</a>\n';
+        }
+
+        document.getElementsByName('hashtag').value = hashtag_val;
         $("#m_hashtag").append(hash_val_str);
       }
 

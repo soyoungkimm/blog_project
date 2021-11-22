@@ -123,8 +123,8 @@
         public function add() {
             $this->load->model('Blog_m');
             $this->load->model('Hashtag_m');
-            $this->load->model('Category_m');
-            $this->load->model('Category_detail_m');
+            //$this->load->model('Category_m');
+            //$this->load->model('Category_detail_m');
             $this->load->view("main_header");
             
             $user_id = $this->session->userdata('user_id');
@@ -307,7 +307,261 @@
         }
 
 
-        
+        public function edit($id) {
+            $user_id = $this->session->userdata('user_id');
+            $this->load->view("main_header");
+
+
+            $this->load->model('Blog_m');
+            $data['blog'] = $this->Blog_m->getRow($id);
+
+
+            $this->load->model('Hashtag_m');
+            $data['hashtag'] = $this->Hashtag_m->getHashtagByBlogId($id);
+
+
+            $this->load->model('Category_m');
+            $data['user_categorys'] = $this->Category_m->getCategoryByUserId($user_id);
+
+
+            $this->load->model('Category_detail_m');
+            $data['user_category_details'] = $this->Category_detail_m->getCategoryDetailByCategory($data['user_categorys']);
+
+            
+            $this->load->library('form_validation');
+            $this->form_validation->set_rules('title', '제목', 'required|max_length[100]');
+
+
+            if ($this->form_validation->run() == FALSE) {
+                $this->load->view("editBlog", array('data'=>$data));
+            }
+            else {  
+                // image를 변경했을 때
+                if ($this->input->post('upload_file_name') != null  && $this->input->post('upload_file_name') != 'undefined') {
+                    
+                    // 파일을 저장할 경로
+                    $config['upload_path'] = 'my/img/blog'; 
+                    // 확장자가 .gif, .jpg, .png인 파일만 업로드 허용
+                    $config['allowed_types'] = 'gif|jpg|png';
+                    // 허용되는 파일의 최대 사이즈
+                    $config['max_size'] = '10000';
+                    // 허용되는 최대 가로 길이
+                    $config['max_width']  = '1024';
+                    // 허용되는 최대 세로 길이(높이)
+                    $config['max_height']  = '1024';
+                    // 같은 이름의 파일이 있으면 덮어쓰기를 할건지
+                    $config['overwrite'] = FALSE;
+                    // upload 라이브러리 로드
+                    $this->load->library('upload', $config);
+                    if($this->upload->do_upload("upload_file")) { // 업로드에 성공하면
+
+                        // image file 이름 겹치는 것 방지
+                        $upload_data = $this->upload->data();
+                        $arr = explode('/', $upload_data['full_path']);
+                        $upload_file_name = $arr[count($arr) - 1];
+                
+                        // 카테고리가 변경되었다면
+                        if (($data['blog']->category_id != $this->input->post('category_id')) && ($data['blog']->category_detail_id != null)) {
+                            // 카테고리 total 글 개수에서 -1을 한다.
+                            $category_id = $data['blog']->category_id;
+                            $this->Category_m->decreaseCount($category_id);
+                        }
+
+                        // 카테고리 상세가 변경되었다면
+                        if (($data['blog']->category_detail_id != $this->input->post('category_detail_id')) && ($data['blog']->category_detail_id != null)) {
+                            // 카테고리 상세 total 글 개수에서 -1을 한다.
+                            $category_detail_id = $data['blog']->category_detail_id;
+                            $this->Category_detail_m->decreaseCount($category_detail_id);
+                        }
+
+
+                        // 카테고리가 선택됐으면
+                        if ($this->input->post('category_id') == 0) {
+                            $category_id = null;
+                        }
+                        else {
+                            $category_id = $this->input->post('category_id');
+                            $this->Category_m->increaseCount($category_id);
+                        }
+                        
+                        // 카테고리 상세가 선택됬으면
+                        if($this->input->post('category_detail_id') == 0 || $this->input->post('category_detail_id') == null) {
+                            $category_detail_id = null;
+                        }
+                        else {
+                            $category_detail_id = $this->input->post('category_detail_id');
+                            $this->Category_detail_m->increaseCount($category_detail_id);
+                        }
+
+                        $blog_id = $data['blog']->id;
+                        $blog = array(
+                            'blog_id'=>$blog_id,
+                            'user_id'=>$user_id,
+                            'title'=>$this->input->post('title'),
+                            'content'=>$this->input->post('content'),
+                            'ispublic'=>$this->input->post('ispublic'),
+                            'image'=>$upload_file_name, 
+                            'category_id'=>$category_id,
+                            'category_detail_id'=>$category_detail_id
+                        );
+                        $this->Blog_m->editBlog($blog); // 방금 작성한 블로그 아이디 리턴
+                        
+                        
+
+
+                        // 해쉬태그 비교하기 위해서 문자열로 만들기
+                        $str_h = '';
+                        $count_h = 0;
+                        foreach ($data['hashtag'] as $htag) {
+                            if ($count_h == 0) {
+                                $str_h .= $htag->name;
+                            }
+                            else {
+                                $str_h .= "#".$htag->name;
+                            }
+                            $count_h++;
+                        }
+
+
+
+                        // 해쉬태그가 변경됬다면
+                        if($this->input->post('hashtag') != $str_h) {
+                            // 기존의 해쉬태그 다 삭제
+                            if ($str_h != '') {
+                                $this->Hashtag_m->deleteHashtag($data['hashtag']);
+                            }
+                            // 해쉬태그 테이블에 추가
+                            $hashtag = $this->input->post('hashtag');
+                            $hashtag_arr = explode('#', $hashtag);
+                            
+                            if(isset($hashtag_arr) && $hashtag != 'undefined') {
+                                foreach ($hashtag_arr as $tag_name) {
+                                    if ($tag_name != '') {
+                                        $this->Hashtag_m->addHashtag($tag_name, $user_id, $blog_id);
+                                    }
+                                    
+                                }
+                            }
+                        }
+
+
+
+                        
+                        
+
+
+                        // 사용자가 수정한 블로그 페이지로 옮기기
+                        redirect('/~sale24/prj/blog/single/'.$blog_id);
+                    }
+                    else { // 업로드에 실패하면
+                        //$error = array('error' =>  $this->upload->display_errors());
+                        //var_dump($error);
+                        $this->load->view("editBlog", array('data'=>$data));
+                    }
+                }
+                // image 없을 때
+                else { 
+                    
+                    // 카테고리가 변경되었다면
+                    if (($data['blog']->category_id != $this->input->post('category_id'))  && ($data['blog']->category_id != null)) {
+                        // 카테고리 total 글 개수에서 -1을 한다.
+                        $category_id = $data['blog']->category_id;
+                        $this->Category_m->decreaseCount($category_id);
+                    }
+
+                    // 카테고리 상세가 변경되었다면
+                    if (($data['blog']->category_detail_id != $this->input->post('category_detail_id'))  && ($data['blog']->category_detail_id != null)) {
+                        // 카테고리 상세 total 글 개수에서 -1을 한다.
+                        $category_detail_id = $data['blog']->category_detail_id;
+                        $this->Category_detail_m->decreaseCount($category_detail_id);
+                    }
+
+
+                    // 카테고리가 선택됐으면
+                    if ($this->input->post('category_id') == 0) {
+                        $category_id = null;
+                    }
+                    else {
+                        $category_id = $this->input->post('category_id');
+                        $this->Category_m->increaseCount($category_id);
+                    }
+                    
+                    // 카테고리 상세가 선택됬으면
+                    if($this->input->post('category_detail_id') == 0 || $this->input->post('category_detail_id') == null) {
+                        $category_detail_id = null;
+                    }
+                    else {
+                        $category_detail_id = $this->input->post('category_detail_id');
+                        $this->Category_detail_m->increaseCount($category_detail_id);
+                    }
+                    $blog_id = $data['blog']->id;
+                    
+                    $blog = array(
+                        'blog_id'=>$blog_id,
+                        'user_id'=>$user_id,
+                        'title'=>$this->input->post('title'),
+                        'content'=>$this->input->post('content'),
+                        'ispublic'=>$this->input->post('ispublic'),
+                        'image'=>null, 
+                        'category_id'=>$category_id,
+                        'category_detail_id'=>$category_detail_id
+                    );
+                    $this->Blog_m->editBlog($blog); 
+                    
+                    
+                    
+
+
+                    // 해쉬태그 비교하기 위해서 문자열로 만들기
+                    $str_h = '';
+                    $count_h = 0;
+                    foreach ($data['hashtag'] as $htag) {
+                        if ($count_h == 0) {
+                            $str_h .= $htag->name;
+                        }
+                        else {
+                            $str_h .= "#".$htag->name;
+                        }
+                        $count_h++;
+                    }
+
+
+
+                    // 해쉬태그가 변경됬다면
+                    if($this->input->post('hashtag') != $str_h) {
+                        // 기존의 해쉬태그 다 삭제
+                        if ($str_h != '') {
+                            $this->Hashtag_m->deleteHashtag($data['hashtag']);
+                        }
+                        
+
+                        // 해쉬태그 테이블에 추가
+                        $hashtag = $this->input->post('hashtag');
+                        var_dump($hashtag);
+                        $hashtag_arr = explode('#', $hashtag);
+                        
+                        if(isset($hashtag_arr) && $hashtag != 'undefined') {
+                            foreach ($hashtag_arr as $tag_name) {
+                                if ($tag_name != '') {
+                                    $this->Hashtag_m->addHashtag($tag_name, $user_id, $blog_id);
+                                }
+                                
+                            }
+                        }
+                        
+                    }
+
+
+                    // 사용자가 작성한 블로그 페이지로 옮기기
+                    redirect('/~sale24/prj/blog/single/'.$blog_id);
+                }
+                
+            }
+            
+            $about = $this->Blog_m->getRow(5);
+            $blogs = $this->Blog_m->getListsOrderByRecent();
+            $this->load->view("main_footer", array('about'=>$about, 'blogs'=>$blogs));
+        }
 
 
     }

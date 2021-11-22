@@ -29,6 +29,30 @@
             return $this->db->insert_id(); // 방금 insert된 id를 반납
         }
 
+        public function editBlog($data) {
+
+            if($data['category_id'] == null) {
+                $data['category_id'] = "NULL";
+            }
+            if($data['category_detail_id'] == null) {
+                $data['category_detail_id'] = "NULL";
+            }
+
+
+            if($data['image'] == null) {
+                $sql = "update blog set title='".$data['title']."', content='".$data['content']."', ispublic=".$data['ispublic'].
+                ", category_id=".$data['category_id'].", category_detail_id=".$data['category_detail_id'].
+                " where user_id=".$data['user_id']." and id=".$data['blog_id'];
+            }
+            else {
+                $sql = "update blog set title='".$data['title']."', content='".$data['content']."', ispublic=".$data['ispublic'].
+                ", image='".$data['image']."', category_id=".$data['category_id'].", category_detail_id=".$data['category_detail_id'].
+                " where user_id=".$data['user_id']." and id=".$data['blog_id'];
+            }
+            
+            $this->db->query($sql);
+        }
+
 
         public function getListsOrderByRecent() {
             $sql = "select id, user_id, title, writeday, ispublic, count, image from blog where ispublic=0 order by writeday desc limit 0, 3";

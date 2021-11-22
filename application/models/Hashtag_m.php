@@ -34,5 +34,17 @@
 
             return $this->db->query($sql);
         }
+
+        public function deleteHashtag($hashtags) {
+
+            $sql = "delete from hashtag where ";
+            for($i = 0; $i < count($hashtags); $i++) {
+                $sql = $sql . "id=" . $hashtags[$i]->id;
+                if($i < (count($hashtags) - 1)){
+                    $sql = $sql . " or ";
+                } 
+            }
+            return $this->db->query($sql);
+        }
     }
 ?>
