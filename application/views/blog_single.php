@@ -23,7 +23,7 @@
               <div style="float : right;">
                 <span>
                   <a href="/~sale24/prj/blog/edit/<?=$data['blog']->id?>">수정</a>
-                  <a href="#">삭제</a>
+                  <a style="cursor:pointer;" onclick="pressDelete();">삭제</a>
                 </span>
               </div>
             <?php
@@ -368,4 +368,11 @@
     </section>
     <!-- END section -->
   
-    
+    <script>
+      function pressDelete() {
+        var answer = confirm('정말로 삭제하시겠습니까?');
+        if (answer) {
+          window.location.href = "/~sale24/prj/blog/delete/<?=$data['blog']->id?>";
+        }
+      }
+    </script>

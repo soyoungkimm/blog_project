@@ -563,6 +563,13 @@
             $this->load->view("main_footer", array('about'=>$about, 'blogs'=>$blogs));
         }
 
+        public function delete($id) {
+
+            $this->load->model('Blog_m');
+            $this->Blog_m->deleteBlog($id);
+
+            redirect('/~sale24/prj/blog');
+        }
 
     }
 ?>

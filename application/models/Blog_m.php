@@ -239,5 +239,10 @@
             return $sql;
         }
 
+        public function deleteBlog($id) {
+            $sql = "delete from blog where id=".$id;
+            $this->db->query($sql);
+        }
+
     }
 ?>
