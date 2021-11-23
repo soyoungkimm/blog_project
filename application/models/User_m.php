@@ -97,7 +97,11 @@
           $this->db->query($sql);
         }
 
-
+        public function getUser() {
+          $sql = "select id, name, email, division from user";
+          
+          return $this->db->query($sql)->result();
+        }
         
     }
 ?>
