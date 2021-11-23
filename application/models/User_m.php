@@ -17,6 +17,37 @@
             return $this->db->query($sql)->row();
         }
 
+        function getCommentWriterByComment($comments) {
+          $sql = "select * from user where ";
+          $count = 0;
+          foreach ($comments as $comment) {
+            $sql .= " id=".$comment->user_id;
+            if (count($comments) - 1 != $count) {
+              $sql .= " or ";
+            }
+            $count++;
+          }
+          
+          return $this->db->query($sql)->result();
+        }
+
+
+        public function getRecommentWriterByRecomment($recomments) {
+          $sql = "select * from user where ";
+          $count = 0;
+          foreach ($recomments as $recomment) {
+            $sql .= " id=".$recomment->user_id;
+            if (count($recomments) - 1 != $count) {
+              $sql .= " or ";
+            }
+            $count++;
+          }
+          
+          return $this->db->query($sql)->result();
+        }
+
+
+
         function getUserByBlogs($blogs) {
           $sql = "select * from user where ";
           $count = 0;
@@ -65,5 +96,8 @@
 
           $this->db->query($sql);
         }
+
+
+        
     }
 ?>

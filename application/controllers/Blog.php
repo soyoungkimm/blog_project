@@ -75,6 +75,26 @@
 
             $this->load->model('User_m');
             $data['user'] = $this->User_m->getUserByUserId($user_id);
+            
+
+
+            
+
+            $this->load->model('Comment_m');
+            $data['comments'] = $this->Comment_m->getCommentByBlogId($id);
+            if ($data['comments'] != null) {
+                $data['comment_users'] = $this->User_m->getCommentWriterByComment($data['comments']);
+            }
+            
+
+
+            $this->load->model('Recomment_m');
+            if ($data['comments'] != null) {
+                $data['recomments'] = $this->Recomment_m->getRecommentByComment($data['comments']);
+                if($data['recomments'] != null)
+                $data['recomment_users'] = $this->User_m->getRecommentWriterByRecomment($data['recomments']);
+            }
+            
 
 
             $this->load->view("main_header");
@@ -571,5 +591,81 @@
             redirect('/~sale24/prj/blog');
         }
 
+        
+        public function ajax_comment() {
+            header("Content-Type: text/html; charset=KS_C_5601-1987");
+            header("Cache-Control:no-cache");
+            header("Pragma:no-cache");
+            header("Content-Type:application/json");
+
+            $this->load->model('Comment_m');
+            $this->load->model('User_m');
+            $this->load->model('Recomment_m');
+
+
+            $blog_id = $_POST['blog_id'];
+            $content = $_POST['content'];
+
+            
+
+            
+            $this->Comment_m->add($blog_id, $content);
+
+
+            $data['comments'] = $this->Comment_m->getCommentByBlogId($blog_id);
+            if($data['comments'] != null) {
+                $data['comment_users'] = $this->User_m->getCommentWriterByComment($data['comments']);
+                $data['recomments'] = $this->Recomment_m->getRecommentByComment($data['comments']);
+                if ($data['recomments'] != null) {
+                    $data['recomment_users'] = $this->User_m->getRecommentWriterByRecomment($data['recomments']);
+                }
+                
+            }
+
+
+
+            $result = json_encode($data, JSON_UNESCAPED_UNICODE);
+            echo $result;
+        }
+
+
+        public function ajax_recomment() {
+            header("Content-Type: text/html; charset=KS_C_5601-1987");
+            header("Cache-Control:no-cache");
+            header("Pragma:no-cache");
+            header("Content-Type:application/json");
+
+            $this->load->model('User_m');
+            $this->load->model('Recomment_m');
+            $this->load->model('Comment_m');
+
+
+            $blog_id = $_POST['blog_id'];
+            $comment_id = $_POST['comment_id'];
+            $content = $_POST['content'];
+
+            
+            $this->Recomment_m->add($blog_id, $content, $comment_id);
+
+
+            
+            $data['comments'] = $this->Comment_m->getCommentByBlogId($blog_id);
+            if($data['comments'] != null) {
+                $data['comment_users'] = $this->User_m->getCommentWriterByComment($data['comments']);
+                $data['recomments'] = $this->Recomment_m->getRecommentByComment($data['comments']);
+                if ($data['recomments'] != null) {
+                    $data['recomment_users'] = $this->User_m->getRecommentWriterByRecomment($data['recomments']);
+                }
+            }
+            
+
+
+            
+            
+
+
+            $result = json_encode($data, JSON_UNESCAPED_UNICODE);
+            echo $result;
+        }
     }
 ?>

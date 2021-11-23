@@ -86,99 +86,128 @@
 
 
             <div class="pt-5">
-              <h3 class="mb-5">6 Comments</h3>
+              <h3 class="mb-5">
+                <?php
+                  if (isset($data['comments'])) {
+                    if(isset($data['recomments'])) {
+                      echo count($data['comments']) + count($data['recomments']);
+                    }
+                    else {
+                      echo count($data['comments']);
+                    }
+                  }
+                  else {
+                    echo 0;
+                  }
+                ?> Comments</h3>
               <ul class="comment-list">
-                <li class="comment">
-                  <div class="vcard">
-                    <img src="/~sale24/prj/my/lib/wordify-master/images/person_1.jpg" alt="Image placeholder">
-                  </div>
-                  <div class="comment-body">
-                    <h3>Jean Doe</h3>
-                    <div class="meta">January 9, 2018 at 2:21pm</div>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
-                    <p><a href="#" class="reply rounded">Reply</a></p>
-                  </div>
-                </li>
+                
+                <?php
+                  // 댓글 출력
+                  if (isset($data['comments'])) {
+                    foreach ($data['comments'] as $comment) {
+                      $arr = explode(" ", $comment->writeday);
+                      $writedate_arr = explode("-", $arr[0]);
+                      $year = $writeday_arr[0];
+                      $month = $writeday_arr[1];
+                      $date = $writeday_arr[2];
 
-                <li class="comment">
-                  <div class="vcard">
-                    <img src="/~sale24/prj/my/lib/wordify-master/images/person_1.jpg" alt="Image placeholder">
-                  </div>
-                  <div class="comment-body">
-                    <h3>Jean Doe</h3>
-                    <div class="meta">January 9, 2018 at 2:21pm</div>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
-                    <p><a href="#" class="reply rounded">Reply</a></p>
-                  </div>
-
-                  <ul class="children">
-                    <li class="comment">
-                      <div class="vcard">
-                        <img src="/~sale24/prj/my/lib/wordify-master/images/person_1.jpg" alt="Image placeholder">
-                      </div>
-                      <div class="comment-body">
-                        <h3>Jean Doe</h3>
-                        <div class="meta">January 9, 2018 at 2:21pm</div>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
-                        <p><a href="#" class="reply rounded">Reply</a></p>
-                      </div>
-
-
-                      <ul class="children">
-                        <li class="comment">
-                          <div class="vcard">
-                            <img src="/~sale24/prj/my/lib/wordify-master/images/person_1.jpg" alt="Image placeholder">
-                          </div>
-                          <div class="comment-body">
-                            <h3>Jean Doe</h3>
-                            <div class="meta">January 9, 2018 at 2:21pm</div>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
-                            <p><a href="#" class="reply rounded">Reply</a></p>
+                      $writetime_arr = explode(":", $arr[1]);
+                      $hour = $writetime_arr[0];
+                      $minite = $writetime_arr[1];
+                      $second = $writetime_arr[2];
+                ?>
+                      <li class="comment">
+                        <div class="vcard">
+                <?php
+                      foreach ($data['comment_users'] as $comment_user) {
+                        if($comment_user->id == $comment->user_id) {
+                ?>
+                          <img src="/~sale24/prj/my/img/user/<?=$comment_user->image?>" alt="Image placeholder">
+                        </div>
+                        <div class="comment-body">
+                          <h3><?=$comment_user->name?></h3>
+                <?php
+                        }
+                      }
+                ?>
+                          <div class="meta"><?=$year?>년 <?=$month?>월 <?=$date?>일 <?=$hour?>시 <?=$minite?>분 <?=$second?>초</div>
+                          <?=$comment->content?>
+                          <p><a onclick="clickCommentBtn('co<?=$comment->id?>')"  class="reply rounded" style="cursor:pointer;">Reply</a></p>
+                          <div id="co<?=$comment->id?>" class="comment-form-wrap pt-5" style="width : 650px; magin-top : -100px; display : none;">
+                            <form class="p-5 bg-light">
+                              <div class="form-group">
+                                <textarea name="review" cols="30" rows="10" class="form-control" id="recomment<?=$comment->id?>"></textarea>
+                              </div>
+                              <div class="form-group">
+                                <input type="button" onclick="createRecoment(<?=$comment->id?>, 'recomment<?=$comment->id?>', <?=$data['blog']->id?>);" value="저장" class="btn btn-primary">
+                              </div>
+                            </form>
                           </div>
 
-                            <ul class="children">
-                              <li class="comment">
-                                <div class="vcard">
-                                  <img src="/~sale24/prj/my/lib/wordify-master/images/person_1.jpg" alt="Image placeholder">
-                                </div>
-                                <div class="comment-body">
-                                  <h3>Jean Doe</h3>
-                                  <div class="meta">January 9, 2018 at 2:21pm</div>
-                                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
-                                  <p><a href="#" class="reply rounded">Reply</a></p>
-                                </div>
-                              </li>
-                            </ul>
-                        </li>
-                      </ul>
-                    </li>
-                  </ul>
-                </li>
+                        </div>
+                      </li>
+                <?php
+                      // 대댓글 출력
+                      if(isset($data['recomments'])) {
+                        foreach ($data['recomments'] as $recomment) {
+                          if($recomment->user_comment_id == $comment->id) {
+                            $arr = explode(" ", $recomment->writeday);
+                            $writedate_arr = explode("-", $arr[0]);
+                            $year = $writeday_arr[0];
+                            $month = $writeday_arr[1];
+                            $date = $writeday_arr[2];
 
-                <li class="comment">
-                  <div class="vcard">
-                    <img src="/~sale24/prj/my/lib/wordify-master/images/person_1.jpg" alt="Image placeholder">
-                  </div>
-                  <div class="comment-body">
-                    <h3>Jean Doe</h3>
-                    <div class="meta">January 9, 2018 at 2:21pm</div>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
-                    <p><a href="#" class="reply rounded">Reply</a></p>
-                  </div>
-                </li>
+                            $writetime_arr = explode(":", $arr[1]);
+                            $hour = $writetime_arr[0];
+                            $minite = $writetime_arr[1];
+                            $second = $writetime_arr[2];
+
+
+                  ?>
+                            <li class="comment" style="margin-left : 50px">
+                              <div class="vcard">
+                      <?php
+                            foreach ($data['recomment_users'] as $recomment_user) {
+                              if($recomment_user->id == $recomment->user_id) {
+                      ?>
+                                <img src="/~sale24/prj/my/img/user/<?=$recomment_user->image?>" alt="Image placeholder">
+                              </div>
+                              <div class="comment-body">
+                                <h3><?=$recomment_user->name?></h3>
+                      <?php
+                              }
+                            }
+                      ?>
+                                <div class="meta"><?=$year?>년 <?=$month?>월 <?=$date?>일 <?=$hour?>시 <?=$minite?>분 <?=$second?>초</div>
+                                <?=$recomment->content?>
+                              </div>
+                            </li>
+
+                          
+                <?php   
+                          }
+                        }     
+                      }
+                    }
+                  }
+                    
+                ?>
+                
+
+                
               </ul>
               <!-- END comment-list -->
               
               <div class="comment-form-wrap pt-5">
                 <h3 class="mb-5">댓글 작성</h3>
-                <form action="#" class="p-5 bg-light">
+                <form class="p-5 bg-light">
                   <div class="form-group">
-                    <textarea name="review" id="review" cols="30" rows="10" class="form-control"></textarea>
+                    <textarea name="review" id="comment_textarea" cols="30" rows="10" class="form-control"></textarea>
                   </div>
                   <div class="form-group">
-                    <input type="submit" value="저장" class="btn btn-primary">
+                    <input type="button" onclick="createComent(<?=$data['blog']->id?>, 'comment_textarea');" value="저장" class="btn btn-primary">
                   </div>
-
                 </form>
               </div>
             </div>
@@ -375,4 +404,308 @@
           window.location.href = "/~sale24/prj/blog/delete/<?=$data['blog']->id?>";
         }
       }
+
+
+
+      function clickCommentBtn(comment_box_id) {
+        //console.log();
+        if(document.getElementById(comment_box_id).style.display == "none") {
+          document.getElementById(comment_box_id).style.display = "block";
+          
+        }
+        else {
+          document.getElementById(comment_box_id).style.display = "none";
+        }
+        
+      }
+
+
+
+      function createComent(blog_id, review_id) {
+       
+        
+        var content = document.getElementById(review_id).value;
+
+        <?php
+          if(!$this->session->userdata('user_id')) {
+        ?>
+          alert('로그인이 필요합니다');
+          return;
+        <?php
+          }
+        ?>
+        
+
+
+        if (content == '') {
+          alert('내용을 입력해주세요');
+          return;
+        }
+
+        
+
+        $.ajax({
+              url: "/~sale24/prj/blog/ajax_comment",
+              type: "POST",
+              data: {
+                blog_id : blog_id, 
+                content : content
+              },
+              datatype: "json",
+              success : function(data) {
+                
+                var str = "";
+
+                  // 댓글 출력
+                  if (data.comments != null) {
+                    for (var i = 0; i < data.comments.length; i++) {
+
+                      var arr = data.comments[i].writeday.split(" ");
+                      var writedate_arr = arr[0].split("-");
+                      var year = writedate_arr[0];
+                      var month = writedate_arr[1];
+                      var date = writedate_arr[2];
+
+                      var writetime_arr = arr[1].split(":");
+                      var hour = writetime_arr[0];
+                      var minite = writetime_arr[1];
+                      var second = writetime_arr[2];
+
+                      str +='<li class="comment">\n' + 
+                              '<div class="vcard">\n'; 
+
+                      for (var j = 0; j < data.comment_users.length; j++) {
+                        if(data.comment_users[j].id == data.comments[i].user_id) {
+                
+                          str += '<img src="/~sale24/prj/my/img/user/' + data.comment_users[j].image + '" alt="Image placeholder">\n' + 
+                          '</div>\n' + 
+                          '<div class="comment-body">\n' + 
+                          '<h3>' + data.comment_users[j].name + '</h3>\n';
+                
+                        }
+                      }
+                
+                      str += '<div class="meta">' + year + '년' + month + '월' + date + '일' + hour + '시' + minite + '분' + second + '초</div>\n' + 
+                          data.comments[i].content + 
+                          '<p><a onclick="clickCommentBtn(\'co' + data.comments[i].id + '\')"  class="reply rounded" style="cursor:pointer;">Reply</a></p>\n' + 
+
+                          '<div id="co' + data.comments[i].id + '" class="comment-form-wrap pt-5" style="width : 650px; magin-top : -100px; display : none;">\n' + 
+                            '<form class="p-5 bg-light">\n' + 
+                              '<div class="form-group">\n' + 
+                                '<textarea name="review" cols="30" rows="10" class="form-control" id="recomment' + data.comments[i].id + '"></textarea>\n' + 
+                              '</div>\n' + 
+                              '<div class="form-group">\n' + 
+                                '<input type="button" onclick="createRecoment(' + data.comments[i].id + ', \'recomment' + data.comments[i].id + '\',' +  <?=$data['blog']->id?> + ');" value="저장" class="btn btn-primary">\n' + 
+                              '</div>\n' +
+                            '</form>\n' +
+                          '</div>\n' +
+                        '</div>\n' +
+                      '</li>\n';
+
+                
+                      // 대댓글 출력
+                      if(data.recomments != null) {
+                        for (var a = 0; a < data.recomments.length; a++) {
+                          if(data.recomments[a].user_comment_id == data.comments[i].id) {
+                            var arr = data.recomments[a].writeday.split(" ");
+                            var writedate_arr = arr[0].split("-");
+                            var year = writedate_arr[0];
+                            var month = writedate_arr[1];
+                            var date = writedate_arr[2];
+
+                            var writetime_arr = arr[1].split(":");
+                            var hour = writetime_arr[0];
+                            var minite = writetime_arr[1];
+                            var second = writetime_arr[2];
+
+
+                
+                            str += '<li class="comment" style="margin-left : 50px">\n' + 
+                              '<div class="vcard">\n';
+
+                            for(var z = 0; z < data.recomment_users.length; z++) 
+                            {
+                              if(data.recomment_users[z].id == data.recomments[a].user_id) 
+                              {
+                    
+                                str += '<img src="/~sale24/prj/my/img/user/' + data.recomment_users[z].image + '" alt="Image placeholder">\n' + 
+                                '</div>\n' + 
+                                '<div class="comment-body">\n' +
+                                '<h3>' + data.recomment_users[z].name + '</h3>\n';
+                      
+                              }
+                            }
+                      
+                            str += '<div class="meta">' + year + '년' + month + '월' + date + '일' + hour + '시' + minite + '분' + second + '초</div>\n' + 
+                                data.recomments[a].content + 
+                              '</div>\n' +
+                           '</li>\n';
+
+                          
+                 
+                          }
+                        }     
+                      }
+                    }
+                  }
+                    
+              
+
+
+
+
+
+
+                // 댓글 생성
+                $('.comment-list').empty();
+                $(".comment-list").append(str);
+                
+                // 댓글창 지우기
+                document.getElementById(review_id).value = '';
+
+                
+              },
+              error: function(request,status,error){ // 실패
+                alert("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
+                console.log("code = "+ request.status + " message = " + request.responseText + " error = " + error);
+              }
+            });
+
+      }
+
+
+
+
+      function createRecoment(comment_id, review_id, blog_id) {
+
+        var content = document.getElementById(review_id).value;
+        
+        $.ajax({
+            url: "/~sale24/prj/blog/ajax_recomment",
+            type: "POST",
+            data: {
+              comment_id : comment_id, 
+              blog_id :blog_id, 
+              content : content
+            },
+            datatype: "json",
+            success : function(data) {
+              
+              var str = ""; 
+
+
+
+              
+              // 댓글 출력
+              if (data.comments != null) {
+                    for (var i = 0; i < data.comments.length; i++) {
+
+                      var arr = data.comments[i].writeday.split(" ");
+                      var writedate_arr = arr[0].split("-");
+                      var year = writedate_arr[0];
+                      var month = writedate_arr[1];
+                      var date = writedate_arr[2];
+
+                      var writetime_arr = arr[1].split(":");
+                      var hour = writetime_arr[0];
+                      var minite = writetime_arr[1];
+                      var second = writetime_arr[2];
+
+                      str +='<li class="comment">\n' + 
+                              '<div class="vcard">\n'; 
+
+                      for (var j = 0; j < data.comment_users.length; j++) {
+                        if(data.comment_users[j].id == data.comments[i].user_id) {
+                
+                          str += '<img src="/~sale24/prj/my/img/user/' + data.comment_users[j].image + '" alt="Image placeholder">\n' + 
+                          '</div>\n' + 
+                          '<div class="comment-body">\n' + 
+                          '<h3>' + data.comment_users[j].name + '</h3>\n';
+                
+                        }
+                      }
+                
+                      str += '<div class="meta">' + year + '년' + month + '월' + date + '일' + hour + '시' + minite + '분' + second + '초</div>\n' + 
+                          data.comments[i].content + 
+                          '<p><a onclick="clickCommentBtn(\'co' + data.comments[i].id + '\')"  class="reply rounded" style="cursor:pointer;">Reply</a></p>\n' + 
+
+                          '<div id="co' + data.comments[i].id + '" class="comment-form-wrap pt-5" style="width : 650px; magin-top : -100px; display : none;">\n' + 
+                            '<form class="p-5 bg-light">\n' + 
+                              '<div class="form-group">\n' + 
+                                '<textarea name="review" cols="30" rows="10" class="form-control" id="recomment' + data.comments[i].id + '"></textarea>\n' + 
+                              '</div>\n' + 
+                              '<div class="form-group">\n' + 
+                                '<input type="button" onclick="createRecoment(' + data.comments[i].id + ', \'recomment' + data.comments[i].id + '\',' +  <?=$data['blog']->id?> + ');" value="저장" class="btn btn-primary">\n' + 
+                              '</div>\n' +
+                            '</form>\n' +
+                          '</div>\n' +
+                        '</div>\n' +
+                      '</li>\n';
+
+                
+                      // 대댓글 출력
+                      if(data.recomments != null) {
+                        for (var a = 0; a < data.recomments.length; a++) {
+                          if(data.recomments[a].user_comment_id == data.comments[i].id) {
+                            var arr = data.recomments[a].writeday.split(" ");
+                            var writedate_arr = arr[0].split("-");
+                            var year = writedate_arr[0];
+                            var month = writedate_arr[1];
+                            var date = writedate_arr[2];
+
+                            var writetime_arr = arr[1].split(":");
+                            var hour = writetime_arr[0];
+                            var minite = writetime_arr[1];
+                            var second = writetime_arr[2];
+
+
+                
+                            str += '<li class="comment" style="margin-left : 50px">\n' + 
+                              '<div class="vcard">\n';
+
+                            for(var z = 0; z < data.recomment_users.length; z++) 
+                            {
+                              if(data.recomment_users[z].id == data.recomments[a].user_id) 
+                              {
+                    
+                                str += '<img src="/~sale24/prj/my/img/user/' + data.recomment_users[z].image + '" alt="Image placeholder">\n' + 
+                                '</div>\n' + 
+                                '<div class="comment-body">\n' +
+                                '<h3>' + data.recomment_users[z].name + '</h3>\n';
+                      
+                              }
+                            }
+                      
+                            str += '<div class="meta">' + year + '년' + month + '월' + date + '일' + hour + '시' + minite + '분' + second + '초</div>\n' + 
+                                data.recomments[a].content + 
+                              '</div>\n' +
+                           '</li>\n';
+
+                          
+                 
+                          }
+                        }     
+                      }
+                    }
+                  }
+
+
+
+
+
+              // 댓글 생성
+              $('.comment-list').empty();
+              $(".comment-list").append(str);
+              
+
+              
+            },
+            error: function(request,status,error){ // 실패
+              alert("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
+              console.log("code = "+ request.status + " message = " + request.responseText + " error = " + error);
+            }
+          });
+
+      }
+      
     </script>
