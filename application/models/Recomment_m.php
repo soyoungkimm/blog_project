@@ -30,5 +30,41 @@
         );
         $this->db->insert('user_recomment', $arr);
       }
+
+
+      function edit($recomment_id, $content) {
+        $sql = "update user_recomment set content='".$content."'where id=".$recomment_id;
+        
+        $this->db->query($sql);
+      }
+
+
+      function getRecommentById($id) {
+        $sql = "select * from user_recomment where id=".$id;
+
+        return $this->db->query($sql)->row();
+      }
+
+
+      function getRecommentCount($comments) {
+        $sql = "select * from user_recomment where ";
+        $count = 0;
+        foreach ($comments as $comment) {
+          $sql .= " user_comment_id=".$comment->id;
+          if (count($comments) - 1 != $count) {
+            $sql .= " or ";
+          }
+          $count++;
+        }
+        
+        return $this->db->query($sql)->num_rows();
+      }
+
+
+      function deleteRecomment($id) {
+        $sql = "delete from user_recomment where id=".$id;
+        
+        $this->db->query($sql);
+      }
     }
 ?>

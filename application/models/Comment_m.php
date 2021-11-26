@@ -12,6 +12,15 @@
           return $this->db->query($sql)->result();
         }
 
+
+        function getCommentById($id) {
+            $sql = "select * from user_comment where id=".$id;
+			
+			return $this->db->query($sql)->row();
+        }
+
+
+
         function add($blog_id, $content) {
             $this->db->set('writeday', 'now()', false);
             $arr = array(
@@ -26,10 +35,25 @@
 
         }
 
-        function edit() {
+        function edit($comment_id, $content) {
+			$sql = "update user_comment set content='".$content."'where id=".$comment_id;
+			
+			$this->db->query($sql);
+			
+		}
 
-        }
 
+        function deleteComment($id) {
+			$sql = "delete from user_comment where id=".$id;
+			
+			return $this->db->query($sql);
+		}
+
+        function getCommentCount($id) {
+			$sql = "select * from user_comment where blog_id=".$id;
+			
+			return $this->db->query($sql)->num_rows();
+		}
         
     }
 ?>

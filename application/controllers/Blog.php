@@ -39,8 +39,11 @@
             $data['blogs'] = $this->Blog_m->getAjaxBlogList($recordNumPerPage, $sort, $search_title, $search_tag, $wish_page);
             $data['total_count'] = $this->Blog_m->getAjaxTotalBlogListCount($recordNumPerPage, $sort, $search_title, $search_tag, $wish_page);
             
-            $this->load->model('User_m');
-            $data['users'] = $this->User_m->getUserByBlogs($data['blogs']);
+            if ($data['blogs'] != null) {
+                $this->load->model('User_m');
+                $data['users'] = $this->User_m->getUserByBlogs($data['blogs']);
+            }
+            
 
             $result = json_encode($data, JSON_UNESCAPED_UNICODE);
             echo $result;
@@ -667,5 +670,117 @@
             $result = json_encode($data, JSON_UNESCAPED_UNICODE);
             echo $result;
         }
+
+
+        public function ajax_edit_comment() {
+			header("Content-Type: text/html; charset=KS_C_5601-1987");
+            header("Cache-Control:no-cache");
+            header("Pragma:no-cache");
+            header("Content-Type:application/json");
+
+            $this->load->model('Comment_m');
+            $this->load->model('User_m');
+            
+			
+
+            $comment_id = $_POST['comment_id'];
+            $content = $_POST['content'];
+
+            
+
+            $this->Comment_m->edit($comment_id, $content);
+			
+			
+			
+			$data['comment'] = $this->Comment_m->getCommentById($comment_id);
+			$data['comment_user'] = $this->User_m->getUserByUserId($data['comment']->user_id);
+			
+			
+            $result = json_encode($data, JSON_UNESCAPED_UNICODE);
+            echo $result;
+		}
+
+        public function ajax_edit_recomment() {
+            header("Content-Type: text/html; charset=KS_C_5601-1987");
+            header("Cache-Control:no-cache");
+            header("Pragma:no-cache");
+            header("Content-Type:application/json");
+
+            $this->load->model('Recomment_m');
+            $this->load->model('User_m');
+            
+
+            $recomment_id = $_POST['recomment_id'];
+            $content = $_POST['content'];
+
+            
+            $this->Recomment_m->edit($recomment_id, $content);
+			
+			
+			$data['recomment'] = $this->Recomment_m->getRecommentById($recomment_id);
+			$data['recomment_user'] = $this->User_m->getUserByUserId($data['recomment']->user_id);
+			
+			
+            $result = json_encode($data, JSON_UNESCAPED_UNICODE);
+            echo $result;
+        }
+
+
+        public function ajax_delete_comment() {
+			header("Content-Type: text/html; charset=KS_C_5601-1987");
+            header("Cache-Control:no-cache");
+            header("Pragma:no-cache");
+            header("Content-Type:application/json");
+
+            $this->load->model('Comment_m');
+			$this->load->model('Recomment_m');
+
+
+            $comment_id = $_POST['comment_id'];
+			$blog_id = $_POST['blog_id'];
+			
+			
+            $this->Comment_m->deleteComment($comment_id);
+			
+			
+			$data['comments_num'] = $this->Comment_m->getCommentCount($blog_id);
+            if($data['comments_num'] != 0) {
+				$comments = $this->Comment_m->getCommentByBlogId($blog_id);
+                $data['recomments_num'] = $this->Recomment_m->getRecommentCount($comments);
+            }
+			
+			
+			$result = json_encode($data, JSON_UNESCAPED_UNICODE);
+            echo $result;
+		}
+
+        public function ajax_delete_recomment() {
+			header("Content-Type: text/html; charset=KS_C_5601-1987");
+            header("Cache-Control:no-cache");
+            header("Pragma:no-cache");
+            header("Content-Type:application/json");
+
+            $this->load->model('Comment_m');
+			$this->load->model('Recomment_m');
+
+            $recomment_id = $_POST['recomment_id'];
+			$blog_id = $_POST['blog_id'];
+			
+			
+            $this->Recomment_m->deleteRecomment($recomment_id);
+			
+			
+			
+			$data['comments_num'] = $this->Comment_m->getCommentCount($blog_id);
+            if($data['comments_num'] != null) {
+				$comments = $this->Comment_m->getCommentByBlogId($blog_id);
+                $data['recomments_num'] = $this->Recomment_m->getRecommentCount($comments);
+            }
+			
+			
+			$result = json_encode($data, JSON_UNESCAPED_UNICODE);
+            echo $result;
+		}
+
     }
 ?>
