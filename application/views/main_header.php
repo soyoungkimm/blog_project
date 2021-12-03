@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>Blog</title>
+    <title>Belog</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -19,6 +19,8 @@
     <link rel="stylesheet" href="/~sale24/prj/my/lib/wordify-master/css/style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
+
+    
     <style>
         /*레이어 팝업창*/
         .layer{
@@ -34,7 +36,7 @@
             display:none;
 
             /* decoration */
-            background-color: #ededed;
+            background-color: #fff;
             padding: 1em;
             border-radius: 5px;
         }
@@ -56,6 +58,7 @@
           border : none; 
           outline : none;
           color : #6e6e6e;
+          border : 1px solid #ebebeb;
         }
 
         #mypage_input_text {
@@ -200,14 +203,14 @@
         }
 
         .filebox .upload-name {
-        display: inline-block;
-        height: 40px;
-        padding: 0 10px;
-        vertical-align: middle;
-        border: 1px solid #dddddd;
-        width: 30%;
-        color: #999999;
-      }
+          display: inline-block;
+          height: 40px;
+          padding: 0 10px;
+          vertical-align: middle;
+          border: 1px solid #dddddd;
+          width: 30%;
+          color: #999999;
+        }
 
       .filebox label {
         font-family : 'Nanum Gothic';
@@ -239,13 +242,57 @@
         border-radius: 5px;
         width : 80px;
       }
+
+
+      .btn-primary {
+        background-color: #b486ff;
+        border-color: #b486ff;
+      }
+
+      .page-item.active .page-link {
+        background-color: #b486ff;
+      }
+
+      .pagination li a:hover {
+        background-color: #b486ff;
+        
+      }
+
+      .category {
+        background-color: #b486ff;
+      }
+
+      .tags li a:hover {
+        background-color: #b486ff;
+      }
+
+      #tag:hover{
+        color : #fff;
+      }
+
+      #page_before:hover {
+        color : #fff;
+      }
+
+      #page_after:hover {
+        color : #fff;
+      }
+
+      #page_num:hover {
+        color : #fff;
+      }
+
+      p, .blog-entries .post-meta {
+        font-family : 'Nanum Gothic'; 
+      }
       </style>
   </head>
   <body>
     <div class="wrap">
       <header role="banner">
-        <div class="top-bar" style="background : #e1e1e1; padding : 5px;">
-          <div class="container" style="text-align : right;">  
+        <div class="top-bar" style="background : #fff; padding : 5px;">
+          <div class="container" style="text-align : right; padding-bottom : 20px; padding-top : 30px"> 
+          <a href="/~sale24/prj/blog"><img src="/~sale24/prj/my/img/blog/logo.png" style="width : 102px; height : 40px; float : left;" /> </a>
           <?php
             if(!$this->session->userdata('user_id')) {
               echo "<button type='button' id='login' class='btn btn-primary'>로그인</button>";
@@ -271,7 +318,7 @@
                 </div>
               </div>
               <div style='float : right;'>
-                <div class='user_image_box'><img src='/~sale24/prj/my/img/user/<?=$this->session->userdata('user_image')?>' alt='Colorlib' id='user_image'/></div>
+                <div class='user_image_box'><img src='/~sale24/prj/my/img/user/<?=$this->session->userdata('user_image')?>' alt='userImage' id='user_image'/></div>
               </div>
           <?php
             }
@@ -279,19 +326,18 @@
           </div>
         </div>
 
-        <div class="container logo-wrap">
+
+        <!--<div class="container logo-wrap">
           <div class="row pt-5">
             <div class="col-12 text-center">
               <a class="absolute-toggle d-block d-md-none" data-toggle="collapse" href="#navbarMenu" role="button" aria-expanded="false" aria-controls="navbarMenu"><span class="burger-lines"></span></a>
               <h1 class="site-logo"><a href="/~sale24/prj/blog">Belog</a></h1>
             </div>
           </div>
-        </div>
+        </div>-->
         
-        <nav class="navbar navbar-expand-md  navbar-light bg-light">
+        <!--<nav class="navbar navbar-expand-md  navbar-light bg-light">
           <div class="container">
-            
-           
             <div class="collapse navbar-collapse" id="navbarMenu">
               <ul class="navbar-nav mx-auto">
                 <li class="nav-item">
@@ -307,9 +353,10 @@
                   <a class="nav-link" href="/~sale24/prj/user/mypage/3">Notice</a>
                 </li>
               </ul>
+              
             </div>
           </div>
-        </nav>
+        </nav>-->
       </header>
       <!-- END header -->
 

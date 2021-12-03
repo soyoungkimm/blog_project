@@ -6,14 +6,14 @@
 
               <div class="owl-carousel owl-theme home-slider">
                 <div>
-                  <a href="blog-single.html" class="a-block d-flex align-items-center height-lg" style="background-image: url('/~sale24/prj/my/lib/wordify-master/images/img_1.jpg'); ">
+                  <a href="blog-single.html" class="a-block d-flex align-items-center height-lg" style="background-image: url('/~sale24/prj/my/img/blog/programming.png'); ">
                     <div class="text half-to-full">
                       <span class="category mb-5">Food</span>
                       <div class="post-meta">
                         
                         <span class="author mr-2"><img src="/~sale24/prj/my/lib/wordify-master/images/person_1.jpg" alt="Colorlib"> Colorlib</span>&bullet;
-                        <span class="mr-2">March 15, 2018 </span> &bullet;
-                        <span class="ml-2"><span class="fa fa-comments"></span> 3</span>
+                        <span class="mr-2">March 15, 2018 </span> 
+                        
                         
                       </div>
                       <h3>How to Find the Video Games of Your Youth</h3>
@@ -22,14 +22,14 @@
                   </a>
                 </div>
                 <div>
-                  <a href="blog-single.html" class="a-block d-flex align-items-center height-lg" style="background-image: url('/~sale24/prj/my/lib/wordify-master/images/img_2.jpg'); ">
+                  <a href="blog-single.html" class="a-block d-flex align-items-center height-lg" style="background-image: url('/~sale24/prj/my/img/blog/table.jpg'); ">
                     <div class="text half-to-full">
                       <span class="category mb-5">Travel</span>
                       <div class="post-meta">
                         
                         <span class="author mr-2"><img src="/~sale24/prj/my/lib/wordify-master/images/person_1.jpg" alt="Colorlib"> Colorlib</span>&bullet;
-                        <span class="mr-2">March 15, 2018 </span> &bullet;
-                        <span class="ml-2"><span class="fa fa-comments"></span> 3</span>
+                        <span class="mr-2">March 15, 2018 </span> 
+                        
                         
                       </div>
                       <h3>How to Find the Video Games of Your Youth</h3>
@@ -38,14 +38,14 @@
                   </a>
                 </div>
                 <div>
-                  <a href="blog-single.html" class="a-block d-flex align-items-center height-lg" style="background-image: url('/~sale24/prj/my/lib/wordify-master/images/img_3.jpg'); ">
+                  <a href="blog-single.html" class="a-block d-flex align-items-center height-lg" style="background-image: url('/~sale24/prj/my/img/blog/code.jpg'); ">
                     <div class="text half-to-full">
                       <span class="category mb-5">Sports</span>
                       <div class="post-meta">
                         
                         <span class="author mr-2"><img src="/~sale24/prj/my/lib/wordify-master/images/person_1.jpg" alt="Colorlib"> Colorlib</span>&bullet;
-                        <span class="mr-2">March 15, 2018 </span> &bullet;
-                        <span class="ml-2"><span class="fa fa-comments"></span> 3</span>
+                        <span class="mr-2">March 15, 2018 </span> 
+                       
                         
                       </div>
                       <h3>How to Find the Video Games of Your Youth</h3>
@@ -71,11 +71,23 @@
       <section class="site-section py-sm">
         <div class="container">
           <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-12">
               <a id="recent" style="color : #000000; font-weight : bold; font-size : 30px; font-family : 'Nanum Gothic'; 
               cursor:pointer;" onclick="changeListSortRecent(1);">최신</a>
               <a id="popular" style="color : #c7c7c7; font-weight : bold; font-size : 30px; font-family : 'Nanum Gothic'; 
               cursor:pointer;" onclick="changeListSortPopular(1);">인기</a>
+
+
+              <div style='float : right; margin-right : 10px; margin-top : -20px'>
+                <div class="dropdown">
+                  &nbsp;<a id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ><div style="width : 30px; cursor : pointer; text-align : center;"><i class="fa fa-ellipsis-v fa-lg"></div></i></a>
+                  <div class="dropdown-menu" aria-labelledby="dropdown04" style="margin-top : 1em; position: absolute;">
+                    <a class="dropdown-item" href="/~sale24/prj/blog/single/5">About</a>
+                    <a class="dropdown-item" href="/~sale24/prj/blog/contact">Contact</a>
+                    <a class="dropdown-item" href="/~sale24/prj/user/mypage/3">Notice</a>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
           <input type="hidden" id="isClickRecent" value="true"/>
@@ -126,11 +138,51 @@
                   <?php
                     foreach ($data['hashtags'] as $hashtag) {
                   ?>
-                    <li><a style="cursor:pointer;" onclick="document.getElementById('search_tag').value = '<?=$hashtag->name?>'; pressEnter();"><?=$hashtag->name?></a></li>
+                    <li><a id="tag" style="cursor:pointer;" onclick="document.getElementById('search_tag').value = '<?=$hashtag->name?>'; pressEnter();"><?=$hashtag->name?></a></li>
                   <?php
                     }
                   ?>
                 </ul>
+              </div>
+              <div class="sidebar-box">
+                <h3 class="heading">Recomment Posts</h3>
+                <div class="post-entry-sidebar">
+                  <ul>
+                    <li>
+                      <a href="">
+                        <img src="images/img_2.jpg" alt="Image placeholder" class="mr-4">
+                        <div class="text">
+                          <h4>How to Find the Video Games of Your Youth</h4>
+                          <div class="post-meta">
+                            <span class="mr-2">March 15, 2018 </span>
+                          </div>
+                        </div>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="">
+                        <img src="images/img_4.jpg" alt="Image placeholder" class="mr-4">
+                        <div class="text">
+                          <h4>How to Find the Video Games of Your Youth</h4>
+                          <div class="post-meta">
+                            <span class="mr-2">March 15, 2018 </span>
+                          </div>
+                        </div>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="">
+                        <img src="images/img_12.jpg" alt="Image placeholder" class="mr-4">
+                        <div class="text">
+                          <h4>How to Find the Video Games of Your Youth</h4>
+                          <div class="post-meta">
+                            <span class="mr-2">March 15, 2018 </span>
+                          </div>
+                        </div>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
             <!-- END sidebar -->
@@ -206,10 +258,10 @@
                   str +=  "<div class='col-md-6'>\n" +
                             "<a href='/~sale24/prj/blog/single/" + data.blogs[i].id + "' class='blog-entry'>\n";
                   if(data.blogs[i].image != null) {
-                      str += "<img src='/~sale24/prj/my/img/blog/" + data.blogs[i].image + "' alt='Image placeholder' width='100%' height='230px' />\n";
+                      str += "<img src='/~sale24/prj/my/img/blog/" + data.blogs[i].image + "' alt='Image placeholder' width='100%' height='230px' style='border : solid #efefef; border-width : 1px 1px 0px 1px'/>\n";
                   }
                   else {
-                      str += "<img src='/~sale24/prj/my/img/blog/default.JPG' alt='Image placeholder' width='100%' height='230px' />\n";
+                      str += "<img src='/~sale24/prj/my/img/blog/default.jpg' alt='Image placeholder' width='100%' height='230px' style='border : solid #efefef; border-width : 1px 1px 0px 1px'/>\n";
                   }
                       str += "<div class='blog-content-body'>\n" + 
                                 "<div class='post-meta'>\n" ;
@@ -218,8 +270,7 @@
                           str +=  "<span class='author mr-2'><img src='/~sale24/prj/my/img/user/" + data.users[j].image + "' alt='Colorlib' />" + data.users[j].name + "</span>&bullet;\n";
                         }
                       }
-                          str +=  "<span class='mr-2'>" + year + "년 " + month + "월 " + date + "일</span>&bullet;\n" + 
-                                  "<span class='ml-2'><span class='fa fa-comments'></span> " + data.blogs[i].count + "</span>\n" + 
+                          str +=  "<span class='mr-2'>" + year + "년 " + month + "월 " + date + "일</span></span>\n" + 
                                 "</div>\n" +
                                 "<h2>" + data.blogs[i].title + "</h2>\n" + 
                               "</div>\n" + 
@@ -269,11 +320,11 @@
                   if (1 + (PageNumToViewOneTime * j) <= wishPage && wishPage < 1 + (PageNumToViewOneTime * (j + 1))) {
                     for (var k = 1 + (PageNumToViewOneTime * j); k < 1 + (PageNumToViewOneTime * (j + 1)); k++) {
                       if(wishPage == k && k <= totalPageNum){
-                        page_str += "<li class='page-item active'><a class='page-link' style='cursor:pointer;'>" + k + "</a></li>\n";
+                        page_str += "<li id='page_num' class='page-item active'><a class='page-link' style='cursor:pointer;'>" + k + "</a></li>\n";
                       }
                       else if(wishPage != k && k <= totalPageNum){
 
-                        page_str += "<li class='page-item'><a class='page-link' style='cursor:pointer;' ";
+                        page_str += "<li id='page_num' class='page-item'><a class='page-link' style='cursor:pointer;' ";
 
                         if(isClickRecent.value == "true") {
                           page_str += 'onclick="changeListSortRecent(' + k + ');">';

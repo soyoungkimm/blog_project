@@ -8,7 +8,33 @@
         }
 
         
-        public function index() {           
+        public function index() {       
+            /*$config['protocol'] = 'smtp'; 
+            $config['smtp_host'] = 'smtp.googlemail.com'; 
+            $config['smtp_port'] = '465'; 
+            $config['smtp_timeout'] = '45'; 
+            $config['smtp_user'] = 'ksoyoung09.gmail.com'; 
+            $config['smtp_pass'] = 'crroba1122@';
+            $config['smtp_crypto'] = 'ssl';
+            $config['charset'] = 'utf-8'; 
+            $config['newline'] = "\r\n";
+
+            $this->load->library('email');
+
+
+            $this->email->initialize($config);
+
+            $this->email->from('ksoyoung09@gmail.com', '김소영');
+            $this->email->to('abc08170@gmail.com');
+            
+
+            $this->email->subject('email 제목!');
+            $this->email->message('테스트 입니다!');
+
+            $result = $this->email->send();
+
+            echo $result;*/
+
             $this->load->model('Blog_m');
             $publicBlogId = $this->Blog_m->getPublicBlogId();
 
@@ -23,6 +49,9 @@
             $about = $this->Blog_m->getRow(5);
             $blogs = $this->Blog_m->getListsOrderByRecent();
             $this->load->view("main_footer", array('about'=>$about, 'blogs'=>$blogs));
+
+
+            
         }
 
         public function ajax_createList() {
@@ -57,6 +86,7 @@
             $data['writerPopularBlogs'] = $this->Blog_m->getListsWriterPopularPost($user_id);
             $data['popularBlogs'] = $this->Blog_m->getPopularBlogThree();
             $data['blog_count'] = $this->Blog_m->getBlogCountByUserId($user_id);
+            $this->Blog_m->plusBlogCount($id);
 
 
             $this->load->model('Category_m');

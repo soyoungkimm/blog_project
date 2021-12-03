@@ -10,7 +10,10 @@
         }
 
         public function getCategoryByUserId($user_id) {
-            return $this->db->get_where('category', array('user_id' => $user_id))->result();
+
+            $sql = "select * from category where user_id=".$user_id." order by order_num asc";
+            
+            return $this->db->query($sql)->result();
         }
 
         public function getCategoryByBlogs($blogs) {
@@ -39,5 +42,28 @@
             $sql = "update category set article_num = article_num - 1 where id=".$category_id;
             return $this->db->query($sql);
         }
+
+        public function delete($id) {
+            $sql = "delete from category where id=".$id;
+            $this->db->query($sql);
+        }
+
+
+        public function add($name, $user_id) {
+            
+            $arr = array(
+                'user_id'=>$user_id,
+                'name'=>$name,
+                'article_num'=>0,
+                'order_num'=>10000000 // 최대한 뒤쪽에 놔줘야 하므로 이렇게 함
+            );
+            $this->db->insert('category', $arr);
+        }
+
+        public function edit($name, $category_id) {
+            $sql = "update category set name='".$name."' where id=".$category_id;
+            return $this->db->query($sql);
+        }
+        
     }
 ?>

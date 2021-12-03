@@ -26,7 +26,7 @@
       <div class="container">
         <div class="row mb-4">
           <div class="col" style="text-align: center;">
-            <div class="mypage_image_box" style="display: inline-block;">
+            <div class="mypage_image_box" style="display: inline-block;border : solid #efefef; border-width : 1px 1px 1px 1px" >
               <img src="/~sale24/prj/my/img/user/<?=$data['user']->image?>" alt="Image Placeholder" id="mypage_image" />
             </div>
             <div style="display : inline-block; text-align : left; position : relative; top : -50px; margin-left : 15px">
@@ -48,24 +48,24 @@
             <?php
               if ($this->session->userdata('user_id') == $data['user']->id) {
             ?>
-              <button type="button" id="reviseBtn" onclick="" class="btn btn-primary" style>수정</button>
+              <button type="button" id="reviseBtn" onclick="location.href='/~sale24/prj/category/editCategory'" class="btn btn-primary" style>수정</button>
             <?php
               }
             ?>
               <h3 class="heading" style="text-align : center;">Categories</h3>
               <ul class="categories" id="ca_ul">
-                <li class="lili" id="ca0"><a onclick="pressEnter();">전체 <span>(<?=$data['blog_count']?>)</span></a></li>
+                <li class="lili" id="ca0" style="cursor:pointer;"><a onclick="pressEnter();">전체 <span>(<?=$data['blog_count']?>)</span></a></li>
               <?php
                 if (isset($data['user_categorys'])) {
                   foreach ($data['user_categorys'] as $user_category) {
               ?>
-                    <li class="lili" id="ca<?=$user_category->id?>"><a onclick="pressCategory(1, <?=$user_category->id?>);"><?=$user_category->name?> <span>(<?=$user_category->article_num?>)</span></a></li>
+                    <li class="lili" id="ca<?=$user_category->id?>" style="cursor:pointer;"><a onclick="pressCategory(1, <?=$user_category->id?>);"><?=$user_category->name?> <span>(<?=$user_category->article_num?>)</span></a></li>
               <?php
                     if (isset($data['user_category_details'])) {
                       foreach($data['user_category_details'] as $user_category_detail) {
                         if ($user_category->id == $user_category_detail->category_id) {
               ?>
-                          <li class="lili" id="cade<?=$user_category_detail->id?>"><a onclick="pressCategoryDetail(1, <?=$user_category_detail->id?>);">&nbsp;&nbsp;&nbsp;<?=$user_category_detail->name?><span>(<?=$user_category_detail->article_num?>)</span></a></li>
+                          <li class="lili" id="cade<?=$user_category_detail->id?>" style="cursor:pointer;"><a onclick="pressCategoryDetail(1, <?=$user_category_detail->id?>);">&nbsp;&nbsp;&nbsp;<?=$user_category_detail->name?><span>(<?=$user_category_detail->article_num?>)</span></a></li>
               <?php
                         }
                       }
@@ -106,7 +106,7 @@
                   if (isset($data['user_hashtags'])) {
                     foreach($data['user_hashtags'] as $user_hashtag) {
                 ?>
-                      <li><a style="cursor:pointer;" onclick="document.getElementById('search_tag_mypage').value = '<?=$user_hashtag->name?>'; pressEnter();"><?=$user_hashtag->name?></a></li>
+                      <li><a id="tag" style="cursor:pointer;" onclick="document.getElementById('search_tag_mypage').value = '<?=$user_hashtag->name?>'; pressEnter();"><?=$user_hashtag->name?></a></li>
                 <?php
                     }
                   }
@@ -295,8 +295,8 @@
         var set_str = '<div class="row mb-5 mt-5">\n' +
                         '<div class="col-md-12">\n' + 
                           '<div style="text-align : center; font-size : 20px; font-family : \'Nanum Gothic\';">\n' + 
-                            '<div class="mypage_image_box" style="display: inline-block;">\n' + 
-                              '<img src="/~sale24/prj/my/img/user/<?=$data['user']->image?>" alt="user_image" id="mypage_image"/>\n' +   
+                            '<div class="mypage_image_box" style="display: inline-block; border : solid #efefef; border-width : 1px 1px 1px 1px">\n' + 
+                              '<img src="/~sale24/prj/my/img/user/<?=$data['user']->image?>" alt="user_image" id="mypage_image" />\n' +   
                             '</div>\n' +  
                             '<br><br>\n' +
                             '<div style="text-align : left; display: inline-block;">\n' + 
@@ -434,11 +434,11 @@
               if (1 + (PageNumToViewOneTime * j) <= wishPage && wishPage < 1 + (PageNumToViewOneTime * (j + 1))) {
                 for (var k = 1 + (PageNumToViewOneTime * j); k < 1 + (PageNumToViewOneTime * (j + 1)); k++) {
                   if(wishPage == k && k <= totalPageNum){
-                    page_str += "<li class='page-item active'><a class='page-link' style='cursor:pointer;'>" + k + "</a></li>\n";
+                    page_str += "<li id='page_num' class='page-item active'><a class='page-link' style='cursor:pointer;'>" + k + "</a></li>\n";
                   }
                   else if(wishPage != k && k <= totalPageNum){
 
-                    page_str += "<li class='page-item'><a class='page-link' style='cursor:pointer;' ";
+                    page_str += "<li id='page_num' class='page-item'><a class='page-link' style='cursor:pointer;' ";
 
                     if(isClickWrite.value == "true") {
                       page_str += 'onclick="changeListWrite(' + k + ');">';
@@ -523,16 +523,15 @@
                         '<div class="post-entry-horzontal">\n' + 
                           '<a href="/~sale24/prj/blog/single/' + result.blogs[i].id + '">\n';
                         if(result.blogs[i].image != null) {
-                          str += '<div class="image" style="background-image: url(/~sale24/prj/my/img/blog/' + result.blogs[i].image + ');"></div>\n';
+                          str += '<div class="image" style="background-image: url(/~sale24/prj/my/img/blog/' + result.blogs[i].image + '); border : solid #efefef; border-width : 1px 1px 1px 1px" ></div>\n';
                         }
                         else {
-                          str += '<div class="image" style="background-image: url(/~sale24/prj/my/img/blog/default.JPG);"></div>\n';
+                          str += '<div class="image" style="background-image: url(/~sale24/prj/my/img/blog/default.JPG); border : solid #efefef; border-width : 1px 1px 1px 1px" ></div>\n';
                         }
                         str += '<span class="text" style="width : 530px;">\n' + 
                               '<div class="post-meta">\n' + 
                                 '<span class="author mr-2"><img src="/~sale24/prj/my/img/user/<?=$data['user']->image?>" alt="Colorlib"><?=$data['user']->name?></span>&bullet;\n' + 
-                                '<span class="mr-2">' + year + "년 " + month + "월 " + date + '일</span> &bullet;\n' + 
-                                '<span class="ml-2"><span class="fa fa-comments"></span>' + result.blogs[i].count + '</span>\n' + 
+                                '<span class="mr-2">' + year + "년 " + month + "월 " + date + '일</span></span>\n' + 
                               '</div>\n' + 
                               '<h2>' + result.blogs[i].title + '</h2>\n' + 
                             '</span>\n' + 
@@ -591,11 +590,11 @@
                   if (1 + (PageNumToViewOneTime * j) <= wishPage && wishPage < 1 + (PageNumToViewOneTime * (j + 1))) {
                     for (var k = 1 + (PageNumToViewOneTime * j); k < 1 + (PageNumToViewOneTime * (j + 1)); k++) {
                       if(wishPage == k && k <= totalPageNum){
-                        page_str += "<li class='page-item active'><a class='page-link' style='cursor:pointer;'>" + k + "</a></li>\n";
+                        page_str += "<li id='page_num' class='page-item active'><a class='page-link' style='cursor:pointer;'>" + k + "</a></li>\n";
                       }
                       else if(wishPage != k && k <= totalPageNum){
 
-                        page_str += "<li class='page-item'><a class='page-link' style='cursor:pointer;' ";
+                        page_str += "<li id='page_num' class='page-item'><a class='page-link' style='cursor:pointer;' ";
 
                         if(isClickWrite.value == "true") {
                           page_str += 'onclick="changeListWrite(' + k + ');">';
@@ -745,11 +744,11 @@
               if (1 + (PageNumToViewOneTime * j) <= wishPage && wishPage < 1 + (PageNumToViewOneTime * (j + 1))) {
                 for (var k = 1 + (PageNumToViewOneTime * j); k < 1 + (PageNumToViewOneTime * (j + 1)); k++) {
                   if(wishPage == k && k <= totalPageNum){
-                    page_str += "<li class='page-item active'><a class='page-link' style='cursor:pointer;'>" + k + "</a></li>\n";
+                    page_str += "<li id='page_num' class='page-item active'><a class='page-link' style='cursor:pointer;'>" + k + "</a></li>\n";
                   }
                   else if(wishPage != k && k <= totalPageNum){
 
-                    page_str += "<li class='page-item'><a class='page-link' style='cursor:pointer;' ";
+                    page_str += "<li id='page_num' class='page-item'><a class='page-link' style='cursor:pointer;' ";
 
                     if(isClickWrite.value == "true") {
                       page_str += 'onclick="changeListWrite(' + k + ');">';

@@ -5,7 +5,7 @@
             <div class="col-md-4">
               <h3>About Us</h3>
               <p class="mb-4">
-                <img src="/~sale24/prj/my/img/blog/<?=$about->image?>" alt="Image placeholder" class="img-fluid" width="100%">
+                <img src="/~sale24/prj/my/img/blog/logo.png" alt="Image placeholder" class="img-fluid" width="60%">
               </p>
 
               <span id="about"><?=$about->content?></span> <a href="/~sale24/prj/blog/single/5">Read More</a>
@@ -35,15 +35,14 @@
                             }
                             else {
                           ?>
-                            <img src="/~sale24/prj/my/img/blog/default.JPG" alt="Image placeholder" class="mr-4">
+                            <img src="/~sale24/prj/my/img/blog/default.jpg" alt="Image placeholder" class="mr-4">
                           <?php
                             }
                           ?>
                           <div class="text">
                             <h4><?=$blog->title?></h4>
                             <div class="post-meta">
-                              <span class="mr-2"><?=$year?>년 <?=$month?>월 <?=$date?>일</span> &bullet;
-                              <span class="ml-2"><span class="fa fa-comments"></span> <?=$blog->count?></span>
+                              <span class="mr-2"><?=$year?>년 <?=$month?>월 <?=$date?>일</span>
                             </div>
                           </div>
                         </a>
@@ -66,24 +65,33 @@
                       <li><a href="/~sale24/prj/blog/contact">Contact</a></li>
                     </ul>
                   </div>
-                  
+
                   <div class="mb-5">
-                    <h3>Social</h3>
-                    <ul class="list-unstyled footer-social">
-                      <li><a href="#"><span class="fa fa-twitter"></span> Twitter</a></li>
-                      <li><a href="#"><span class="fa fa-facebook"></span> Facebook</a></li>
-                      <li><a href="#"><span class="fa fa-instagram"></span> Instagram</a></li>
-                      <li><a href="#"><span class="fa fa-vimeo"></span> Vimeo</a></li>
-                      <li><a href="#"><span class="fa fa-youtube-play"></span> Youtube</a></li>
-                      <li><a href="#"><span class="fa fa-snapchat"></span> Snapshot</a></li>
+                    <h3 style="color : #b486ff;">Developer</h3>
+                    <ul class="list-unstyled">
+                      
+                      <li style="font-family : 'Nanum Gothic'; color : #fff;">김소영</li>
+                      
                     </ul>
                   </div>
+                  
+                  <!--<div class="mb-5">
+                    <h3>Social</h3>
+                    <ul class="list-unstyled footer-social">
+                      <li><a href=""><span class="fa fa-twitter"></span> Twitter</a></li>
+                      <li><a href=""><span class="fa fa-facebook"></span> Facebook</a></li>
+                      <li><a href=""><span class="fa fa-instagram"></span> Instagram</a></li>
+                      <li><a href=""><span class="fa fa-vimeo"></span> Vimeo</a></li>
+                      <li><a href=""><span class="fa fa-youtube-play"></span> Youtube</a></li>
+                      <li><a href=""><span class="fa fa-snapchat"></span> Snapshot</a></li>
+                    </ul>
+                  </div>-->
                 </div>
               </div>
             </div>
           </div>
           <div class="row">
-            <div class="col-md-12 text-center">
+            <div class="col-md-12 text-center" style="margin-bottom : -100px">
               <p class="small">
             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
             Copyright &copy; <script>document.write(new Date().getFullYear());</script> All Rights Reserved | This template is made with <i class="fa fa-heart text-danger" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank" >Colorlib</a>
@@ -108,7 +116,7 @@
     <script src="/~sale24/prj/my/lib/wordify-master/js/jquery.waypoints.min.js"></script>
     <script src="/~sale24/prj/my/lib/wordify-master/js/jquery.stellar.min.js"></script>
     <script src="/~sale24/prj/my/lib/wordify-master/js/main.js"></script>
-
+          
     <script>
       // 레이어 팝업창 열기
       function layer_open(){
@@ -152,5 +160,8 @@
       });
 
     </script>
+
+
+    <!--<script type="text/javascript" src="/~sale24/prj/my/lib/TableDnD-master/js/jquery.tablednd.js"></script>-->
   </body>
 </html>

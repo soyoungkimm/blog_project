@@ -4,7 +4,7 @@
     font-family : 'Nanum Gothic';
   }
 </style>
-<section class="site-section pt-5">
+<section class="site-section pt-5"> 
       <div class="container">
         <form action="/~sale24/prj/user/edit" method="post" enctype="multipart/form-data" name="editForm">
           <div class="row mb-4">
@@ -14,7 +14,7 @@
                 <h4>개인정보 수정</h4>
                 <br><br><br><br>
 
-                <div class="mypage_image_box" style="display: inline-block;">
+                <div class="mypage_image_box" style="display: inline-block; border : solid #efefef; border-width : 1px 1px 1px 1px">
                   <img src="/~sale24/prj/my/img/user/<?=$data['user']->image?>" alt="Image Placeholder" id="mypage_image" />
                 </div>
                 <br><br>

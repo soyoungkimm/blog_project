@@ -24,6 +24,7 @@
                     } 
                 }
             }
+            $sql .= " order by order_num asc";
             return $this->db->query($sql)->result();
         }
 
@@ -35,6 +36,32 @@
 
         public function decreaseCount($category_detail_id) {
             $sql = "update category_detail set article_num = article_num - 1 where id=".$category_detail_id;
+            return $this->db->query($sql);
+        }
+
+        public function delete($id) {
+            $sql = "delete from category_detail where id=".$id;
+            $this->db->query($sql);
+        }
+
+        public function deleteByCategoryId($id) {
+            $sql = "delete from category_detail where category_id=".$id;
+            $this->db->query($sql);
+        }
+
+        public function add($name, $category_id) {
+            $arr = array(
+                'category_id'=>$category_id,
+                'name'=>$name,
+                'article_num'=>0,
+                'order_num'=>0 // 최대한 앞쪽에 놔줘야 하므로 이렇게 함
+            );
+            $this->db->insert('category_detail', $arr);
+        }
+
+
+        public function edit($name, $id) {
+            $sql = "update category_detail set name='".$name."' where id=".$id;
             return $this->db->query($sql);
         }
     }

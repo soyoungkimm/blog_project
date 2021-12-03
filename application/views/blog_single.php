@@ -1,4 +1,9 @@
 
+<style>
+  #plusColor {
+    color : #b486ff;
+  }
+</style>
     <section class="site-section py-lg">
       <div class="container">
         
@@ -22,8 +27,8 @@
             ?>
               <div style="float : right;">
                 <span>
-                  <a href="/~sale24/prj/blog/edit/<?=$data['blog']->id?>">수정</a>
-                  <a style="cursor:pointer;" onclick="pressDelete();">삭제</a>
+                  <a id="plusColor" href="/~sale24/prj/blog/edit/<?=$data['blog']->id?>">수정</a>
+                  <a id="plusColor" style="cursor:pointer;" onclick="pressDelete();">삭제</a>
                 </span>
               </div>
             <?php
@@ -31,8 +36,8 @@
             ?>
              <div class="post-meta">
                 <span class="author mr-2"><img src="/~sale24/prj/my/img/user/<?=$data['user']->image?>" alt="Colorlib" class="mr-2" > <?=$data['user']->name?></span>&bullet;
-                <span class="mr-2"><?=$year?>년 <?=$month?>월 <?=$date?>일 </span> &bullet;
-                <span class="ml-2"><span class="fa fa-comments"></span> <?=$data['blog']->count?></span>
+                <span class="mr-2"><?=$year?>년 <?=$month?>월 <?=$date?>일 </span>
+
               </div>
               
             <br>
@@ -61,13 +66,13 @@
                 <?php
                   if (isset($data['category'])) {
                 ?>
-                  <a><?=$data['category']->name?></a>
+                  <a id="plusColor"><?=$data['category']->name?></a>
                 <?php
                   }
 
                   if (isset($data['category_detail'])) {
                 ?>
-                / <a><?=$data['category_detail']->name?></a>  
+                / <a id="plusColor"><?=$data['category_detail']->name?></a>  
                 <?php
                   }
                 ?>
@@ -76,7 +81,7 @@
                   if (isset($data['hashtags'])) {
                     foreach ($data['hashtags'] as $hashtag) {
                 ?>
-                <a>#<?=$hashtag->name?></a>&nbsp;
+                <a id="plusColor">#<?=$hashtag->name?></a>&nbsp;
                 <?php
                     }
                   }
@@ -295,7 +300,7 @@
                   if (isset($data['user_hashtags'])) {
                     foreach($data['user_hashtags'] as $user_hashtag) {
                 ?>
-                      <li><a><?=$user_hashtag->name?></a></li>
+                      <li id="tag"  style="cursor : pointer;"><a><?=$user_hashtag->name?></a></li>
                 <?php
                     }
                   }

@@ -244,5 +244,11 @@
             $this->db->query($sql);
         }
 
+
+        public function plusBlogCount($id) {
+            $sql = "update blog set count = count + 1 where id=".$id;
+            return $this->db->query($sql);
+        }
+
     }
 ?>
