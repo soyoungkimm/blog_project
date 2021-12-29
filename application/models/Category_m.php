@@ -11,7 +11,7 @@
 
         public function getCategoryByUserId($user_id) {
 
-            $sql = "select * from category where user_id=".$user_id." order by order_num asc";
+            $sql = "select * from category where user_id=".$user_id;
             
             return $this->db->query($sql)->result();
         }
@@ -34,12 +34,12 @@
         }
 
         public function increaseCount($category_id) {
-            $sql = "update category set article_num = article_num + 1 where id=".$category_id;
+            $sql = "update category set article_num=article_num+1 where id=".$category_id;
             return $this->db->query($sql);
         }
 
         public function decreaseCount($category_id) {
-            $sql = "update category set article_num = article_num - 1 where id=".$category_id;
+            $sql = "update category set article_num=article_num-1 where id=".$category_id;
             return $this->db->query($sql);
         }
 
@@ -54,8 +54,7 @@
             $arr = array(
                 'user_id'=>$user_id,
                 'name'=>$name,
-                'article_num'=>0,
-                'order_num'=>10000000 // 최대한 뒤쪽에 놔줘야 하므로 이렇게 함
+                'article_num'=>0
             );
             $this->db->insert('category', $arr);
         }

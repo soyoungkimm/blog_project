@@ -24,18 +24,18 @@
                     } 
                 }
             }
-            $sql .= " order by order_num asc";
+            
             return $this->db->query($sql)->result();
         }
 
 
         public function increaseCount($category_detail_id) {
-            $sql = "update category_detail set article_num = article_num + 1 where id=".$category_detail_id;
+            $sql = "update category_detail set article_num=article_num+1 where id=".$category_detail_id;
             return $this->db->query($sql);
         }
 
         public function decreaseCount($category_detail_id) {
-            $sql = "update category_detail set article_num = article_num - 1 where id=".$category_detail_id;
+            $sql = "update category_detail set article_num=article_num-1 where id=".$category_detail_id;
             return $this->db->query($sql);
         }
 
@@ -53,8 +53,7 @@
             $arr = array(
                 'category_id'=>$category_id,
                 'name'=>$name,
-                'article_num'=>0,
-                'order_num'=>0 // 최대한 앞쪽에 놔줘야 하므로 이렇게 함
+                'article_num'=>0
             );
             $this->db->insert('category_detail', $arr);
         }

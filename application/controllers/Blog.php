@@ -9,34 +9,11 @@
 
         
         public function index() {       
-            /*$config['protocol'] = 'smtp'; 
-            $config['smtp_host'] = 'smtp.googlemail.com'; 
-            $config['smtp_port'] = '465'; 
-            $config['smtp_timeout'] = '45'; 
-            $config['smtp_user'] = 'ksoyoung09.gmail.com'; 
-            $config['smtp_pass'] = 'crroba1122@';
-            $config['smtp_crypto'] = 'ssl';
-            $config['charset'] = 'utf-8'; 
-            $config['newline'] = "\r\n";
-
-            $this->load->library('email');
-
-
-            $this->email->initialize($config);
-
-            $this->email->from('ksoyoung09@gmail.com', '김소영');
-            $this->email->to('abc08170@gmail.com');
-            
-
-            $this->email->subject('email 제목!');
-            $this->email->message('테스트 입니다!');
-
-            $result = $this->email->send();
-
-            echo $result;*/
 
             $this->load->model('Blog_m');
             $publicBlogId = $this->Blog_m->getPublicBlogId();
+            $data['recommend_blog'] = $this->Blog_m->getRecommendBlog();
+            $data['title_blog'] = $this->Blog_m->getTitleBlog();
 
             $this->load->model('Hashtag_m');
             $data['hashtags'] = $this->Hashtag_m->getHashtagListByBlogs($publicBlogId);
@@ -46,11 +23,9 @@
             $this->load->view("main", array('data'=>$data));
 
 
-            $about = $this->Blog_m->getRow(5);
+            $about = $this->Blog_m->getRow(54);
             $blogs = $this->Blog_m->getListsOrderByRecent();
             $this->load->view("main_footer", array('about'=>$about, 'blogs'=>$blogs));
-
-
             
         }
 
@@ -82,6 +57,7 @@
         public function single($id) {
             $this->load->model('Blog_m');
             $data['blog'] = $this->Blog_m->getRow($id);
+            
             $user_id = $data['blog']->user_id;
             $data['writerPopularBlogs'] = $this->Blog_m->getListsWriterPopularPost($user_id);
             $data['popularBlogs'] = $this->Blog_m->getPopularBlogThree();
@@ -134,7 +110,7 @@
             $this->load->view("blog_single", array('data'=>$data));
 
             
-            $about = $this->Blog_m->getRow(5);
+            $about = $this->Blog_m->getRow(54);
             $blogs = $this->Blog_m->getListsOrderByRecent();
             $this->load->view("main_footer", array('about'=>$about, 'blogs'=>$blogs));
         }
@@ -168,7 +144,7 @@
 
 
             $this->load->model('Blog_m');
-            $about = $this->Blog_m->getRow(5);
+            $about = $this->Blog_m->getRow(54);
             $blogs = $this->Blog_m->getListsOrderByRecent();
             $this->load->view("main_footer", array('about'=>$about, 'blogs'=>$blogs));
         }
@@ -250,13 +226,16 @@
 
                         
                         // 해쉬태그 테이블에 추가
-                        $hashtag = $this->input->post('hashtag');
-                        $hashtag_arr = explode('#', $hashtag);
-                        if (isset($hashtag_arr)) {
-                            foreach ($hashtag_arr as $tag_name) {
-                                $this->Hashtag_m->addHashtag($tag_name, $user_id, $blog_id);
+                        if($this->input->post('hashtag') != "undefined") {
+                            $hashtag = $this->input->post('hashtag');
+                            $hashtag_arr = explode('#', $hashtag);
+                            if (isset($hashtag_arr)) {
+                                foreach ($hashtag_arr as $tag_name) {
+                                    $this->Hashtag_m->addHashtag($tag_name, $user_id, $blog_id);
+                                }
                             }
                         }
+                       
                         
 
 
@@ -303,13 +282,16 @@
 
                     
                     // 해쉬태그 테이블에 추가
-                    $hashtag = $this->input->post('hashtag');
-                    $hashtag_arr = explode('#', $hashtag);
-                    if (isset($hashtag_arr)) {
-                        foreach ($hashtag_arr as $tag_name) {
-                            $this->Hashtag_m->addHashtag($tag_name, $user_id, $blog_id);
+                    if($this->input->post('hashtag') != "undefined") { 
+                        $hashtag = $this->input->post('hashtag');
+                        $hashtag_arr = explode('#', $hashtag);
+                        if (isset($hashtag_arr)) {
+                            foreach ($hashtag_arr as $tag_name) {
+                                $this->Hashtag_m->addHashtag($tag_name, $user_id, $blog_id);
+                            }
                         }
                     }
+                    
 
                     // 사용자가 작성한 블로그 페이지로 옮기기
                     redirect('/~sale24/prj/blog/single/'.$blog_id);
@@ -317,7 +299,7 @@
                 
             }
             
-            $about = $this->Blog_m->getRow(5);
+            $about = $this->Blog_m->getRow(54);
             $blogs = $this->Blog_m->getListsOrderByRecent();
             $this->load->view("main_footer", array('about'=>$about, 'blogs'=>$blogs));
         }
@@ -611,15 +593,33 @@
                 
             }
             
-            $about = $this->Blog_m->getRow(5);
+            $about = $this->Blog_m->getRow(54);
             $blogs = $this->Blog_m->getListsOrderByRecent();
             $this->load->view("main_footer", array('about'=>$about, 'blogs'=>$blogs));
         }
 
-        public function delete($id) {
+        public function delete($blog_id) {
 
             $this->load->model('Blog_m');
-            $this->Blog_m->deleteBlog($id);
+            $this->load->model('Category_m');
+            $this->load->model('Category_detail_m');
+
+            $blog = $this->Blog_m->getRow($blog_id);
+
+            echo $blog->category_id;
+            echo $blog->category_detail_id;
+
+            // 카테고리 게시물 개수 -1 해주기
+            if ($blog->category_id != null) {
+               $this->Category_m->decreaseCount($blog->category_id);
+            }
+            // 카테고리 디테일 게시물 개수 -1 해주기
+            if ($blog->category_detail_id != null) {
+                $this->Category_detail_m->decreaseCount($blog->category_detail_id);
+            }
+
+            // 블로그 삭제
+            $this->Blog_m->deleteBlog($blog_id);
 
             redirect('/~sale24/prj/blog');
         }
@@ -655,6 +655,12 @@
                 
             }
 
+
+            $data['comments_num'] = $this->Comment_m->getCommentCount($blog_id);
+            if($data['comments_num'] != 0) {
+				$comments = $this->Comment_m->getCommentByBlogId($blog_id);
+                $data['recomments_num'] = $this->Recomment_m->getRecommentCount($comments);
+            }
 
 
             $result = json_encode($data, JSON_UNESCAPED_UNICODE);
@@ -693,7 +699,11 @@
             
 
 
-            
+            $data['comments_num'] = $this->Comment_m->getCommentCount($blog_id);
+            if($data['comments_num'] != 0) {
+				$comments = $this->Comment_m->getCommentByBlogId($blog_id);
+                $data['recomments_num'] = $this->Recomment_m->getRecommentCount($comments);
+            }
             
 
 
@@ -771,6 +781,8 @@
 			
 			
             $this->Comment_m->deleteComment($comment_id);
+            // recomment도 삭제
+            $this->Recomment_m->deleteRecommentByCommentId($comment_id);
 			
 			
 			$data['comments_num'] = $this->Comment_m->getCommentCount($blog_id);
@@ -812,5 +824,29 @@
             echo $result;
 		}
 
+
+        public function check_recomment_exists() {
+            header("Content-Type: text/html; charset=KS_C_5601-1987");
+            header("Cache-Control:no-cache");
+            header("Pragma:no-cache");
+            header("Content-Type:application/json");
+
+            $this->load->model('Recomment_m');
+
+            $comment_id = $_POST['comment_id'];
+
+            $recomment_count = $this->Recomment_m->getRecommentByCommentId($comment_id);
+
+
+            if($recomment_count == 0) {
+                $isExistRecomment = false;
+            }
+            else {
+                $isExistRecomment = true;
+            }
+            
+            $result = json_encode($isExistRecomment, JSON_UNESCAPED_UNICODE);
+            echo $result;
+        }
     }
 ?>

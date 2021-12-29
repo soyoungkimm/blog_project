@@ -123,13 +123,6 @@
     
     <script>
       
-      $(document).ready(function() {
-
-       
-        //$("#tablednd").tableDnD();
-      });
-      
-
       function updateCategoryDetail(category_detail_id, text_name) {
         var name = $("input[name=" + text_name + "]").val();
         //console.log(text_name);
@@ -158,39 +151,8 @@
             datatype: "json",
             success : function(data) {
 
-              var str = '';
-              
-              if (data.categorys != null) {
-                for (var i = 0; i < data.categorys.length; i++) {
-            
-                    str += '<tr id="catr' + data.categorys[i].id + '">\n' + 
-                            '<td><input id="plus" type="button" onclick="addCategoryDetail(this)" value="추가"/></td>\n' + 
-                            '<td><input id="edit" type="button" onclick="updateCategory(' + data.categorys[i].id + ', \'ca' + data.categorys[i].id + '\')" value="수정"/></td>\n' + 
-                            '<td><input id="remove" type="button" onclick="deleteCategory(' + data.categorys[i].id + ')" value="삭제"/></td>\n' +
-                            '<td><input type="text" name="ca' + data.categorys[i].id + '" id="category_txt" value="' + data.categorys[i].name + '"></td>\n' +
-                          '</tr>\n';
-                  
-            
-                  if (data.category_details != null) {
-                    for (var j = 0; j < data.category_details.length; j++) {
-                      if (data.categorys[i].id == data.category_details[j].category_id) {
-            
-                    str += '<tr id="detr' + data.category_details[j].id + '">\n' + 
-                            '<td></td>\n' + 
-                            '<td><input id="edit" type="button" onclick="updateCategoryDetail(' + data.category_details[j].id + ', \'de' + data.category_details[j].id + '\')" value="수정"/></td>\n' + 
-                            '<td><input id="remove" type="button" onclick="deleteCategoryDetail(' +  data.category_details[j].id + ');" value="삭제"/></td>\n' + 
-                            '<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="de' +  data.category_details[j].id + '" id="category_txt_detail" value="' + data.category_details[j].name + '"></td>\n' + 
-                          '</tr>\n';
-            
-                      }
-                    }
-                  }
-                }
-              }  
-                
+              execute_ajax(data);
 
-              $("#tablednd").empty();
-              $("#tablednd").html(str);
             },
             error: function(request,status,error){ // 실패
               alert("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
@@ -227,39 +189,8 @@
             datatype: "json",
             success : function(data) {
 
-              var str = '';
+              execute_ajax(data);
               
-              if (data.categorys != null) {
-                for (var i = 0; i < data.categorys.length; i++) {
-            
-                    str += '<tr id="catr' + data.categorys[i].id + '">\n' + 
-                            '<td><input id="plus" type="button" onclick="addCategoryDetail(this)" value="추가"/></td>\n' + 
-                            '<td><input id="edit" type="button" onclick="updateCategory(' + data.categorys[i].id + ', \'ca' + data.categorys[i].id + '\')" value="수정"/></td>\n' + 
-                            '<td><input id="remove" type="button" onclick="deleteCategory(' + data.categorys[i].id + ')" value="삭제"/></td>\n' +
-                            '<td><input type="text" name="ca' + data.categorys[i].id + '" id="category_txt" value="' + data.categorys[i].name + '"></td>\n' +
-                          '</tr>\n';
-                  
-            
-                  if (data.category_details != null) {
-                    for (var j = 0; j < data.category_details.length; j++) {
-                      if (data.categorys[i].id == data.category_details[j].category_id) {
-            
-                    str += '<tr id="detr' + data.category_details[j].id + '">\n' + 
-                            '<td></td>\n' + 
-                            '<td><input id="edit" type="button" onclick="updateCategoryDetail(' + data.category_details[j].id + ', \'de' + data.category_details[j].id + '\')" value="수정"/></td>\n' + 
-                            '<td><input id="remove" type="button" onclick="deleteCategoryDetail(' +  data.category_details[j].id + ');" value="삭제"/></td>\n' + 
-                            '<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="de' +  data.category_details[j].id + '" id="category_txt_detail" value="' + data.category_details[j].name + '"></td>\n' + 
-                          '</tr>\n';
-            
-                      }
-                    }
-                  }
-                }
-              }  
-                
-
-              $("#tablednd").empty();
-              $("#tablednd").html(str);
             },
             error: function(request,status,error){ // 실패
               alert("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
@@ -283,6 +214,7 @@
       }
 
       function pressAddCategoryDetail(category_id) {
+        
         var category_name = $(".hhhh").val();
         
         $.ajax({
@@ -295,39 +227,8 @@
             datatype: "json",
             success : function(data) {
 
-              var str = '';
-              
-              if (data.categorys != null) {
-                for (var i = 0; i < data.categorys.length; i++) {
-            
-                    str += '<tr id="catr' + data.categorys[i].id + '">\n' +  
-                            '<td><input id="plus" type="button" onclick="addCategoryDetail(this)" value="추가"/></td>\n' + 
-                            '<td><input id="edit" type="button" onclick="updateCategory(' + data.categorys[i].id + ', \'ca' + data.categorys[i].id + '\')" value="수정"/></td>\n' + 
-                            '<td><input id="remove" type="button" onclick="deleteCategory(' + data.categorys[i].id + ')" value="삭제"/></td>\n' +
-                            '<td><input type="text" name="ca' + data.categorys[i].id + '" id="category_txt" value="' + data.categorys[i].name + '"></td>\n' +
-                          '</tr>\n';
-                  
-            
-                  if (data.category_details != null) {
-                    for (var j = 0; j < data.category_details.length; j++) {
-                      if (data.categorys[i].id == data.category_details[j].category_id) {
-            
-                    str += '<tr id="detr' + data.category_details[j].id + '">\n' + 
-                            '<td></td>\n' + 
-                            '<td><input id="edit" type="button" onclick="updateCategoryDetail(' + data.category_details[j].id + ', \'de' + data.category_details[j].id + '\')" value="수정"/></td>\n' + 
-                            '<td><input id="remove" type="button" onclick="deleteCategoryDetail(' +  data.category_details[j].id + ');" value="삭제"/></td>\n' + 
-                            '<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="de' +  data.category_details[j].id + '" id="category_txt_detail" value="' + data.category_details[j].name + '"></td>\n' + 
-                          '</tr>\n';
-            
-                      }
-                    }
-                  }
-                }
-              }  
-                
+              execute_ajax(data);
 
-              $("#tablednd").empty();
-              $("#tablednd").html(str);
             },
             error: function(request,status,error){ // 실패
               alert("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
@@ -363,39 +264,7 @@
             datatype: "json",
             success : function(data) {
 
-              var str = '';
-              
-              if (data.categorys != null) {
-                for (var i = 0; i < data.categorys.length; i++) {
-            
-                    str += '<tr id="catr' + data.categorys[i].id + '">\n' + 
-                            '<td><input id="plus" type="button" onclick="addCategoryDetail(this)" value="추가"/></td>\n' + 
-                            '<td><input id="edit" type="button" onclick="updateCategory(' + data.categorys[i].id + ', \'ca' + data.categorys[i].id + '\')" value="수정"/></td>\n' + 
-                            '<td><input id="remove" type="button" onclick="deleteCategory(' + data.categorys[i].id + ')" value="삭제"/></td>\n' +
-                            '<td><input type="text" name="ca' + data.categorys[i].id + '" id="category_txt" value="' + data.categorys[i].name + '"></td>\n' +
-                          '</tr>\n';
-                  
-            
-                  if (data.category_details != null) {
-                    for (var j = 0; j < data.category_details.length; j++) {
-                      if (data.categorys[i].id == data.category_details[j].category_id) {
-            
-                    str += '<tr id="detr' + data.category_details[j].id + '">\n' + 
-                            '<td></td>\n' +
-                            '<td><input id="edit" type="button" onclick="updateCategoryDetail(' + data.category_details[j].id + ', \'de' + data.category_details[j].id + '\')" value="수정"/></td>\n' + 
-                            '<td><input id="remove" type="button" onclick="deleteCategoryDetail(' +  data.category_details[j].id + ');" value="삭제"/></td>\n' + 
-                            '<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="de' +  data.category_details[j].id + '" id="category_txt_detail" value="' + data.category_details[j].name + '"></td>\n' + 
-                          '</tr>\n';
-            
-                      }
-                    }
-                  }
-                }
-              }  
-                
-
-              $("#tablednd").empty();
-              $("#tablednd").html(str);
+              execute_ajax(data);
             },
             error: function(request,status,error){ // 실패
               alert("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
@@ -421,39 +290,8 @@
             datatype: "json",
             success : function(data) {
 
-              var str = '';
-              
-              if (data.categorys != null) {
-                for (var i = 0; i < data.categorys.length; i++) {
-            
-                    str += '<tr id="catr' + data.categorys[i].id + '">\n' + 
-                            '<td><input id="plus" type="button" onclick="addCategoryDetail(this)" value="추가"/></td>\n' +
-                            '<td><input id="edit" type="button" onclick="updateCategory(' + data.categorys[i].id + ', \'ca' + data.categorys[i].id + '\')" value="수정"/></td>\n' + 
-                            '<td><input id="remove" type="button" onclick="deleteCategory(' + data.categorys[i].id + ')" value="삭제"/></td>\n' +
-                            '<td><input type="text" name="ca' + data.categorys[i].id + '" id="category_txt" value="' + data.categorys[i].name + '"></td>\n' +
-                          '</tr>\n';
-                  
-            
-                  if (data.category_details != null) {
-                    for (var j = 0; j < data.category_details.length; j++) {
-                      if (data.categorys[i].id == data.category_details[j].category_id) {
-            
-                    str += '<tr id="detr' + data.category_details[j].id + '">\n' + 
-                            '<td></td>\n' +
-                            '<td><input id="edit" type="button" onclick="updateCategoryDetail(' + data.category_details[j].id + ', \'de' + data.category_details[j].id + '\')" value="수정"/></td>\n' + 
-                            '<td><input id="remove" type="button" onclick="deleteCategoryDetail(' +  data.category_details[j].id + ');" value="삭제"/></td>\n' + 
-                            '<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="de' +  data.category_details[j].id + '" id="category_txt_detail" value="' + data.category_details[j].name + '"></td>\n' + 
-                          '</tr>\n';
-            
-                      }
-                    }
-                  }
-                }
-              }  
-                
+              execute_ajax(data);
 
-              $("#tablednd").empty();
-              $("#tablednd").html(str);
             },
             error: function(request,status,error){ // 실패
               alert("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
@@ -480,39 +318,8 @@
             datatype: "json",
             success : function(data) {
 
-              var str = '';
-              
-              if (data.categorys != null) {
-                for (var i = 0; i < data.categorys.length; i++) {
-            
-                    str += '<tr id="catr' + data.categorys[i].id + '">\n' + 
-                            '<td><input id="plus" type="button" onclick="addCategoryDetail(this)" value="추가"/></td>\n' +
-                            '<td><input id="edit" type="button" onclick="updateCategory(' + data.categorys[i].id + ', \'ca' + data.categorys[i].id + '\')" value="수정"/></td>\n' + 
-                            '<td><input id="remove" type="button" onclick="deleteCategory(' + data.categorys[i].id + ')" value="삭제"/></td>\n' +
-                            '<td><input type="text" name="ca' + data.categorys[i].id + '" id="category_txt" value="' + data.categorys[i].name + '"></td>\n' +
-                          '</tr>\n';
-                  
-            
-                  if (data.category_details != null) {
-                    for (var j = 0; j < data.category_details.length; j++) {
-                      if (data.categorys[i].id == data.category_details[j].category_id) {
-            
-                    str += '<tr id="detr' + data.category_details[j].id + '">\n' + 
-                            '<td></td>\n' +
-                            '<td><input id="edit" type="button" onclick="updateCategoryDetail(' + data.category_details[j].id + ', \'de' + data.category_details[j].id + '\')" value="수정"/></td>\n' + 
-                            '<td><input id="remove" type="button" onclick="deleteCategoryDetail(' +  data.category_details[j].id + ');" value="삭제"/></td>\n' + 
-                            '<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="de' +  data.category_details[j].id + '" id="category_txt_detail" value="' + data.category_details[j].name + '"></td>\n' + 
-                          '</tr>\n';
-            
-                      }
-                    }
-                  }
-                }
-              }  
-                
+              execute_ajax(data);
 
-              $("#tablednd").empty();
-              $("#tablednd").html(str);
             },
             error: function(request,status,error){ // 실패
               alert("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
@@ -520,6 +327,44 @@
             }
           });
         } 
+      }
+
+
+
+      function execute_ajax(data) {
+          var str = '';
+          
+          if (data.categorys != null) {
+            for (var i = 0; i < data.categorys.length; i++) {
+        
+                str += '<tr id="catr' + data.categorys[i].id + '">\n' + 
+                        '<td><input id="plus" type="button" onclick="addCategoryDetail(this)" value="추가"/></td>\n' + 
+                        '<td><input id="edit" type="button" onclick="updateCategory(' + data.categorys[i].id + ', \'ca' + data.categorys[i].id + '\')" value="수정"/></td>\n' + 
+                        '<td><input id="remove" type="button" onclick="deleteCategory(' + data.categorys[i].id + ')" value="삭제"/></td>\n' +
+                        '<td><input type="text" name="ca' + data.categorys[i].id + '" id="category_txt" value="' + data.categorys[i].name + '" readonly></td>\n' +
+                      '</tr>\n';
+              
+        
+              if (data.category_details != null) {
+                for (var j = 0; j < data.category_details.length; j++) {
+                  if (data.categorys[i].id == data.category_details[j].category_id) {
+        
+                str += '<tr id="detr' + data.category_details[j].id + '">\n' + 
+                        '<td></td>\n' + 
+                        '<td><input id="edit" type="button" onclick="updateCategoryDetail(' + data.category_details[j].id + ', \'de' + data.category_details[j].id + '\')" value="수정"/></td>\n' + 
+                        '<td><input id="remove" type="button" onclick="deleteCategoryDetail(' +  data.category_details[j].id + ');" value="삭제"/></td>\n' + 
+                        '<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="de' +  data.category_details[j].id + '" id="category_txt_detail" value="' + data.category_details[j].name + '" readonly></td>\n' + 
+                      '</tr>\n';
+        
+                  }
+                }
+              }
+            }
+          }  
+            
+
+          $("#tablednd").empty();
+          $("#tablednd").html(str);
       }
 
     </script>

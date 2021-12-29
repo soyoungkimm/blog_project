@@ -1,4 +1,18 @@
-
+<style>
+  #footer_latest_blog_title {
+    height: 46px; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    white-space: normal; 
+    text-align: left;
+    display: -webkit-box; 
+    -webkit-line-clamp: 2; 
+    -webkit-box-orient: vertical;
+    color : #fff;
+    padding-top : 3px;
+  }
+</style>
       <footer class="site-footer">
         <div class="container">
           <div class="row mb-5">
@@ -8,7 +22,7 @@
                 <img src="/~sale24/prj/my/img/blog/logo.png" alt="Image placeholder" class="img-fluid" width="60%">
               </p>
 
-              <span id="about"><?=$about->content?></span> <a href="/~sale24/prj/blog/single/5">Read More</a>
+              <span id="about"><?=strip_tags($about->content)?></span> <a href="/~sale24/prj/blog/single/54">Read More</a>
             </div>
 
             <div class="col-md-6 ml-auto">
@@ -40,7 +54,7 @@
                             }
                           ?>
                           <div class="text">
-                            <h4><?=$blog->title?></h4>
+                            <h4 style="word-break:break-all;" id="footer_latest_blog_title"><?=$blog->title?></h4>
                             <div class="post-meta">
                               <span class="mr-2"><?=$year?>년 <?=$month?>월 <?=$date?>일</span>
                             </div>
@@ -61,7 +75,7 @@
                     <h3>Quick Links</h3>
                     <ul class="list-unstyled">
                       <li><a href="/~sale24/prj/blog">Home</a></li>
-                      <li><a href="/~sale24/prj/blog/single/5">About Us</a></li>
+                      <li><a href="/~sale24/prj/blog/single/54">About Us</a></li>
                       <li><a href="/~sale24/prj/blog/contact">Contact</a></li>
                     </ul>
                   </div>

@@ -196,6 +196,11 @@
                 <input type="hidden" name="ispublic" value="0" />
                 
                 <br>
+                <?php
+                  if ($data['blog']->image != null) {
+                    echo "<img src='/~sale24/prj/my/img/blog/".$data['blog']->image."' width='500px'>";
+                  }
+                ?>
                 <div class="filebox" style="text-align : left;">
                   <input class="upload-name" name="upload-name" value="<?=$data['blog']->image?>" placeholder="첨부파일" readonly>
                   <label for="file">파일찾기</label> 
@@ -209,7 +214,7 @@
                 
                 <br><br>
 
-                <textarea name="content" placeholder="내용" rows="10" cols="50"><?php if(set_value('content') != '') {echo set_value('content');} else {echo $data['blog']->content;} ?></textarea>
+                <textarea name="content" placeholder="내용" rows="10" cols="50"><?php if(set_value('content') != '') {echo htmlspecialchars(set_value('content'));} else {echo htmlspecialchars($data['blog']->content);} ?></textarea>
 
                 <br>
                 <div style="text-align : left;">
@@ -246,11 +251,14 @@
     
 
 
-    <script src="/~sale24/prj/my/lib/ckeditor_full_pack/ckeditor.js"></script>
+    
     <script>
       CKEDITOR.replace('content', {
           filebrowserUploadUrl: "/~sale24/prj/blog/ck_upload_run",
-          height: '800'
+          extraPlugins: 'codesnippet',
+          codeSnippet_theme: 'monokai_sublime',
+          height: '800',
+          removeButtons: 'PasteFromWord'
       });         
     </script>
     <script>
@@ -301,6 +309,7 @@
           }
           // 처음 화면일 때
           else if ($data['hashtag'] != null){
+            
             $hstr = '';
             $count = 0;
             foreach ($data['hashtag'] as $hashtag) {

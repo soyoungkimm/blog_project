@@ -20,6 +20,24 @@
     background : #f7f7f7;
     border: none;          
   }
+
+  #blog_title {
+    height: 46px; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    white-space: normal; 
+    text-align: left;
+    display: -webkit-box; 
+    -webkit-line-clamp: 2; 
+    -webkit-box-orient: vertical;
+    color : #000;
+  }
+
+  #blog_thumbnail {
+    border : solid #efefef;
+    border-width : 1px 1px 1px 1px; 
+  }
 </style>
 
 <section class="site-section pt-5">
@@ -338,46 +356,38 @@
 
 
 
-
-
-
-      function execute_ajax_category(wishPage, category_id) {
-        $.ajax({
-          url: "/~sale24/prj/user/ajax_create_category_list",
-          type: "POST",
-          data: {
-            category_id: category_id,
-            wishPage: wishPage,
-            user_id: <?=$data['user']->id?>
-          },
-          datatype: "json",
-          success : function(result) {
-            
-            // --------  blog list 화면 변경 시작 --------
-            var str = ""; 
+      function make_blog_list(result, wishPage) {
+        // --------  blog list 화면 변경 시작 --------
+        var str = ""; 
             for (var i = 0; i < result.blogs.length; i++) {
               
               var writeday_arr = result.blogs[i].writeday.split("-");
               var year = writeday_arr[0];
               var month = writeday_arr[1];
               var date = writeday_arr[2];
-              
+              console.log(result);
               str +='<div class="col-md-12">\n' + 
                     '<div class="post-entry-horzontal">\n' + 
-                      '<a href="/~sale24/prj/blog/single/' + result.blogs[i].id + '">\n';
+                      '<a onclick="clickBlog(' + result.blogs[i].id + ', ' + result.blogs[i].ispublic + ');">\n';
                     if(result.blogs[i].image != null) {
                       str += '<div class="image" style="background-image: url(/~sale24/prj/my/img/blog/' + result.blogs[i].image + ');"></div>\n';
                     }
                     else {
-                      str += '<div class="image" style="background-image: url(/~sale24/prj/my/img/blog/default.JPG);"></div>\n';
+                      str += '<div id="blog_thumbnail" class="image" style="background-image: url(/~sale24/prj/my/img/blog/default.jpg);"></div>\n';
                     }
                     str += '<span class="text" style="width : 530px;">\n' + 
                           '<div class="post-meta">\n' + 
-                            '<span class="author mr-2"><img src="/~sale24/prj/my/img/user/<?=$data['user']->image?>" alt="Colorlib"><?=$data['user']->name?></span>&bullet;\n' + 
-                            '<span class="mr-2">' + year + "년 " + month + "월 " + date + '일</span> &bullet;\n' + 
-                            '<span class="ml-2"><span class="fa fa-comments"></span>' + result.blogs[i].count + '</span>\n' + 
-                          '</div>\n' + 
-                          '<h2>' + result.blogs[i].title + '</h2>\n' + 
+                            '<span class="author mr-2"><img src="/~sale24/prj/my/img/user/<?=$data['user']->image?>" alt="Colorlib">&nbsp;&nbsp;<?=$data['user']->name?></span>&bullet;\n' + 
+                            '<span class="mr-2">' + year + "년 " + month + "월 " + date + '일</span>\n';
+                    <?php
+                      if($this->session->userdata('user_id') == $data['user']->id) {
+                    ?>
+                    str +=  '&bullet;<span class="ml-2">조회수 ' + result.blogs[i].count + '</span>\n';
+                    <?php
+                      }
+                    ?>
+                    str +='</div>\n' + 
+                          '<h2 id="blog_title" style="word-break:break-all;">' + result.blogs[i].title + '</h2>\n' + 
                         '</span>\n' + 
                       '</a>\n' + 
                     '</div>\n' + 
@@ -398,7 +408,7 @@
 
             // --------  page 화면 변경 시작 --------
             var PageNumToViewOneTime = 5; // 웹페이지에 한 번에 보일 페이지 개수
-            var recordNumPerPage = 2.0; // 한 페이지에 보일 레코드 개수
+            var recordNumPerPage = 6.0; // 한 페이지에 보일 레코드 개수
             var totalRecordCount = result.total_count; // 검색된 총 레코드 개수
             var totalPageNum = Math.ceil(totalRecordCount / recordNumPerPage); // 총 페이지 개수, Math.ceil : 올림
             var totalBlockNum = Math.ceil(totalPageNum / PageNumToViewOneTime); // PageNumToViewOneTime 총 개수
@@ -485,8 +495,23 @@
             $('#page_area').empty();
             $("#page_area").append(page_str);
             // --------  page 화면 변경 끝  ---------
+      }
 
+
+      function execute_ajax_category(wishPage, category_id) {
+        $.ajax({
+          url: "/~sale24/prj/user/ajax_create_category_list",
+          type: "POST",
+          data: {
+            category_id: category_id,
+            wishPage: wishPage,
+            user_id: <?=$data['user']->id?>
+          },
+          datatype: "json",
+          success : function(result) {
             
+            make_blog_list(result, wishPage);
+
           },
           error: function(request,status,error){ // 실패
             alert("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
@@ -510,139 +535,8 @@
               datatype: "json",
               success : function(result) {
                 
-                // --------  blog list 화면 변경 시작 --------
-                var str = ""; 
-                for (var i = 0; i < result.blogs.length; i++) {
-                  
-                  var writeday_arr = result.blogs[i].writeday.split("-");
-                  var year = writeday_arr[0];
-                  var month = writeday_arr[1];
-                  var date = writeday_arr[2];
-                  
-                  str +='<div class="col-md-12">\n' + 
-                        '<div class="post-entry-horzontal">\n' + 
-                          '<a href="/~sale24/prj/blog/single/' + result.blogs[i].id + '">\n';
-                        if(result.blogs[i].image != null) {
-                          str += '<div class="image" style="background-image: url(/~sale24/prj/my/img/blog/' + result.blogs[i].image + '); border : solid #efefef; border-width : 1px 1px 1px 1px" ></div>\n';
-                        }
-                        else {
-                          str += '<div class="image" style="background-image: url(/~sale24/prj/my/img/blog/default.JPG); border : solid #efefef; border-width : 1px 1px 1px 1px" ></div>\n';
-                        }
-                        str += '<span class="text" style="width : 530px;">\n' + 
-                              '<div class="post-meta">\n' + 
-                                '<span class="author mr-2"><img src="/~sale24/prj/my/img/user/<?=$data['user']->image?>" alt="Colorlib"><?=$data['user']->name?></span>&bullet;\n' + 
-                                '<span class="mr-2">' + year + "년 " + month + "월 " + date + '일</span></span>\n' + 
-                              '</div>\n' + 
-                              '<h2>' + result.blogs[i].title + '</h2>\n' + 
-                            '</span>\n' + 
-                          '</a>\n' + 
-                        '</div>\n' + 
-                        '</div>\n';           
-                }       
+                make_blog_list(result, wishPage);
 
-
-
-                // list 생성
-                $("#blog_list").empty();
-                $('#intro_area').empty();
-                $('#setting_area').empty();
-                $("#blog_list").html(str);
-                // --------  blog list 화면 변경 끝  --------
-
-
-
-
-                // --------  page 화면 변경 시작 --------
-                var PageNumToViewOneTime = 5; // 웹페이지에 한 번에 보일 페이지 개수
-                var recordNumPerPage = 6.0; // 한 페이지에 보일 레코드 개수
-                var totalRecordCount = result.total_count; // 검색된 총 레코드 개수
-                var totalPageNum = Math.ceil(totalRecordCount / recordNumPerPage); // 총 페이지 개수, Math.ceil : 올림
-                var totalBlockNum = Math.ceil(totalPageNum / PageNumToViewOneTime); // PageNumToViewOneTime 총 개수
-                var page_str = '<div class="col-md-12 text-center">\n' + 
-                                '<nav aria-label="Page navigation" class="text-center">\n' + 
-                                  '<ul class="pagination">\n' +
-                                    '<div class="col-md-12 text-center">\n';
-
-
-
-                
-                // 이전 버튼
-                if (wishPage > 1){
-                  page_str += "<li class='page-item'><a class='page-link' style='cursor:pointer;' id='page_before' "; 
-                  if(isClickWrite.value == "true") {
-                    page_str += 'onclick="changeListWrite(' + (wishPage - 1) + ');">';
-                  }else if (isClickIntroduce.value == "true"){
-                    page_str += 'onclick="changeListIntroduce(' + (wishPage - 1) + ');">';
-                  }
-                  else if (isClickSetting.value == "true") {
-                    page_str += 'onclick="changeListSetting(' + (wishPage - 1) + ');">';
-                  }
-                  page_str += "&lt;</a></li>\n";
-                }
-                else{
-                    page_str += "<li class='page-item'><a class='page-link' id='page_before'>&lt;</a></li>\n"; // 버튼 비활성화
-                }
-
-
-
-                // 페이지 숫자 버튼
-                for(var j = 0; j < totalBlockNum; j++){
-                  if (1 + (PageNumToViewOneTime * j) <= wishPage && wishPage < 1 + (PageNumToViewOneTime * (j + 1))) {
-                    for (var k = 1 + (PageNumToViewOneTime * j); k < 1 + (PageNumToViewOneTime * (j + 1)); k++) {
-                      if(wishPage == k && k <= totalPageNum){
-                        page_str += "<li id='page_num' class='page-item active'><a class='page-link' style='cursor:pointer;'>" + k + "</a></li>\n";
-                      }
-                      else if(wishPage != k && k <= totalPageNum){
-
-                        page_str += "<li id='page_num' class='page-item'><a class='page-link' style='cursor:pointer;' ";
-
-                        if(isClickWrite.value == "true") {
-                          page_str += 'onclick="changeListWrite(' + k + ');">';
-                        }else if (isClickIntroduce.value == "true"){
-                          page_str += 'onclick="changeListIntroduce(' + k + ');">';
-                        }
-                        else if(isClickSetting.value == "true") {
-                          page_str += 'onclick="changeListSetting(' + k + ');">';
-                        }
-                        page_str += k + "</a></li>\n";
-                      }
-                      
-                    }
-                  }
-                  break;
-                }
-
-
-            
-                // 다음 버튼
-                if (wishPage < (totalPageNum)){
-
-                  page_str += "<li class='page-item'><a class='page-link' style='cursor:pointer;' id='page_after' ";
-
-                  if(isClickWrite.value == "true") {
-                    page_str += 'onclick="changeListWrite(' + (wishPage + 1) + ');">';
-                  }else if (isClickIntroduce.value == "true"){
-                    page_str += 'onclick="changeListIntroduce(' + (wishPage + 1) + ');">';
-                  }
-                  else if (isClickSetting.value == "true") {
-                    page_str += 'onclick="changeListSetting(' + (wishPage + 1) + ');">';
-                  }
-                  page_str += "&gt;</a></li>\n";
-                }
-                else{
-                  page_str += "<li class='page-item'><a class='page-link' style='cursor:pointer;' id='page_after'>&gt;</a></li>\n"; // 버튼 비활성화
-                }
-                page_str += '</ul>\n' +
-                          '</nav>\n' +
-                          '</div>\n';
-
-
-                // 페이지 생성
-                $('#page_area').empty();
-                $("#page_area").append(page_str);
-                // --------  page 화면 변경 끝  ---------
-
-                
               },
               error: function(request,status,error){ // 실패
                 alert("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
@@ -663,139 +557,7 @@
           datatype: "json",
           success : function(result) {
             
-            // --------  blog list 화면 변경 시작 --------
-            var str = ""; 
-            for (var i = 0; i < result.blogs.length; i++) {
-              
-              var writeday_arr = result.blogs[i].writeday.split("-");
-              var year = writeday_arr[0];
-              var month = writeday_arr[1];
-              var date = writeday_arr[2];
-              
-              str +='<div class="col-md-12">\n' + 
-                    '<div class="post-entry-horzontal">\n' + 
-                      '<a href="/~sale24/prj/blog/single/' + result.blogs[i].id + '">\n';
-                    if(result.blogs[i].image != null) {
-                      str += '<div class="image" style="background-image: url(/~sale24/prj/my/img/blog/' + result.blogs[i].image + ');"></div>\n';
-                    }
-                    else {
-                      str += '<div class="image" style="background-image: url(/~sale24/prj/my/img/blog/default.JPG);"></div>\n';
-                    }
-                    str += '<span class="text" style="width : 530px;">\n' + 
-                          '<div class="post-meta">\n' + 
-                            '<span class="author mr-2"><img src="/~sale24/prj/my/img/user/<?=$data['user']->image?>" alt="Colorlib"><?=$data['user']->name?></span>&bullet;\n' + 
-                            '<span class="mr-2">' + year + "년 " + month + "월 " + date + '일</span> &bullet;\n' + 
-                            '<span class="ml-2"><span class="fa fa-comments"></span>' + result.blogs[i].count + '</span>\n' + 
-                          '</div>\n' + 
-                          '<h2>' + result.blogs[i].title + '</h2>\n' + 
-                        '</span>\n' + 
-                      '</a>\n' + 
-                    '</div>\n' + 
-                    '</div>\n';           
-            }       
-
-
-
-            // list 생성
-            $("#blog_list").empty();
-            $('#intro_area').empty();
-            $('#setting_area').empty();
-            $("#blog_list").html(str);
-            // --------  blog list 화면 변경 끝  --------
-
-
-
-
-            // --------  page 화면 변경 시작 --------
-            var PageNumToViewOneTime = 5; // 웹페이지에 한 번에 보일 페이지 개수
-            var recordNumPerPage = 2.0; // 한 페이지에 보일 레코드 개수
-            var totalRecordCount = result.total_count; // 검색된 총 레코드 개수
-            var totalPageNum = Math.ceil(totalRecordCount / recordNumPerPage); // 총 페이지 개수, Math.ceil : 올림
-            var totalBlockNum = Math.ceil(totalPageNum / PageNumToViewOneTime); // PageNumToViewOneTime 총 개수
-            var page_str = '<div class="col-md-12 text-center">\n' + 
-                            '<nav aria-label="Page navigation" class="text-center">\n' + 
-                              '<ul class="pagination">\n' +
-                                '<div class="col-md-12 text-center">\n';
-
-
-
-            
-            // 이전 버튼
-            if (wishPage > 1){
-              page_str += "<li class='page-item'><a class='page-link' style='cursor:pointer;' id='page_before' "; 
-              if(isClickWrite.value == "true") {
-                page_str += 'onclick="changeListWrite(' + (wishPage - 1) + ');">';
-              }else if (isClickIntroduce.value == "true"){
-                page_str += 'onclick="changeListIntroduce(' + (wishPage - 1) + ');">';
-              }
-              else if (isClickSetting.value == "true") {
-                page_str += 'onclick="changeListSetting(' + (wishPage - 1) + ');">';
-              }
-              page_str += "&lt;</a></li>\n";
-            }
-            else{
-                page_str += "<li class='page-item'><a class='page-link' id='page_before'>&lt;</a></li>\n"; // 버튼 비활성화
-            }
-
-
-
-            // 페이지 숫자 버튼
-            for(var j = 0; j < totalBlockNum; j++){
-              if (1 + (PageNumToViewOneTime * j) <= wishPage && wishPage < 1 + (PageNumToViewOneTime * (j + 1))) {
-                for (var k = 1 + (PageNumToViewOneTime * j); k < 1 + (PageNumToViewOneTime * (j + 1)); k++) {
-                  if(wishPage == k && k <= totalPageNum){
-                    page_str += "<li id='page_num' class='page-item active'><a class='page-link' style='cursor:pointer;'>" + k + "</a></li>\n";
-                  }
-                  else if(wishPage != k && k <= totalPageNum){
-
-                    page_str += "<li id='page_num' class='page-item'><a class='page-link' style='cursor:pointer;' ";
-
-                    if(isClickWrite.value == "true") {
-                      page_str += 'onclick="changeListWrite(' + k + ');">';
-                    }else if (isClickIntroduce.value == "true"){
-                      page_str += 'onclick="changeListIntroduce(' + k + ');">';
-                    }
-                    else if(isClickSetting.value == "true") {
-                      page_str += 'onclick="changeListSetting(' + k + ');">';
-                    }
-                    page_str += k + "</a></li>\n";
-                  }
-                  
-                }
-              }
-              break;
-            }
-
-
-        
-            // 다음 버튼
-            if (wishPage < (totalPageNum)){
-
-              page_str += "<li class='page-item'><a class='page-link' style='cursor:pointer;' id='page_after' ";
-
-              if(isClickWrite.value == "true") {
-                page_str += 'onclick="changeListWrite(' + (wishPage + 1) + ');">';
-              }else if (isClickIntroduce.value == "true"){
-                page_str += 'onclick="changeListIntroduce(' + (wishPage + 1) + ');">';
-              }
-              else if (isClickSetting.value == "true") {
-                page_str += 'onclick="changeListSetting(' + (wishPage + 1) + ');">';
-              }
-              page_str += "&gt;</a></li>\n";
-            }
-            else{
-              page_str += "<li class='page-item'><a class='page-link' style='cursor:pointer;' id='page_after'>&gt;</a></li>\n"; // 버튼 비활성화
-            }
-            page_str += '</ul>\n' +
-                      '</nav>\n' +
-                      '</div>\n';
-
-
-            // 페이지 생성
-            $('#page_area').empty();
-            $("#page_area").append(page_str);
-            // --------  page 화면 변경 끝  ---------
-
+            make_blog_list(result, wishPage);
             
           },
           error: function(request,status,error){ // 실패
@@ -803,5 +565,21 @@
             console.log("code = "+ request.status + " message = " + request.responseText + " error = " + error);
           }
         });
+      }
+
+
+
+      function clickBlog(blog_id, ispublic) {
+        
+        var session_user_id = '<?=$this->session->userdata('user_id')?>';
+        var user_id = '<?=$data['user']->id?>';
+        console.log('aa' + ispublic);
+        if(ispublic == 1) {// 비공개 일 때 
+          if (session_user_id != user_id) {
+            alert('비공개 글입니다.');
+            return;
+          }
+        }
+        location.href = '/~sale24/prj/blog/single/' + blog_id;
       }
     </script>

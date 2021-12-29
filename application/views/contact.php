@@ -4,8 +4,8 @@
         <div class="row mb-4" >
           <div class="col" style="text-align:center;">
             <h1>Contact Us</h1>
-            <br>
-            <h6 style="font-family : 'Nanum Gothic';">문의 사항이나 하실 말씀이 있으시면 남겨주세요. 친절히 답변해드리겠습니다.</h6>
+
+            <h6 style="font-family : 'Nanum Gothic';">문의 사항</h6>
             <h6 style="font-family : 'Nanum Gothic';">(답변은 입력된 email로 보내집니다)</h6>
           </div>
         </div>

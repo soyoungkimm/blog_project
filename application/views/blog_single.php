@@ -3,6 +3,30 @@
   #plusColor {
     color : #b486ff;
   }
+
+  #WriterPopularPostsTitle {
+    height: 40px; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    white-space: normal; 
+    text-align: left;
+    display: -webkit-box; 
+    -webkit-line-clamp: 2; 
+    -webkit-box-orient: vertical;
+  }
+
+  #PopularPostsTitle {
+    height: 65px; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    white-space: normal; 
+    text-align: left;
+    display: -webkit-box; 
+    -webkit-line-clamp: 2; 
+    -webkit-box-orient: vertical;
+  }
 </style>
     <section class="site-section py-lg">
       <div class="container">
@@ -35,14 +59,32 @@
               }
             ?>
              <div class="post-meta">
-                <span class="author mr-2"><img src="/~sale24/prj/my/img/user/<?=$data['user']->image?>" alt="Colorlib" class="mr-2" > <?=$data['user']->name?></span>&bullet;
+                <span class="author mr-2"><img src="/~sale24/prj/my/img/user/<?=$data['user']->image?>" alt="Colorlib" class="mr-2" > <?=$data['user']->name?></span>&bullet;&nbsp;
                 <span class="mr-2"><?=$year?>년 <?=$month?>월 <?=$date?>일 </span>
+                <?php
+                if ($this->session->userdata('user_id') == $data['user']->id) {
+                ?> 
+                  &bullet;&nbsp;
+                  <span class="mr-2">
+                  <?php
+                  if($data['blog']->ispublic == 0) { // 공개
+                    echo "공개";
+                  } 
+                  else { // 비공개
+                    echo "비공개";
+                  }
+                  ?> 
+                  </span>
+                <?php
+                } 
+                ?>
 
               </div>
               
             <br>
-            <h1 class="mb-4"><?=$data['blog']->title?></h1>
-
+            
+            <h1 class="mb-4" style="word-break:break-all;"><?=$data['blog']->title?></h1>
+           
             <?php
               if(isset($data['category'])) {
             ?>
@@ -105,8 +147,9 @@
                     else {
                       echo 0;
                     }
-                  ?> Comments</h3>
-                </div>
+                  ?> Comments
+                </h3>
+              </div>
               <ul class="comment-list">
                 
                 <?php
@@ -329,13 +372,13 @@
                       }
                       else {
                     ?>
-                      <img src="/~sale24/prj/my/img/blog/default.JPG" alt="Image placeholder" class="mr-4">
+                      <img src="/~sale24/prj/my/img/blog/default.jpg" alt="Image placeholder" class="mr-4">
                     <?php
                       }
                     ?>
                       
                       <div class="text">
-                        <h4><?=$writerPopularBlog->title?></h4>
+                        <h4 id="WriterPopularPostsTitle" style="word-break:break-all;"><?=$writerPopularBlog->title?></h4>
                         <div class="post-meta">
                           <span class="mr-2"><?=$year?>년 <?=$month?>월 <?=$date?>일 </span>
                         </div>
@@ -374,7 +417,7 @@
                 $bgimage = $popularBlog->image;
               }
               else {
-                $bgimage = "default.JPG";
+                $bgimage = "default.jpg";
               }
           ?>
           <div class="col-md-6 col-lg-4">
@@ -399,12 +442,13 @@
                       } 
                     }
                   ?>
+                  <br> <br>
                   <p>
-                  <span class="mr-2"><?=$year?>년 <?=$month?>월 <?=$date?>일</span> &bullet;
-                  <span class="ml-2"><span class="fa fa-comments"></span> <?=$popularBlog->count?></span>
+                  <span class="author mr-2"><img src="/~sale24/prj/my/img/user/<?=$popularBlog->user_image?>" alt="Colorlib">&nbsp;&nbsp;<?=$popularBlog->user_name?></span>&bullet;
+                  <span class="mr-2"><?=$year?>년 <?=$month?>월 <?=$date?>일</span>
                   </p>
                 </div>
-                <h3><?=$popularBlog->title?></h3>
+                <h3 id="PopularPostsTitle" style="word-break:break-all;" ><?=$popularBlog->title?></h3>
               </div>
             </a>
           </div>
@@ -417,7 +461,13 @@
 
     </section>
     <!-- END section -->
-  
+
+    <!--코드 블럭 글자에 색 입히는 코드 시작-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/vs2015.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script> 
+    <script>hljs.initHighlightingOnLoad();</script>
+    <!--코드 블럭 글자에 색 입히는 코드 끝-->
+
     <script>
       function pressDelete() {
         var answer = confirm('정말로 삭제하시겠습니까?');
@@ -429,7 +479,7 @@
 
 
       function clickCommentBtn(comment_box_id) {
-        //console.log();
+        
         if(document.getElementById(comment_box_id).style.display == "none") {
           document.getElementById(comment_box_id).style.display = "block";
           
@@ -564,7 +614,26 @@
 
 
 
+      function check_func_recomment_exists(comment_id) {
 
+        return $.ajax({
+          url: "/~sale24/prj/blog/check_recomment_exists",
+          type: "POST",
+          data: {
+            comment_id : comment_id
+          },
+          traditional: true,
+          async: false, //동기
+          datatype: "json",
+          success : function(data) {
+          },
+          error: function(request,status,error){ // 실패
+            alert("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
+            console.log("code = "+ request.status + " message = " + request.responseText + " error = " + error);
+          }
+        });
+          
+      }
 
 
 
@@ -572,9 +641,18 @@
 
 
       function pressCommentDelete(type, comment_id ,comment) {
-			  
-        var answer = confirm('정말로 삭제하시겠습니까?');
+
+        // comment 삭제할 때 해당 comment에 recomment가 있는지 확인
+        // recomment가 있으면 comment 삭제 불가
+        if(type != "re") {
+          if("true" == check_func_recomment_exists(comment_id).responseText) {
+            alert('해당 댓글에 댓글이 달려있어 삭제가 불가능합니다.');
+            return;
+          }
+        }
         
+
+        var answer = confirm('정말로 삭제하시겠습니까?');
         if (answer) {
           
           if (type == "re") {
@@ -585,25 +663,14 @@
               type: "POST",
               datatype: "json",
               data: {
-              recomment_id : comment_id,
-              blog_id : <?=$data['blog']->id?>
+                recomment_id : comment_id,
+                blog_id : <?=$data['blog']->id?>
               },
               success : function(data) {
               
-              document.getElementById(comment).remove();
-              
-              if ((data.comments_num + data.recomments_num) != 0) {
-                var str = '<h3>' + 
-                  (data.comments_num + data.recomments_num) + 
-                  ' Comments</h3>';
-              }
-              else {
-                var str = '<h3>0 Comments</h3>';
-              }
-              
-              // comment 개수 바꾸기
-              $('#comment_num').empty();
-              $("#comment_num").append(str);
+                document.getElementById(comment).remove();
+                
+                fix_comment_count(data);
               
               },
               error: function(request,status,error){ // 실패
@@ -626,20 +693,9 @@
               },
               success : function(data) {
               
-              document.getElementById(comment).remove();
-              
-              if ((data.comments_num + data.recomments_num) != 0) {
-                var str = '<h3>' + 
-                  (data.comments_num + data.recomments_num) + 
-                  ' Comments</h3>';
-              }
-              else {
-                var str = '<h3>0 Comments</h3>';
-              }
-              
-              // comment 개수 바꾸기
-              $('#comment_num').empty();
-              $("#comment_num").append(str);
+                document.getElementById(comment).remove();
+                
+                fix_comment_count(data);
               
               },
               error: function(request,status,error){ // 실패
@@ -657,18 +713,16 @@
       function createComent(blog_id, review_id) {
        
         
-        var content = document.getElementById(review_id).value;
-
-        <?php
-          if(!$this->session->userdata('user_id')) {
-        ?>
+          var user_id = '<?=$this->session->userdata("user_id")?>';
+          if(user_id == '') {
+        
           alert('로그인이 필요합니다');
           return;
-        <?php
-          }
-        ?>
         
-
+          }
+        
+        
+        var content = document.getElementById(review_id).value;
 
         if (content == '') {
           alert('내용을 입력해주세요');
@@ -687,126 +741,7 @@
               datatype: "json",
               success : function(data) {
                 
-                var str = "";
-
-                  // 댓글 출력
-                  if (data.comments != null) {
-                    for (var i = 0; i < data.comments.length; i++) {
-
-                      var arr = data.comments[i].writeday.split(" ");
-                      var writedate_arr = arr[0].split("-");
-                      var year = writedate_arr[0];
-                      var month = writedate_arr[1];
-                      var date = writedate_arr[2];
-
-                      var writetime_arr = arr[1].split(":");
-                      var hour = writetime_arr[0];
-                      var minite = writetime_arr[1];
-                      var second = writetime_arr[2];
-
-                      str +='<li class="comment" id="coco' + data.comments[i].id + '">\n' + 
-                              '<div class="vcard">\n'; 
-
-                      for (var j = 0; j < data.comment_users.length; j++) {
-                        if(data.comment_users[j].id == data.comments[i].user_id) {
-                
-                          str += '<img src="/~sale24/prj/my/img/user/' + data.comment_users[j].image + '" alt="Image placeholder">\n' + 
-                          '</div>\n' + 
-                          '<div class="comment-body">\n' + 
-                          '<h3>' + data.comment_users[j].name + '</h3>\n';
-                
-                        }
-                      }
-                
-                      str += '<div class="meta">' + year + '년' + month + '월' + date + '일' + hour + '시' + minite + '분' + second + '초';
-                        if(data.comments[i].user_id == <?=$this->session->userdata('user_id')?>) {
-                          str += '&nbsp;&nbsp;&nbsp;<a style="cursor:pointer;" onclick="editComment(\'co_area' + data.comments[i].id + '\', ' + data.comments[i].id + ', \'' + data.comments[i].content + '\')">수정</a>\n' + 
-                          '<a style="cursor:pointer;" onclick="pressCommentDelete(\'co\', ' + data.comments[i].id + ',\'coco' + data.comments[i].id + '\');">삭제</a>\n';
-                        }
-                        str +='</div>\n' + 
-                          '<div id="co_area' + data.comments[i].id + '">\n' + 
-                          data.comments[i].content + 
-                          '<p><a onclick="clickCommentBtn(\'co' + data.comments[i].id + '\')"  class="reply rounded" style="cursor:pointer;">Reply</a></p>\n' + 
-                          '</div>\n' + 
-                          '<div id="co' + data.comments[i].id + '" class="comment-form-wrap pt-5" style="width : 650px; magin-top : -100px; display : none;">\n' + 
-                            '<form class="p-5 bg-light">\n' + 
-                              '<div class="form-group">\n' + 
-                                '<textarea name="review" cols="30" rows="10" class="form-control" id="recomment' + data.comments[i].id + '"></textarea>\n' + 
-                              '</div>\n' + 
-                              '<div class="form-group">\n' + 
-                                '<input type="button" onclick="createRecoment(' + data.comments[i].id + ', \'recomment' + data.comments[i].id + '\',' +  <?=$data['blog']->id?> + ');" value="저장" class="btn btn-primary">\n' + 
-                              '</div>\n' +
-                            '</form>\n' +
-                          '</div>\n' +
-                        '</div>\n' +
-                      '</li>\n';
-
-                
-                      // 대댓글 출력
-                      if(data.recomments != null) {
-                        for (var a = 0; a < data.recomments.length; a++) {
-                          if(data.recomments[a].user_comment_id == data.comments[i].id) {
-                            var arr = data.recomments[a].writeday.split(" ");
-                            var writedate_arr = arr[0].split("-");
-                            var year = writedate_arr[0];
-                            var month = writedate_arr[1];
-                            var date = writedate_arr[2];
-
-                            var writetime_arr = arr[1].split(":");
-                            var hour = writetime_arr[0];
-                            var minite = writetime_arr[1];
-                            var second = writetime_arr[2];
-
-
-                
-                            str += '<li class="comment" style="margin-left : 50px" id="rere' + data.recomments[a].id + '">\n' + 
-                              '<div class="vcard">\n';
-
-                            for(var z = 0; z < data.recomment_users.length; z++) 
-                            {
-                              if(data.recomment_users[z].id == data.recomments[a].user_id) 
-                              {
-                    
-                                str += '<img src="/~sale24/prj/my/img/user/' + data.recomment_users[z].image + '" alt="Image placeholder">\n' + 
-                                '</div>\n' + 
-                                '<div class="comment-body">\n' +
-                                '<h3>' + data.recomment_users[z].name + '</h3>\n';
-                      
-                              }
-                            }
-                      
-                            str += '<div class="meta">' + year + '년' + month + '월' + date + '일' + hour + '시' + minite + '분' + second + '초\n';
-                            
-                            if(data.recomments[a].user_id == <?=$this->session->userdata('user_id')?>) {
-                              str += '&nbsp;&nbsp;&nbsp;<a style="cursor:pointer;" onclick="editRecomment(\'reco_area' + data.recomments[a].id + '\', ' + data.recomments[a].id + ', \'' + data.recomments[a].content + '\')">수정</a>\n' + 
-                              '<a style="cursor:pointer;" onclick="pressCommentDelete(\'re\', ' + data.recomments[a].id + ',\'rere' + data.recomments[a].id + '\');">삭제</a>\n';
-                            }
-                            
-                            str += '</div>\n' + 
-                                '<div id="reco_area' + data.recomments[a].id + '">\n' + 
-                                data.recomments[a].content +
-                                '</div>\n' +  
-                              '</div>\n' +
-                           '</li>\n';
-
-                          
-                 
-                          }
-                        }     
-                      }
-                    }
-                  }
-                    
-              
-
-
-
-
-
-
-                // 댓글 생성
-                $('.comment-list').empty();
-                $(".comment-list").append(str);
+               execute_ajax(data);
                 
                 // 댓글창 지우기
                 document.getElementById(review_id).value = '';
@@ -826,7 +761,23 @@
 
       function createRecoment(comment_id, review_id, blog_id) {
 
+        var user_id = '<?=$this->session->userdata("user_id")?>';
+          if(user_id == '') {
+        
+          alert('로그인이 필요합니다');
+          return;
+        
+          }
+        
+        
         var content = document.getElementById(review_id).value;
+
+        if (content == '') {
+          alert('내용을 입력해주세요');
+          return;
+        }
+
+       
         
         $.ajax({
             url: "/~sale24/prj/blog/ajax_recomment",
@@ -839,126 +790,7 @@
             datatype: "json",
             success : function(data) {
               
-              var str = ""; 
-
-
-
-              
-              // 댓글 출력
-              if (data.comments != null) {
-                    for (var i = 0; i < data.comments.length; i++) {
-
-                      var arr = data.comments[i].writeday.split(" ");
-                      var writedate_arr = arr[0].split("-");
-                      var year = writedate_arr[0];
-                      var month = writedate_arr[1];
-                      var date = writedate_arr[2];
-
-                      var writetime_arr = arr[1].split(":");
-                      var hour = writetime_arr[0];
-                      var minite = writetime_arr[1];
-                      var second = writetime_arr[2];
-
-                      str +='<li class="comment" id="coco' + data.comments[i].id + '">\n' + 
-                              '<div class="vcard">\n'; 
-
-                      for (var j = 0; j < data.comment_users.length; j++) {
-                        if(data.comment_users[j].id == data.comments[i].user_id) {
-                
-                          str += '<img src="/~sale24/prj/my/img/user/' + data.comment_users[j].image + '" alt="Image placeholder">\n' + 
-                          '</div>\n' + 
-                          '<div class="comment-body">\n' + 
-                          '<h3>' + data.comment_users[j].name + '</h3>\n';
-                
-                        }
-                      }
-                
-                      str += '<div class="meta">' + year + '년' + month + '월' + date + '일' + hour + '시' + minite + '분' + second + '초';
-                          if(data.comments[i].user_id == <?=$this->session->userdata('user_id')?>) {
-                            str += '&nbsp;&nbsp;&nbsp;<a style="cursor:pointer;" onclick="editComment(\'co_area' + data.comments[i].id + '\', ' + data.comments[i].id + ', \'' + data.comments[i].content + '\')">수정</a>\n' + 
-                            '<a style="cursor:pointer;" onclick="pressCommentDelete(\'co\', ' + data.comments[i].id + ',\'coco' + data.comments[i].id + '\');">삭제</a>\n';
-                          }
-                          str +='</div>\n' + 
-                          '<div id="co_area' + data.comments[i].id + '">\n' + 
-                          data.comments[i].content + 
-                          '<p><a onclick="clickCommentBtn(\'co' + data.comments[i].id + '\')"  class="reply rounded" style="cursor:pointer;">Reply</a></p>\n' + 
-                          '</div>\n' + 
-                          '<div id="co' + data.comments[i].id + '" class="comment-form-wrap pt-5" style="width : 650px; magin-top : -100px; display : none;">\n' + 
-                            '<form class="p-5 bg-light">\n' + 
-                              '<div class="form-group">\n' + 
-                                '<textarea name="review" cols="30" rows="10" class="form-control" id="recomment' + data.comments[i].id + '"></textarea>\n' + 
-                              '</div>\n' + 
-                              '<div class="form-group">\n' + 
-                                '<input type="button" onclick="createRecoment(' + data.comments[i].id + ', \'recomment' + data.comments[i].id + '\',' +  <?=$data['blog']->id?> + ');" value="저장" class="btn btn-primary">\n' + 
-                              '</div>\n' +
-                            '</form>\n' +
-                          '</div>\n' +
-                        '</div>\n' +
-                      '</li>\n';
-
-                
-                      // 대댓글 출력
-                      if(data.recomments != null) {
-                        for (var a = 0; a < data.recomments.length; a++) {
-                          if(data.recomments[a].user_comment_id == data.comments[i].id) {
-                            var arr = data.recomments[a].writeday.split(" ");
-                            var writedate_arr = arr[0].split("-");
-                            var year = writedate_arr[0];
-                            var month = writedate_arr[1];
-                            var date = writedate_arr[2];
-
-                            var writetime_arr = arr[1].split(":");
-                            var hour = writetime_arr[0];
-                            var minite = writetime_arr[1];
-                            var second = writetime_arr[2];
-
-
-                
-                            str += '<li class="comment" style="margin-left : 50px"  id="rere' + data.recomments[a].id + '">\n' + 
-                              '<div class="vcard">\n';
-
-                            for(var z = 0; z < data.recomment_users.length; z++) 
-                            {
-                              if(data.recomment_users[z].id == data.recomments[a].user_id) 
-                              {
-                    
-                                str += '<img src="/~sale24/prj/my/img/user/' + data.recomment_users[z].image + '" alt="Image placeholder">\n' + 
-                                '</div>\n' + 
-                                '<div class="comment-body">\n' +
-                                '<h3>' + data.recomment_users[z].name + '</h3>\n';
-                      
-                              }
-                            }
-                      
-                            str += '<div class="meta">' + year + '년' + month + '월' + date + '일' + hour + '시' + minite + '분' + second + '초\n';
-                            if(data.recomments[a].user_id == <?=$this->session->userdata('user_id')?>) {
-                              str += '&nbsp;&nbsp;&nbsp;<a style="cursor:pointer;" onclick="editRecomment(\'reco_area' + data.recomments[a].id + '\', ' + data.recomments[a].id + ', \'' + data.recomments[a].content + '\')">수정</a>\n' + 
-                              '<a style="cursor:pointer;" onclick="pressCommentDelete(\'re\', ' + data.recomments[a].id + ',\'rere' + data.recomments[a].id + '\');">삭제</a>\n';
-                            }
-                            str += '</div>\n' + 
-                                '<div id="reco_area' + data.recomments[a].id + '">\n' + 
-                                   data.recomments[a].content +
-                                '</div>\n' +  
-                              '</div>\n' +
-                           '</li>\n';
-
-                          
-                 
-                          }
-                        }     
-                      }
-                    }
-                  }
-
-
-
-
-
-              // 댓글 생성
-              $('.comment-list').empty();
-              $(".comment-list").append(str);
-              
-
+              execute_ajax(data);
               
             },
             error: function(request,status,error){ // 실패
@@ -969,4 +801,144 @@
 
       }
       
+
+      function fix_comment_count(data) {
+        console.log('fix_comment_count(data)실행');
+        console.log(data.comments_num + data.recomments_num);
+        if ((data.comments_num + data.recomments_num) == 'NaN' || (data.comments_num + data.recomments_num) == 0){
+          var str_comment_num = '<h3 class="mb-5">0 Comments</h3>';
+        }
+        else if ((data.comments_num + data.recomments_num) != 0) {
+          var str_comment_num = '<h3 class="mb-5">' + 
+            (data.comments_num + data.recomments_num) + 
+            ' Comments</h3>';
+        }
+        
+        
+        // comment 개수 바꾸기
+        $('#comment_num').empty();
+        $("#comment_num").append(str_comment_num);
+      }
+
+
+      function execute_ajax(data) {
+        var str = "";
+
+        // 댓글 출력
+        if (data.comments != null) {
+          for (var i = 0; i < data.comments.length; i++) {
+
+            var arr = data.comments[i].writeday.split(" ");
+            var writedate_arr = arr[0].split("-");
+            var year = writedate_arr[0];
+            var month = writedate_arr[1];
+            var date = writedate_arr[2];
+
+            var writetime_arr = arr[1].split(":");
+            var hour = writetime_arr[0];
+            var minite = writetime_arr[1];
+            var second = writetime_arr[2];
+
+            str +='<li class="comment" id="coco' + data.comments[i].id + '">\n' + 
+                    '<div class="vcard">\n'; 
+
+            for (var j = 0; j < data.comment_users.length; j++) {
+              if(data.comment_users[j].id == data.comments[i].user_id) {
+
+                str += '<img src="/~sale24/prj/my/img/user/' + data.comment_users[j].image + '" alt="Image placeholder">\n' + 
+                '</div>\n' + 
+                '<div class="comment-body">\n' + 
+                '<h3>' + data.comment_users[j].name + '</h3>\n';
+
+              }
+            }
+
+            str += '<div class="meta">' + year + '년' + month + '월' + date + '일' + hour + '시' + minite + '분' + second + '초';
+              var user_id = '<?=$this->session->userdata('user_id')?>';
+              if(data.comments[i].user_id == user_id) {
+                str += '&nbsp;&nbsp;&nbsp;<a style="cursor:pointer;" onclick="editComment(\'co_area' + data.comments[i].id + '\', ' + data.comments[i].id + ', \'' + data.comments[i].content + '\')">수정</a>\n' + 
+                '<a style="cursor:pointer;" onclick="pressCommentDelete(\'co\', ' + data.comments[i].id + ',\'coco' + data.comments[i].id + '\');">삭제</a>\n';
+              }
+              str +='</div>\n' + 
+                '<div id="co_area' + data.comments[i].id + '">\n' + 
+                data.comments[i].content + 
+                '<p><a onclick="clickCommentBtn(\'co' + data.comments[i].id + '\')"  class="reply rounded" style="cursor:pointer;">Reply</a></p>\n' + 
+                '</div>\n' + 
+                '<div id="co' + data.comments[i].id + '" class="comment-form-wrap pt-5" style="width : 650px; magin-top : -100px; display : none;">\n' + 
+                  '<form class="p-5 bg-light">\n' + 
+                    '<div class="form-group">\n' + 
+                      '<textarea name="review" cols="30" rows="10" class="form-control" id="recomment' + data.comments[i].id + '"></textarea>\n' + 
+                    '</div>\n' + 
+                    '<div class="form-group">\n' + 
+                      '<input type="button" onclick="createRecoment(' + data.comments[i].id + ', \'recomment' + data.comments[i].id + '\',' +  <?=$data['blog']->id?> + ');" value="저장" class="btn btn-primary">\n' + 
+                    '</div>\n' +
+                  '</form>\n' +
+                '</div>\n' +
+              '</div>\n' +
+            '</li>\n';
+
+
+            // 대댓글 출력
+            if(data.recomments != null) {
+              for (var a = 0; a < data.recomments.length; a++) {
+                if(data.recomments[a].user_comment_id == data.comments[i].id) {
+                  var arr = data.recomments[a].writeday.split(" ");
+                  var writedate_arr = arr[0].split("-");
+                  var year = writedate_arr[0];
+                  var month = writedate_arr[1];
+                  var date = writedate_arr[2];
+
+                  var writetime_arr = arr[1].split(":");
+                  var hour = writetime_arr[0];
+                  var minite = writetime_arr[1];
+                  var second = writetime_arr[2];
+
+
+
+                  str += '<li class="comment" style="margin-left : 50px" id="rere' + data.recomments[a].id + '">\n' + 
+                    '<div class="vcard">\n';
+
+                  for(var z = 0; z < data.recomment_users.length; z++) 
+                  {
+                    if(data.recomment_users[z].id == data.recomments[a].user_id) 
+                    {
+          
+                      str += '<img src="/~sale24/prj/my/img/user/' + data.recomment_users[z].image + '" alt="Image placeholder">\n' + 
+                      '</div>\n' + 
+                      '<div class="comment-body">\n' +
+                      '<h3>' + data.recomment_users[z].name + '</h3>\n';
+            
+                    }
+                  }
+            
+                  str += '<div class="meta">' + year + '년' + month + '월' + date + '일' + hour + '시' + minite + '분' + second + '초\n';
+                  
+                  if(data.recomments[a].user_id == user_id) {
+                    str += '&nbsp;&nbsp;&nbsp;<a style="cursor:pointer;" onclick="editRecomment(\'reco_area' + data.recomments[a].id + '\', ' + data.recomments[a].id + ', \'' + data.recomments[a].content + '\')">수정</a>\n' + 
+                    '<a style="cursor:pointer;" onclick="pressCommentDelete(\'re\', ' + data.recomments[a].id + ',\'rere' + data.recomments[a].id + '\');">삭제</a>\n';
+                  }
+                  
+                  str += '</div>\n' + 
+                      '<div id="reco_area' + data.recomments[a].id + '">\n' + 
+                      data.recomments[a].content +
+                      '</div>\n' +  
+                    '</div>\n' +
+                '</li>\n';
+
+                
+
+                }
+              }     
+            }
+          }
+        }
+          
+        // 댓글 생성
+        $('.comment-list').empty();
+        $(".comment-list").append(str);
+
+
+        fix_comment_count(data);
+
+      }
     </script>

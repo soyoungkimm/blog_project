@@ -66,5 +66,18 @@
         
         $this->db->query($sql);
       }
+
+
+      function deleteRecommentByCommentId($id) {
+        $sql = "delete from user_recomment where user_comment_id=".$id;
+        
+        $this->db->query($sql);
+      }
+
+      function getRecommentByCommentId($comment_id) {
+        $sql = "select id from user_recomment where user_comment_id=".$comment_id;
+        
+        return $this->db->query($sql)->num_rows();
+      }
     }
 ?>

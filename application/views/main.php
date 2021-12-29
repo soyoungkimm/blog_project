@@ -1,58 +1,99 @@
-      <!-- 스크롤 이미지 시작 -->
+     <style>
+      #title_blog_content {
+        height: 30px; 
+        overflow: hidden;
+        text-overflow: ellipsis;
+        word-break: break-all;
+        white-space: normal; 
+        text-align: left;
+        display: -webkit-box; 
+        -webkit-line-clamp: 1; 
+        -webkit-box-orient: vertical;
+        color : #fff;
+      }
+
+
+      #blog_title {
+        height: 55px; 
+        overflow: hidden;
+        text-overflow: ellipsis;
+        word-break: break-all;
+        white-space: normal; 
+        text-align: left;
+        display: -webkit-box; 
+        -webkit-line-clamp: 2; 
+        -webkit-box-orient: vertical;
+      }
+
+      #blog_thumbnail {
+        width:100%;
+        height:100%;
+        object-fit: cover;
+      }
+
+      #blog_thumbnail_box {
+        border : solid #efefef;
+        border-width : 1px 1px 0px 1px; 
+        width : 100%; 
+        height:230px;
+        overflow:hidden;
+        margin:0 auto;
+      }
+       </style>
+     
+     <!-- 스크롤 이미지 시작 -->
       <section class="site-section pt-5 pb-5">
         <div class="container">
           <div class="row">
             <div class="col-md-12">
 
               <div class="owl-carousel owl-theme home-slider">
-                <div>
-                  <a href="blog-single.html" class="a-block d-flex align-items-center height-lg" style="background-image: url('/~sale24/prj/my/img/blog/programming.png'); ">
-                    <div class="text half-to-full">
-                      <span class="category mb-5">Food</span>
-                      <div class="post-meta">
+                <?php
+                  $count = 0;
+                  foreach($data['title_blog'] as $title_blog) {
+                      $writeday_arr = explode("-", $title_blog->writeday);
+                      $year = $writeday_arr[0];
+                      $month = $writeday_arr[1];
+                      $date = $writeday_arr[2];
+                      
+                      if ($count == "0") {
+                        $image_name = "code.jpg";
+                      }
+                      else if($count == "1") {
+                        $image_name = "table.jpg";
+                      }
+                      else if($count == "2") {
+                        $image_name = "programming.png";
+                      }
+                ?>
+                  <div>
+                    <a href="/~sale24/prj/blog/single/<?=$title_blog->id?>" class="a-block d-flex align-items-center height-lg" style="background-image: url('/~sale24/prj/my/img/blog/<?=$image_name?>'); ">
+                      <div class="text half-to-full">
+                        <?php
+                          if ($title_blog->category_name != null) {
+                            echo '<span class="category mb-5">'.$title_blog->category_name.'</span>';
+                          }
+                          if ($title_blog->category_detail_name != null){
+                            echo '<span class="category mb-5">'.$title_blog->category_detail_name.'</span>';
+                          }
+                        ?>
                         
-                        <span class="author mr-2"><img src="/~sale24/prj/my/lib/wordify-master/images/person_1.jpg" alt="Colorlib"> Colorlib</span>&bullet;
-                        <span class="mr-2">March 15, 2018 </span> 
-                        
-                        
+                        <div class="post-meta">
+                          
+                          <span class="author mr-2"><img src="/~sale24/prj/my/img/user/<?=$title_blog->user_image?>" alt="Colorlib">&nbsp;&nbsp;<?=$title_blog->user_name?></span>&bullet;
+                          <span class="mr-2"><?=$year?>년 <?=$month?>월 <?=$date?>일</span> 
+                          
+                        </div>
+                        <h3><?=$title_blog->title?></h3>
+                        <p id="title_blog_content"><?=strip_tags($title_blog->content)?></p>
                       </div>
-                      <h3>How to Find the Video Games of Your Youth</h3>
-                      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem nobis, ut dicta eaque ipsa laudantium!</p>
-                    </div>
-                  </a>
-                </div>
-                <div>
-                  <a href="blog-single.html" class="a-block d-flex align-items-center height-lg" style="background-image: url('/~sale24/prj/my/img/blog/table.jpg'); ">
-                    <div class="text half-to-full">
-                      <span class="category mb-5">Travel</span>
-                      <div class="post-meta">
-                        
-                        <span class="author mr-2"><img src="/~sale24/prj/my/lib/wordify-master/images/person_1.jpg" alt="Colorlib"> Colorlib</span>&bullet;
-                        <span class="mr-2">March 15, 2018 </span> 
-                        
-                        
-                      </div>
-                      <h3>How to Find the Video Games of Your Youth</h3>
-                      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem nobis, ut dicta eaque ipsa laudantium!</p>
-                    </div>
-                  </a>
-                </div>
-                <div>
-                  <a href="blog-single.html" class="a-block d-flex align-items-center height-lg" style="background-image: url('/~sale24/prj/my/img/blog/code.jpg'); ">
-                    <div class="text half-to-full">
-                      <span class="category mb-5">Sports</span>
-                      <div class="post-meta">
-                        
-                        <span class="author mr-2"><img src="/~sale24/prj/my/lib/wordify-master/images/person_1.jpg" alt="Colorlib"> Colorlib</span>&bullet;
-                        <span class="mr-2">March 15, 2018 </span> 
-                       
-                        
-                      </div>
-                      <h3>How to Find the Video Games of Your Youth</h3>
-                      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem nobis, ut dicta eaque ipsa laudantium!</p>
-                    </div>
-                  </a>
-                </div>
+                    </a>
+                  </div>
+                <?php
+                  $count++;
+                  }
+                ?>
+                
               </div>
             </div>
           </div>
@@ -82,7 +123,7 @@
                 <div class="dropdown">
                   &nbsp;<a id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ><div style="width : 30px; cursor : pointer; text-align : center;"><i class="fa fa-ellipsis-v fa-lg"></div></i></a>
                   <div class="dropdown-menu" aria-labelledby="dropdown04" style="margin-top : 1em; position: absolute;">
-                    <a class="dropdown-item" href="/~sale24/prj/blog/single/5">About</a>
+                    <a class="dropdown-item" href="/~sale24/prj/blog/single/54">About</a>
                     <a class="dropdown-item" href="/~sale24/prj/blog/contact">Contact</a>
                     <a class="dropdown-item" href="/~sale24/prj/user/mypage/3">Notice</a>
                   </div>
@@ -145,42 +186,32 @@
                 </ul>
               </div>
               <div class="sidebar-box">
-                <h3 class="heading">Recomment Posts</h3>
+                <h3 class="heading">Recommend Posts</h3>
                 <div class="post-entry-sidebar">
                   <ul>
+                    <?php
+                      foreach ($data['recommend_blog'] as $recommend_blog) {
+                        $writeday_arr = explode("-", $recommend_blog->writeday);
+                        $year = $writeday_arr[0];
+                        $month = $writeday_arr[1];
+                        $date = $writeday_arr[2];
+                      
+                    ?>
                     <li>
-                      <a href="">
-                        <img src="images/img_2.jpg" alt="Image placeholder" class="mr-4">
+                      <a href="/~sale24/prj/blog/single/<?=$recommend_blog->id?>">
+                        <img src="/~sale24/prj/my/img/blog/<?=$recommend_blog->image?>" alt="Image placeholder" class="mr-4">
                         <div class="text">
-                          <h4>How to Find the Video Games of Your Youth</h4>
+                          <h4><?=$recommend_blog->title?></h4>
                           <div class="post-meta">
-                            <span class="mr-2">March 15, 2018 </span>
+                            <span class="mr-2"><?=$year?>년 <?=$month?>월 <?=$date?>일</span>
                           </div>
                         </div>
                       </a>
                     </li>
-                    <li>
-                      <a href="">
-                        <img src="images/img_4.jpg" alt="Image placeholder" class="mr-4">
-                        <div class="text">
-                          <h4>How to Find the Video Games of Your Youth</h4>
-                          <div class="post-meta">
-                            <span class="mr-2">March 15, 2018 </span>
-                          </div>
-                        </div>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="">
-                        <img src="images/img_12.jpg" alt="Image placeholder" class="mr-4">
-                        <div class="text">
-                          <h4>How to Find the Video Games of Your Youth</h4>
-                          <div class="post-meta">
-                            <span class="mr-2">March 15, 2018 </span>
-                          </div>
-                        </div>
-                      </a>
-                    </li>
+                    <?php
+                      }
+                    ?>
+                    
                   </ul>
                 </div>
               </div>
@@ -256,25 +287,33 @@
                   var date = writeday_arr[2];
 
                   str +=  "<div class='col-md-6'>\n" +
-                            "<a href='/~sale24/prj/blog/single/" + data.blogs[i].id + "' class='blog-entry'>\n";
+                            "<div class='blog-entry'>\n" +
+                            "<a href='/~sale24/prj/blog/single/" + data.blogs[i].id + "'>\n";
                   if(data.blogs[i].image != null) {
-                      str += "<img src='/~sale24/prj/my/img/blog/" + data.blogs[i].image + "' alt='Image placeholder' width='100%' height='230px' style='border : solid #efefef; border-width : 1px 1px 0px 1px'/>\n";
+                      str += "<div id='blog_thumbnail_box'><img id='blog_thumbnail' src='/~sale24/prj/my/img/blog/" + data.blogs[i].image + "' alt='Image placeholder'/></div>\n";
                   }
                   else {
-                      str += "<img src='/~sale24/prj/my/img/blog/default.jpg' alt='Image placeholder' width='100%' height='230px' style='border : solid #efefef; border-width : 1px 1px 0px 1px'/>\n";
+                      str += "<div id='blog_thumbnail_box'><img id='blog_thumbnail' src='/~sale24/prj/my/img/blog/default.jpg' alt='Image placeholder'/></div>\n";
                   }
-                      str += "<div class='blog-content-body'>\n" + 
+                      str +="</a>\n" +  
+                      "<div class='blog-content-body'>\n" + 
                                 "<div class='post-meta'>\n" ;
                       for (var j = 0; j < data.users.length; j++) {
                         if(data.blogs[i].user_id == data.users[j].id) {
-                          str +=  "<span class='author mr-2'><img src='/~sale24/prj/my/img/user/" + data.users[j].image + "' alt='Colorlib' />" + data.users[j].name + "</span>&bullet;\n";
+                          str +=  "<span class='author mr-2'>" + 
+                                    "<a style='color : #B3B3B3;' href='/~sale24/prj/user/mypage/" + data.users[j].id + "'>" + 
+                                      "<img src='/~sale24/prj/my/img/user/" + data.users[j].image + "' alt='Colorlib' />&nbsp;&nbsp;" + data.users[j].name + 
+                                    "</a>" + 
+                                  "</span>&bullet;\n";
                         }
                       }
                           str +=  "<span class='mr-2'>" + year + "년 " + month + "월 " + date + "일</span></span>\n" + 
                                 "</div>\n" +
-                                "<h2>" + data.blogs[i].title + "</h2>\n" + 
+                                "<a href='/~sale24/prj/blog/single/" + data.blogs[i].id + "'>\n" + 
+                                  "<h2 id='blog_title'>" + data.blogs[i].title + "</h2>\n" + 
+                                "</a>\n" + 
                               "</div>\n" + 
-                            "</a>\n" + 
+                            "</div>\n" + 
                           "</div>\n";                
                 }       
 

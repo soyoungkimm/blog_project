@@ -32,7 +32,7 @@
 
           
           
-          $about = $this->Blog_m->getRow(5);
+          $about = $this->Blog_m->getRow(54);
           $blogs = $this->Blog_m->getListsOrderByRecent();
           $this->load->view("main_footer", array('about'=>$about, 'blogs'=>$blogs));
         }
@@ -180,7 +180,7 @@
 
 
           $this->load->model('Blog_m');
-          $about = $this->Blog_m->getRow(5);
+          $about = $this->Blog_m->getRow(54);
           $blogs = $this->Blog_m->getListsOrderByRecent();
           $this->load->view("main_footer", array('about'=>$about, 'blogs'=>$blogs));
       }

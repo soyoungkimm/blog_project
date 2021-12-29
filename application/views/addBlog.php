@@ -172,7 +172,7 @@
                 
                 <br><br>
 
-                <textarea name="content" placeholder="내용" rows="10" cols="50"><?php echo set_value('content'); ?></textarea>
+                <textarea name="content" placeholder="내용" rows="10" cols="50" data-sample-preservewhitespace><?php echo set_value('content'); ?></textarea>
 
                 <br>
                 <div style="text-align : left;">
@@ -209,11 +209,15 @@
     
 
 
-    <script src="/~sale24/prj/my/lib/ckeditor_full_pack/ckeditor.js"></script>
+    <!--<script src="/~sale24/prj/my/lib/ckeditor_full_pack/ckeditor.js"></script>-->
+    
     <script>
       CKEDITOR.replace('content', {
           filebrowserUploadUrl: "/~sale24/prj/blog/ck_upload_run",
-          height: '800'
+          extraPlugins: 'codesnippet',
+          codeSnippet_theme: 'monokai_sublime',
+          height: '800',
+          removeButtons: 'PasteFromWord'
       });         
     </script>
     <script>

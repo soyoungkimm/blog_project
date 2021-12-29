@@ -5,6 +5,28 @@
             parent::__construct();
         }
 
+        function getBlogById($id) {
+            $sql = "select * from blog where id=".$id;
+           
+            return $this->db->query($sql)->row();
+        }
+
+        function getRecommendBlog() {
+            $sql = "select * from blog where id=48 or id=50 or id=51 or id=52 order by id";
+           
+            return $this->db->query($sql)->result();
+        }
+
+        function getTitleBlog() {
+            $sql = "select blog.*, category.name as category_name, category_detail.name as category_detail_name, 
+            user.name as user_name, user.image as user_image from blog 
+            left join category on blog.category_id=category.id 
+            left join user on blog.user_id=user.id 
+            left join category_detail on blog.category_detail_id=category_detail.id 
+            where blog.id=45 or blog.id=54 or blog.id=50 order by blog.id";
+           
+            return $this->db->query($sql)->result();
+        }
 
         public function getPublicBlogId() {
             $sql = "select id from blog where ispublic=0 order by writeday desc";
@@ -90,7 +112,8 @@
         }
 
         public function getPopularBlogThree() {
-            $sql = "select * from blog where ispublic=0 order by count desc limit 3";
+            $sql = "select blog.*, user.image as user_image, user.name as user_name from blog 
+            left join user on blog.user_id=user.id where ispublic=0 order by count desc limit 3";
             
             return $this->db->query($sql)->result();
         }
@@ -138,7 +161,7 @@
             }
 
             if ($sort == "recent") {
-                $sql .= "order by blog.writeday desc, id ";
+                $sql .= "order by blog.id desc, writeday ";
             }
             else if ($sort == "popular") {
                 $sql .= "order by blog.count desc, id ";
@@ -168,24 +191,24 @@
         public function ajax_sql_mypage($recordNumPerPage, $search_title, $search_tag, $wish_page, $user_id) {
 
             if ($search_tag != "" && $search_title != "") {
-                $sql = "select blog.id, blog.user_id, blog.title, blog.writeday, blog.count, blog.image from blog 
+                $sql = "select blog.* from blog 
                 inner join hashtag on blog.id=hashtag.blog_id where blog.user_id=".$user_id.
                 " and hashtag.name like '%" . $search_tag . "%' and blog.title like '%" . $search_title . "%' GROUP BY blog.id 
-                order by blog.writeday desc, id ";
+                order by blog.id desc, blog.writeday ";
             }
             else if($search_title != "") {
-                $sql = "select blog.id, blog.user_id, blog.title, blog.writeday, blog.count, blog.image from blog 
+                $sql = "select blog.* from blog 
                 where blog.user_id=".$user_id." and blog.title like '%" . $search_title . "%' GROUP BY blog.id 
-                order by blog.writeday desc, id ";
+                order by blog.id desc, blog.writeday ";
             }
             else if($search_tag != "") {
-                $sql = "select blog.id, blog.user_id, blog.title, blog.writeday, blog.count, blog.image from blog 
+                $sql = "select blog.* from blog 
                 inner join hashtag on blog.id=hashtag.blog_id where blog.user_id=".$user_id." and 
-                hashtag.name like '%" . $search_tag . "%' GROUP BY blog.id order by blog.writeday desc, id ";
+                hashtag.name like '%" . $search_tag . "%' GROUP BY blog.id order by blog.id desc, blog.writeday ";
             }
             else {
-                $sql = "select id, user_id, title, writeday, count, image from blog where blog.user_id=".$user_id.
-                " order by blog.writeday desc, id ";
+                $sql = "select * from blog where blog.user_id=".$user_id.
+                " order by blog.id desc, blog.writeday ";
             }
 
             return $sql;
