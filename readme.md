@@ -1,7 +1,8 @@
 ###################
-What is CodeIgniter
+개발자 블로그 플랫폼
 ###################
 
+'Velog'를 참고하여 만든 개발자 블로그 플랫폼
 CodeIgniter is an Application Development Framework - a toolkit - for people
 who build web sites using PHP. Its goal is to enable you to develop projects
 much faster than you could if you were writing code from scratch, by providing
@@ -11,7 +12,7 @@ you creatively focus on your project by minimizing the amount of code needed
 for a given task.
 
 *******************
-Release Information
+기능
 *******************
 
 This repo contains in-development code for future releases. To download the
