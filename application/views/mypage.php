@@ -365,7 +365,7 @@
               var year = writeday_arr[0];
               var month = writeday_arr[1];
               var date = writeday_arr[2];
-              console.log(result);
+              
               str +='<div class="col-md-12">\n' + 
                     '<div class="post-entry-horzontal">\n' + 
                       '<a onclick="clickBlog(' + result.blogs[i].id + ', ' + result.blogs[i].ispublic + ');">\n';
@@ -573,7 +573,7 @@
         
         var session_user_id = '<?=$this->session->userdata('user_id')?>';
         var user_id = '<?=$data['user']->id?>';
-        console.log('aa' + ispublic);
+        
         if(ispublic == 1) {// 비공개 일 때 
           if (session_user_id != user_id) {
             alert('비공개 글입니다.');

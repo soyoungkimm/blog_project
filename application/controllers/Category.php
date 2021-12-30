@@ -5,15 +5,24 @@
             parent::__construct();
             $this->load->database();
             $this->load->helper('url');
+            $this->load->model('Category_m');
+            $this->load->model('Category_detail_m');
+        }
+
+        function _ajax_header() {
+            header("Content-Type: text/html; charset=KS_C_5601-1987");
+            header("Cache-Control:no-cache");
+            header("Pragma:no-cache");
+            header("Content-Type:application/json");
         }
 
         function editCategory() {
-            $this->load->model('Blog_m');
-            $this->load->model('Category_m');
-            $this->load->model('Category_detail_m');
-            
+
             $user_id = $this->session->userdata('user_id');
 
+            $this->load->model('Blog_m');
+            
+            
             $data['categorys'] = $this->Category_m->getCategoryByUserId($user_id);
             $data['category_details'] = $this->Category_detail_m->getCategoryDetailByCategory($data['categorys']);
             
@@ -22,23 +31,16 @@
             $this->load->view("editCategory", array('data'=>$data));
 
 
-            $about = $this->Blog_m->getRow(5);
+            $about = $this->Blog_m->getRow(54);
             $blogs = $this->Blog_m->getListsOrderByRecent();
             $this->load->view("main_footer", array('about'=>$about, 'blogs'=>$blogs));
         }
 
 
         function ajax_category_delete() {
-            header("Content-Type: text/html; charset=KS_C_5601-1987");
-            header("Cache-Control:no-cache");
-            header("Pragma:no-cache");
-            header("Content-Type:application/json");
+            $this->_ajax_header(); 
 
             $user_id = $this->session->userdata('user_id');
-
-            $this->load->model('Category_m');
-            $this->load->model('Category_detail_m');
-
 
             $id = $_POST['category_id'];
 
@@ -58,16 +60,9 @@
         }
 
         function ajax_category_detail_delete() {
-            header("Content-Type: text/html; charset=KS_C_5601-1987");
-            header("Cache-Control:no-cache");
-            header("Pragma:no-cache");
-            header("Content-Type:application/json");
+            $this->_ajax_header(); 
 
             $user_id = $this->session->userdata('user_id');
-
-            $this->load->model('Category_m');
-            $this->load->model('Category_detail_m');
-
 
             $id = $_POST['category_detail_id'];
 
@@ -85,16 +80,9 @@
 
 
         function ajax_category_add() {
-            header("Content-Type: text/html; charset=KS_C_5601-1987");
-            header("Cache-Control:no-cache");
-            header("Pragma:no-cache");
-            header("Content-Type:application/json");
+            $this->_ajax_header(); 
 
             $user_id = $this->session->userdata('user_id');
-
-            $this->load->model('Category_m');
-            $this->load->model('Category_detail_m');
-
 
             $name = $_POST['name'];
 
@@ -111,16 +99,9 @@
         }
 
         function ajax_category_detail_add() {
-            header("Content-Type: text/html; charset=KS_C_5601-1987");
-            header("Cache-Control:no-cache");
-            header("Pragma:no-cache");
-            header("Content-Type:application/json");
+            $this->_ajax_header(); 
 
             $user_id = $this->session->userdata('user_id');
-
-            $this->load->model('Category_m');
-            $this->load->model('Category_detail_m');
-
 
             $name = $_POST['name'];
             $category_id = $_POST['category_id'];
@@ -139,16 +120,9 @@
 
 
         function ajax_category_edit() {
-            header("Content-Type: text/html; charset=KS_C_5601-1987");
-            header("Cache-Control:no-cache");
-            header("Pragma:no-cache");
-            header("Content-Type:application/json");
+            $this->_ajax_header(); 
 
             $user_id = $this->session->userdata('user_id');
-
-            $this->load->model('Category_m');
-            $this->load->model('Category_detail_m');
-
 
             $name = $_POST['name'];
             $category_id = $_POST['category_id'];
@@ -166,16 +140,9 @@
 
 
         function ajax_category_detail_edit() {
-            header("Content-Type: text/html; charset=KS_C_5601-1987");
-            header("Cache-Control:no-cache");
-            header("Pragma:no-cache");
-            header("Content-Type:application/json");
+            $this->_ajax_header(); 
 
             $user_id = $this->session->userdata('user_id');
-
-            $this->load->model('Category_m');
-            $this->load->model('Category_detail_m');
-
 
             $name = $_POST['name'];
             $id = $_POST['category_detail_id'];

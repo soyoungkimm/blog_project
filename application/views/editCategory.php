@@ -123,9 +123,27 @@
     
     <script>
       
+      function isExecuteOther() {
+        var category_node = $(".hhhh");
+
+        // 다른 수정이 실행 중 일때
+        if (category_node.length != 0) {
+          return true;
+        }
+        // 아닐 때
+        return false;
+      } 
+
       function updateCategoryDetail(category_detail_id, text_name) {
+        
+        // 현재 다른 수정을 실행 중인지 체크
+        if (isExecuteOther()) {
+          alert('카테고리 수정중에는 실행할 수 없습니다.');
+          return;
+        }
+
         var name = $("input[name=" + text_name + "]").val();
-        //console.log(text_name);
+        
         var str ='<td></td>\n' + 
                   '<td></td>\n' + 
                   '<td><input id="ok" type="button" onclick="pressEditCategoryDetail(' + category_detail_id + ');" value="확인"/></td>\n' + 
@@ -140,6 +158,11 @@
       function pressEditCategoryDetail(category_detail_id) {
         
         var category_detail_name = $(".hhhh").val();
+
+        if (category_detail_name == '') {
+          alert('카테고리명은 최소 1자 이상 입력해야합니다.');
+          return;
+        }
 
         $.ajax({
             url: "/~sale24/prj/category/ajax_category_detail_edit",
@@ -163,8 +186,15 @@
 
 
       function updateCategory(category_id, text_name) {
+
+        // 현재 다른 수정을 실행 중인지 체크
+        if (isExecuteOther()) {
+          alert('카테고리 수정중에는 실행할 수 없습니다.');
+          return;
+        }
+
         var name = $("input[name=" + text_name + "]").val();
-        //console.log(text_name);
+        
         var str ='<td></td>\n' + 
                   '<td></td>\n' + 
                   '<td><input id="ok" type="button" onclick="pressEditCategory(' + category_id + ');" value="확인"/></td>\n' + 
@@ -178,6 +208,11 @@
       function pressEditCategory(category_id) {
 
         var category_name = $(".hhhh").val();
+
+        if (category_name == '') {
+          alert('카테고리명은 최소 1자 이상 입력해야합니다.');
+          return;
+        }
 
         $.ajax({
             url: "/~sale24/prj/category/ajax_category_edit",
@@ -203,6 +238,12 @@
 
       function addCategoryDetail(me, category_id) {
 
+        // 현재 다른 수정을 실행 중인지 체크
+        if (isExecuteOther()) {
+          alert('카테고리 수정중에는 실행할 수 없습니다.');
+          return;
+        }
+
         var row = $(me).closest("tr");
         var str = '<tr>\n' + 
                   '<td></td>\n' + 
@@ -216,6 +257,11 @@
       function pressAddCategoryDetail(category_id) {
         
         var category_name = $(".hhhh").val();
+
+        if (category_name == '') {
+          alert('카테고리명은 최소 1자 이상 입력해야합니다.');
+          return;
+        }
         
         $.ajax({
             url: "/~sale24/prj/category/ajax_category_detail_add",
@@ -240,6 +286,11 @@
 
       function addCategory() {
 
+        // 현재 다른 수정을 실행 중인지 체크
+        if (isExecuteOther()) {
+          alert('카테고리 수정중에는 실행할 수 없습니다.');
+          return;
+        }
        
         var str = '<tr>\n' + 
                   '<td></td>\n' + 
@@ -254,6 +305,11 @@
 
       function pressAdd() {
         var category_name = $(".hhhh").val();
+
+        if (category_name == '') {
+          alert('카테고리명은 최소 1자 이상 입력해야합니다.');
+          return;
+        }
         
         $.ajax({
             url: "/~sale24/prj/category/ajax_category_add",
@@ -276,6 +332,11 @@
 
       function deleteCategory(category_id) {
 
+        // 현재 다른 수정을 실행 중인지 체크
+        if (isExecuteOther()) {
+          alert('카테고리 수정중에는 실행할 수 없습니다.');
+          return;
+        }
 
         var answer = confirm('정말로 삭제하시겠습니까? 세부 카테고리도 삭제됩니다.');
 
@@ -305,6 +366,12 @@
 
 
       function deleteCategoryDetail(category_detail_id) {
+
+        // 현재 다른 수정을 실행 중인지 체크
+        if (isExecuteOther()) {
+          alert('카테고리 수정중에는 실행할 수 없습니다.');
+          return;
+        }
 
         var answer = confirm('정말로 삭제하시겠습니까?');
 

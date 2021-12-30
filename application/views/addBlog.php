@@ -363,7 +363,7 @@
           // 해쉬태그 이름 저장
           hashtag1.value += "#" + hashtag;
         }
-        console.log(document.getElementsByName('hashtag').value);
+        
 
         // 해쉬태그 ui 화면에 만들기
         var hash_str = '<a id="hashtag_a" onClick="delete_hashtag(this);" class="btn btn-primary" style=margin-left : 5px" name="' + hashtag + '">' + hashtag + '</a>\n';
@@ -398,7 +398,7 @@
             arr.splice(a, 1);
           }
         }
-        console.log(arr);
+        
         var str = '';
         for (var i = 0; i < arr.length; i++) {
           if (i == 0) {

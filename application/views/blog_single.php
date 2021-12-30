@@ -803,9 +803,8 @@
       
 
       function fix_comment_count(data) {
-        console.log('fix_comment_count(data)실행');
-        console.log(data.comments_num + data.recomments_num);
-        if ((data.comments_num + data.recomments_num) == 'NaN' || (data.comments_num + data.recomments_num) == 0){
+        
+        if(data.comments_num == 0) {
           var str_comment_num = '<h3 class="mb-5">0 Comments</h3>';
         }
         else if ((data.comments_num + data.recomments_num) != 0) {
@@ -813,7 +812,6 @@
             (data.comments_num + data.recomments_num) + 
             ' Comments</h3>';
         }
-        
         
         // comment 개수 바꾸기
         $('#comment_num').empty();

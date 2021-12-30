@@ -53,7 +53,7 @@
             top:0;
         }
 
-        #login_input_text {
+        #login_input_text, #login_input_text2 {
           font-size : 17px; 
           font-family : 'Nanum Gothic'; 
           width : 220px; 
@@ -370,7 +370,7 @@
             </div>
             <br>
             <div>
-              <input type="password" name="user_pwd" id="login_input_text" placeholder="비밀번호"/>
+              <input type="password" name="user_pwd" id="login_input_text2" placeholder="비밀번호"/>
             </div>
             <br>
             <button type="submit" id="" class="btn btn-primary" style="border-radius: 5px; padding : 5px; width : 50px">확인</button>
