@@ -1,17 +1,18 @@
+<img src="/path/to/img.jpg" width="450px" height="300px" title="px(픽셀) 크기 설정" alt="main"></img><br/>
+<img src="/path/to/img.jpg" width="40%" height="30%" title="px(픽셀) 크기 설정" alt="blog"></img>
+
 ###################
 개발자 블로그 플랫폼
 ###################
 
-'Velog'를 참고하여 만든 개발자 블로그 플랫폼
-
-참고한 사이트 : https://velog.io/
-
-CodeIgniter 3.1.11 버전 사용
-
+'Velog'를 참고하여 만든 개발자 블로그 플랫폼    
+참고한 사이트 : https://velog.io/    
+CodeIgniter 3.1.11 버전 사용    
+    
   
+      
   
-  
-  
+      
 *******************
 기능
 *******************
@@ -34,6 +35,7 @@ CodeIgniter 3.1.11 버전 사용
 
 
 자세한 구현 과정 설명 :   
+
 https://ksyy.tistory.com/category/%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/Blog%20%28CodeIgniter%29
 
 
