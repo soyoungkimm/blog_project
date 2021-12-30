@@ -2,70 +2,35 @@
 개발자 블로그 플랫폼
 ###################
 
-'Velog'를 참고하여 만든 개발자 블로그 플랫폼\n
-CodeIgniter is an Application Development Framework - a toolkit - for people
-who build web sites using PHP. Its goal is to enable you to develop projects
-much faster than you could if you were writing code from scratch, by providing
-a rich set of libraries for commonly needed tasks, as well as a simple
-interface and logical structure to access these libraries. CodeIgniter lets
-you creatively focus on your project by minimizing the amount of code needed
-for a given task.
+'Velog'를 참고하여 만든 개발자 블로그 플랫폼
+참고한 사이트 : https://velog.io/
+CodeIgniter 3.1.11 버전 사용
 
 *******************
 기능
 *******************
 
-This repo contains in-development code for future releases. To download the
-latest stable release please visit the `CodeIgniter Downloads
-<https://codeigniter.com/download>`_ page.
+-  ` ajax를 이용한 블로그 정렬(최신순, 인기순)과 검색(제목, hashtag)기능 `_
+-  ` CKEditor 4와 Code Snippets를 사용하여 블로그 작성과 코드 삽입, 이미지 삽입이 가능 `_
+-  ` 블로그 해쉬태그, 카테고리 기능 `_
+-  ` ajax를 이용한 댓글 기능 (추가, 수정, 삭제, 대댓글) `_
+-  ` 블로그 수정, 삭제, 추가 기능 `_
+-  ` 회원가입 기능 `_
+-  ` session(database 방식)을 이용한 로그인, 로그아웃 기능 구현  `_
+-  ` 자신의 개인정보, 카테고리 수정 기능 `_
+-  ` 타 블로그 작성자의 블로그와 개인정보를 볼 수 있음(카테고리, 제목, hashtag별 정렬 가능) `_
+-  ` 그 외의 문의기능 등 `_
+
 
 **************************
-Changelog and New Features
+코드 상세 설명
 **************************
 
-You can find a list of all changes for each release in the `user
-guide change log <https://github.com/bcit-ci/CodeIgniter/blob/develop/user_guide_src/source/changelog.rst>`_.
-
-*******************
-Server Requirements
-*******************
-
-PHP version 5.6 or newer is recommended.
-
-It should work on 5.3.7 as well, but we strongly advise you NOT to run
-such old versions of PHP, because of potential security and performance
-issues, as well as missing features.
+자세한 구현 과정 설명 : `<https://ksyy.tistory.com/category/%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/Blog%20%28CodeIgniter%29>`_
 
 ************
-Installation
+site 직접 보기
 ************
 
-Please see the `installation section <https://codeigniter.com/user_guide/installation/index.html>`_
-of the CodeIgniter User Guide.
+`https://codeigniter.com/user_guide/installation/index.html <https://codeigniter.com/user_guide/installation/index.html>`_
 
-*******
-License
-*******
-
-Please see the `license
-agreement <https://github.com/bcit-ci/CodeIgniter/blob/develop/user_guide_src/source/license.rst>`_.
-
-*********
-Resources
-*********
-
--  `User Guide <https://codeigniter.com/docs>`_
--  `Language File Translations <https://github.com/bcit-ci/codeigniter3-translations>`_
--  `Community Forums <http://forum.codeigniter.com/>`_
--  `Community Wiki <https://github.com/bcit-ci/CodeIgniter/wiki>`_
--  `Community Slack Channel <https://codeigniterchat.slack.com>`_
-
-Report security issues to our `Security Panel <mailto:security@codeigniter.com>`_
-or via our `page on HackerOne <https://hackerone.com/codeigniter>`_, thank you.
-
-***************
-Acknowledgement
-***************
-
-The CodeIgniter team would like to thank EllisLab, all the
-contributors to the CodeIgniter project and you, the CodeIgniter user.
