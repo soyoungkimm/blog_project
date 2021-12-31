@@ -13,10 +13,10 @@
 <details>
   <summary>순서</summary>
   <ol>
-    <li><a href="#프로젝트 소개">프로젝트 소개</a></li>
+    <li><a href="#프로젝트-소개">프로젝트 소개</a></li>
     <li><a href="#기능">기능</a></li>
-    <li><a href="#코드 상세 설명">코드 상세 설명</a></li>
-    <li><a href="#site 직접 보기">site 직접 보기</a></li>
+    <li><a href="#코드-상세-설명">코드 상세 설명</a></li>
+    <li><a href="#site-직접-보기">site 직접 보기</a></li>
   </ol>
 </details>
 
@@ -25,9 +25,9 @@
 <!-- ABOUT THE PROJECT -->
 ## 프로젝트 소개 :smile:
 
-'Velog'를 참고하여 만든 개발자 블로그 플랫폼<br>  
-참고한 사이트 : https://velog.io/ <br>    
-CodeIgniter 3.1.11 버전 사용 <br>   
+'Velog'를 참고하여 만든 개발자 블로그 플랫폼<br>
+참고한 사이트 : https://velog.io/<br>
+CodeIgniter 3.1.11 버전 사용<br>
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
