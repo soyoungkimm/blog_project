@@ -29,7 +29,7 @@
 참고한 사이트 : https://velog.io/<br>
 CodeIgniter 3.1.11 버전 사용<br>
 
-<p align="right">(<a href="#top">back to top</a>)</p>
+
 
 <!-- GETTING STARTED -->
 ## 기능 :pencil2:
@@ -45,7 +45,7 @@ CodeIgniter 3.1.11 버전 사용<br>
 -  타 블로그 작성자의 블로그와 개인정보를 볼 수 있음(카테고리, 제목, hashtag별 정렬 가능) 
 -  그 외의 문의기능 등 
 
-<p align="right">(<a href="#top">back to top</a>)</p>
+
 
 <!-- USAGE EXAMPLES -->
 ## 코드 상세 설명 :page_with_curl:
@@ -53,12 +53,14 @@ CodeIgniter 3.1.11 버전 사용<br>
 자세한 구현 과정 설명 :<br>
 https://ksyy.tistory.com/category/%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/Blog%20%28CodeIgniter%29
 
-<p align="right">(<a href="#top">back to top</a>)</p>
+
 
 <!-- ROADMAP -->
 ## site 직접 보기 :computer:
 
 https://codeigniter.com/user_guide/installation/index.html
+
+
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
