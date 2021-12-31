@@ -51,7 +51,7 @@ CodeIgniter 3.1.11 버전 사용<br>
 ## 코드 상세 설명 :page_with_curl:
 
 자세한 구현 과정 설명 :<br>
-https://ksyy.tistory.com/category/%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/Blog%20%28CodeIgniter%29
+https://ksyy.tistory.com/category/%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/Belog%20%28CodeIgniter%29
 
 
 <br><br>
