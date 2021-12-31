@@ -32,7 +32,7 @@ CodeIgniter 3.1.11 버전 사용<br>
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- GETTING STARTED -->
-## 기능
+## 기능 :pencil2:
 
 -  ajax를 이용한 블로그 정렬(최신순, 인기순)과 검색(제목, hashtag)기능 
 -  CKEditor 4와 Code Snippets를 사용하여 블로그 작성과 코드 삽입, 이미지 삽입이 가능 
@@ -48,7 +48,7 @@ CodeIgniter 3.1.11 버전 사용<br>
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- USAGE EXAMPLES -->
-## 코드 상세 설명
+## 코드 상세 설명 :page_with_curl:
 
 자세한 구현 과정 설명 :<br>
 https://ksyy.tistory.com/category/%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/Blog%20%28CodeIgniter%29
@@ -56,7 +56,7 @@ https://ksyy.tistory.com/category/%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/Blog%20%2
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- ROADMAP -->
-## site 직접 보기
+## site 직접 보기 :computer:
 
 https://codeigniter.com/user_guide/installation/index.html
 
