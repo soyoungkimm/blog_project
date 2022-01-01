@@ -13,10 +13,10 @@
 <details>
   <summary>순서</summary>
   <ol>
-    <li><a href="#프로젝트-소개">프로젝트 소개</a></li>
-    <li><a href="#기능">기능</a></li>
-    <li><a href="#코드-상세-설명">코드 상세 설명</a></li>
-    <li><a href="#site-직접-보기">site 직접 보기</a></li>
+    <li><a href="#프로젝트-소개-:smile:">프로젝트 소개</a></li>
+    <li><a href="#기능-:pencil2:">기능</a></li>
+    <li><a href="#코드-상세-설명-:page_with_curl:">코드 상세 설명</a></li>
+    <li><a href="#site-직접-보기-:computer:">site 직접 보기</a></li>
   </ol>
 </details>
 
