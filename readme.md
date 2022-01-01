@@ -25,7 +25,7 @@
 <!-- ABOUT THE PROJECT -->
 ## 프로젝트 소개 :smile:
 
-'Velog'를 참고하여 만든 개발자 블로그 플랫폼<br>
+'Velog'의 디자인과 컨텐츠를 참고하여 만든 개발자 블로그 플랫폼<br>
 참고한 사이트 : https://velog.io/<br>
 CodeIgniter 3.1.11 버전 사용<br>
 
