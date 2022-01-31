@@ -4,7 +4,7 @@
 <br/>
 <div align="center">
   <img src="https://user-images.githubusercontent.com/86705580/147821627-7b5f9328-45a8-4152-844d-fc7e03be30f9.png" alt="main">
-  <h3 align="center">개발자 블로그 플랫폼</h3>
+  <h3 align="center">Belog</h3>
 </div>
 
 
